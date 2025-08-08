@@ -10,6 +10,8 @@ TagManager:
   - cockpit_capitalLaser
   - Bot
   - Wall
+  - Enemy
+  - Hammer
   layers:
   - Default
   - TransparentFX

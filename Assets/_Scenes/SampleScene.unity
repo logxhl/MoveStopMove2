@@ -2741,10 +2741,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 41645692636251949, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.184
+      objectReference: {fileID: 0}
     - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: joystick
       value: 
       objectReference: {fileID: 812913336}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: deadScene
+      value: 
+      objectReference: {fileID: 5817176145092565361}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: fixedJoyStick
+      value: 
+      objectReference: {fileID: 812913333}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: weaponInstantiateTransform
       value: 
