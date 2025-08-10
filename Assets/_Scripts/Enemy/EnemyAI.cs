@@ -93,8 +93,9 @@ public class EnemyAI : MonoBehaviour
     private void ChooseRandomDirection()
     {
         moveTimer = Random.Range(2f, 4f);
-        float angle = Random.Range(0f, 360f);
-        wanderDir = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
+        float angleDeg = Random.Range(0f, 360f);
+        float angleRad = angleDeg * Mathf.Deg2Rad;
+        wanderDir = new Vector3(Mathf.Cos(angleRad), 0, Mathf.Sin(angleRad)).normalized;
         wanderTimer = wanderChangeDirTime + Random.Range(-0.5f, 0.5f);
     }
 

@@ -6,8 +6,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimationController animationController;
     [SerializeField] private JoystickController joystick; // Kéo JoystickBG vào đây
     [SerializeField] private WeaponAttack weaponAttack; // Kéo WeaponAttack vào đây nếu cần
-    [SerializeField] private GameObject deadScene;
     [SerializeField] private GameObject fixedJoyStick;
+    [SerializeField] private GameObject topUI;
+    [SerializeField] private GameObject panelCountDown;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
+
 
         //if (Input.GetKey(KeyCode.A))
         //{
@@ -76,9 +77,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Hammer")) {
-            deadScene.SetActive(true);
+        if (other.CompareTag("Hammer"))
+        {
             fixedJoyStick.SetActive(false);
+            topUI.SetActive(false);
+            panelCountDown.SetActive(true);
+            //UIManager.instance.Load();
+            UIManager.instance.isDead = true;
         }
     }
 }
