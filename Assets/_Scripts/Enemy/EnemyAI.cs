@@ -17,6 +17,8 @@ public class EnemyAI : MonoBehaviour
 
     public event Action OnDie;
 
+    private bool isPlayerAlive = true;
+
     void Start()
     {
         ChooseRandomDirection();
@@ -28,7 +30,13 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         if (state == EnemyState.Dead) return;
-
+        if(GameController.instance != null && !GameController.instance.IsPlayerAlive)
+        {
+            state = EnemyState.Idle;
+            weaponAttack.SetCanAttack(false);
+            animationController.SetIdleAnimation();
+            return;
+        }
         // 1. Tìm mục tiêu gần nhất trong bán kính tấn công
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
@@ -103,6 +111,7 @@ public class EnemyAI : MonoBehaviour
     {
         state = EnemyState.Dead;
         OnDie?.Invoke();
+        SpawnEnemy.Instance?.NotifyCharacterDied(false);
         // Ẩn enemy
         gameObject.SetActive(false);
     }

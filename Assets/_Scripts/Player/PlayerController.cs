@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject fixedJoyStick;
     [SerializeField] private GameObject topUI;
     [SerializeField] private GameObject panelCountDown;
+    [SerializeField] private TextMeshProUGUI textRank;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -79,6 +82,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Hammer"))
         {
+            if(GameController.instance != null) 
+                GameController.instance.SetPlayerAlive(false);
+
+            SpawnEnemy.Instance?.NotifyCharacterDied(true);
+            textRank.text = "#" + (SpawnEnemy.Instance?.GetRemainingCount() + 1);
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);

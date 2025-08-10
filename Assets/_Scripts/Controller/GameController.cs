@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
+    public bool IsPlayerAlive { get; private set; } = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +25,10 @@ public class GameController : MonoBehaviour
     public void LoadSceneMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void SetPlayerAlive(bool alive)
+    {
+        IsPlayerAlive = alive;
     }
 }
