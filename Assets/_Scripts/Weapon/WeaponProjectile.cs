@@ -14,16 +14,19 @@ public class WeaponProjectile : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    public WeaponAttack owner;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData)
+    public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData, WeaponAttack owner)
     {
         this.direction = direction.normalized;
         this.targetLayer = targetLayer;
         this.weaponData = weaponData;
+        this.owner = owner;
         this.timer = 0f;
         gameObject.SetActive(true);
 
@@ -63,8 +66,10 @@ public class WeaponProjectile : MonoBehaviour
             Deactivate(); // Tắt projectile (pooling)
             if (other.CompareTag(Params.PlayerTag))
             {
-                other.gameObject.SetActive(false);
+                //other.gameObject.SetActive(false);
                 SpawnEnemy.Instance.canSpawn = false;
+                owner.GetCoinUI.UpdateCointText(5);
+
 
             }
             else if (other.CompareTag(Params.BotTag))
@@ -72,6 +77,7 @@ public class WeaponProjectile : MonoBehaviour
                 EnemyAI enemyAI = other.GetComponent<EnemyAI>();
                 if (enemyAI != null)
                     enemyAI.Die();
+                owner.GetCoinUI.UpdateCointText(5);
             }
         }
     }

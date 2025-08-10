@@ -82,6 +82,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Hammer"))
         {
+            playerState = PlayerState.Die;
+            animationController.SetDeadAnimation();
             if(GameController.instance != null) 
                 GameController.instance.SetPlayerAlive(false);
 

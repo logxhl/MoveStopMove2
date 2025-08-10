@@ -63,7 +63,7 @@ public class AnimationController : MonoBehaviour
 
     public void SetDeadAnimation()
     {
-        hittedEffect.Play();
+        //hittedEffect.Play();
         IsPlayingUnStopAnimation = true;
         animator.SetBool(Params.IsDead, true);
     }

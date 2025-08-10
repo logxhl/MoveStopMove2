@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         if (state == EnemyState.Dead) return;
-        if(GameController.instance != null && !GameController.instance.IsPlayerAlive)
+        if (GameController.instance != null && !GameController.instance.IsPlayerAlive)
         {
             state = EnemyState.Idle;
             weaponAttack.SetCanAttack(false);
@@ -110,12 +110,15 @@ public class EnemyAI : MonoBehaviour
     public void Die()
     {
         state = EnemyState.Dead;
+        animationController.SetDeadAnimation();
+
         OnDie?.Invoke();
         SpawnEnemy.Instance?.NotifyCharacterDied(false);
         // Ẩn enemy
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        Invoke(nameof(SetDeactiveGameObj), 2f);
     }
-
+    void SetDeactiveGameObj() => gameObject.SetActive(false);
     public void ResetAI()
     {
         state = EnemyState.Run;

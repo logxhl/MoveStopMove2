@@ -22,6 +22,8 @@ public class WeaponAttack : MonoBehaviour
 
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
 
+    [SerializeField] private CoinUI coinUI;
+    public CoinUI GetCoinUI => coinUI;
     private void Awake()
     {
         attackCooldown = 0f;
@@ -94,7 +96,7 @@ public class WeaponAttack : MonoBehaviour
         //weaponProjectile.Launch(dir, targetLayer, currentWeapon);
 
         var projectile = Instantiate(currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(), throwOrigin.position, currentWeapon.modelPrefab.transform.rotation, weaponInstantiateTransform);
-        projectile.Launch(dir, targetLayer, currentWeapon);
+        projectile.Launch(dir, targetLayer, currentWeapon, this);
     }
 
     private void OnDrawGizmosSelected()
