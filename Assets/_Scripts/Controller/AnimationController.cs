@@ -93,7 +93,7 @@ public class AnimationController : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Attack");
+        //Debug.Log("Attack");
         OnAttack?.Invoke();
     }
 }

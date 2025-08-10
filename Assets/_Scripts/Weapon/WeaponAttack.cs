@@ -22,8 +22,11 @@ public class WeaponAttack : MonoBehaviour
 
     private bool canAttack = false;                // Đang ở trạng thái "stop", sẵn sàng attack
 
-    [SerializeField] private CoinUI coinUI;
-    public CoinUI GetCoinUI => coinUI;
+    //[SerializeField] private CoinUI coinUI;
+    //public CoinUI GetCoinUI => coinUI;
+    [SerializeField] private CoinSystem coinSystem;
+    public CoinSystem GetCoinSystem => coinSystem;
+
     private void Awake()
     {
         attackCooldown = 0f;
@@ -49,7 +52,7 @@ public class WeaponAttack : MonoBehaviour
                     // Gây damage hoặc loại đối thủ (destroy/ẩn)
                     //Destroy(hit.gameObject);
 
-                    Debug.Log(hit.name + " bị attack!");
+                    //Debug.Log(hit.name + " bị attack!");
 
                     if (animationController != null)
                     {

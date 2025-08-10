@@ -106,7 +106,7 @@ public class SpawnEnemy : MonoBehaviour
     {
         if (aliveCountText != null)
         {
-            Debug.Log($"UI: {GetRemainingCount()}");
+            //Debug.Log($"UI: {GetRemainingCount()}");
             aliveCountText.text = $"Alive: {GetRemainingCount()}";
         }
     }

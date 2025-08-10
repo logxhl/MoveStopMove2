@@ -1143,37 +1143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 746916693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 076caf0608157554782d8a96059ecb15, type: 3}
+  m_Script: {fileID: 11500000, guid: da97749633cf3384d8e08ff5f328fd60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinReward: 5
---- !u!114 &746916700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746916693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62bf6d8517da0b4e97833e4a090f313, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onCoinChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2146867031}
-        m_TargetAssemblyTypeName: CoinUI, Assembly-CSharp
-        m_MethodName: UpdateCointText
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
+  coinText: {fileID: 893028358}
 --- !u!1 &758269059
 GameObject:
   m_ObjectHideFlags: 0
@@ -3827,6 +3800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2146867030}
   - component: {fileID: 2146867031}
+  - component: {fileID: 2146867032}
   m_Layer: 5
   m_Name: CoinUI
   m_TagString: Untagged
@@ -3865,8 +3839,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28e9651ba28645b4d9647aa5d10b46f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinManager: {fileID: 746916700}
+  coinManager: {fileID: 0}
   coinText: {fileID: 893028358}
+--- !u!114 &2146867032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146867029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62bf6d8517da0b4e97833e4a090f313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onCoinChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &16141705204939617
 GameObject:
   m_ObjectHideFlags: 0
@@ -4087,6 +4076,10 @@ PrefabInstance:
     - target: {fileID: 4420171234210314778, guid: 7491305a99843be4496519b14c97183a, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5624511664825526218, guid: 7491305a99843be4496519b14c97183a, type: 3}
+      propertyPath: coinManager
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5251,7 +5244,11 @@ PrefabInstance:
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: coinUI
       value: 
-      objectReference: {fileID: 2146867031}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: coinSystem
+      value: 
+      objectReference: {fileID: 746916699}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: weaponInstantiateTransform
       value: 
@@ -5307,9 +5304,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 949126290}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6488203943509497556, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 746916700}
     - targetCorrespondingSourceObject: {fileID: 6488203943509497556, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 746916699}
