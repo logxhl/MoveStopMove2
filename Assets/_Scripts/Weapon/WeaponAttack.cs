@@ -100,6 +100,7 @@ public class WeaponAttack : MonoBehaviour
 
         var projectile = Instantiate(currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(), throwOrigin.position, currentWeapon.modelPrefab.transform.rotation, weaponInstantiateTransform);
         projectile.Launch(dir, targetLayer, currentWeapon, this);
+        SFXManager.Instance.PlayAttack();
     }
 
     private void OnDrawGizmosSelected()

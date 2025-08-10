@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             playerState = PlayerState.Die;
             animationController.SetDeadAnimation();
+            Invoke(nameof(SetDeactiveGameObj), 2);
             if(GameController.instance != null) 
                 GameController.instance.SetPlayerAlive(false);
 
@@ -96,4 +97,6 @@ public class PlayerController : MonoBehaviour
             UIManager.instance.isDead = true;
         }
     }
+
+    void SetDeactiveGameObj() => gameObject.SetActive(false);
 }

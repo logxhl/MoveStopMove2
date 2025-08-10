@@ -69,7 +69,7 @@ public class WeaponProjectile : MonoBehaviour
                 //other.gameObject.SetActive(false);
                 SpawnEnemy.Instance.canSpawn = false;
                 owner.GetCoinSystem.AddCoin(5);
-
+                SFXManager.Instance.DeadSFX();
 
 
             }
@@ -79,7 +79,7 @@ public class WeaponProjectile : MonoBehaviour
                 if (enemyAI != null)
                     enemyAI.Die();
                 owner.GetCoinSystem.AddCoin(5);
-
+                SFXManager.Instance.DeadSFX();
             }
         }
     }
