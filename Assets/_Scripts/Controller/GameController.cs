@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 public class GameController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameController : MonoBehaviour
     public GameObject winScene;
     public TextMeshProUGUI textCoin;
     private int coin = 0;
+
+    public GameObject setting;
 
     // Start is called before the first frame update
     void Start()
@@ -37,12 +40,29 @@ public class GameController : MonoBehaviour
     }
     public void LoadScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }
     public void LoadSceneMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false; 
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
 
     public void SetPlayerAlive(bool alive)
     {
