@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private AnimationController animationController;
     [SerializeField] private JoystickController joystick; // Kéo JoystickBG vào đây
-    [SerializeField] private WeaponAttack weaponAttack; // Kéo WeaponAttack vào đây nếu cần
+    [SerializeField] private WeaponAttack weaponAttack;
     [SerializeField] private GameObject fixedJoyStick;
     [SerializeField] private GameObject topUI;
     [SerializeField] private GameObject panelCountDown;
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         dir = joystick.inputDir; // Lấy hướng từ joystick
-        move = new Vector3(dir.x, 0, dir.y); // Di chuyển XZ
+        move = new Vector3(dir.x, 0, dir.y);
 
         if (move != Vector3.zero)
             if (!animationController.IsPlayingUnStopAnimation)
@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.Translate(move.normalized * moveSpeed * Time.deltaTime, Space.World);
 
-            // Nếu muốn xoay mặt player về hướng di chuyển:
             if (move != Vector3.zero)
             {
                 playerState = PlayerState.Run;
@@ -85,7 +84,7 @@ public class PlayerController : MonoBehaviour
             playerState = PlayerState.Die;
             animationController.SetDeadAnimation();
             Invoke(nameof(SetDeactiveGameObj), 2);
-            if(GameController.instance != null) 
+            if (GameController.instance != null)
                 GameController.instance.SetPlayerAlive(false);
 
             SpawnEnemy.Instance?.NotifyCharacterDied(true);

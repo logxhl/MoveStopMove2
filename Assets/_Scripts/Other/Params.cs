@@ -1,5 +1,4 @@
-﻿// Enum.cs
-public static class Params
+﻿public static class Params
 {
     public const string IsIdle = "IsIdle";
     public const string IsDead = "IsDead";
@@ -24,14 +23,14 @@ public enum PlayerState
 
 public enum EnemyState
 {
-    Run,     // Di chuyển tự do
-    Idle,      // Dừng lại, không có mục tiêu
-    Attack,     // Dừng lại và tấn công khi có đối thủ trong vùng attack
-    Dead        // Đã bị loại
+    Run,     
+    Idle,      
+    Attack,    
+    Dead      
 }
 
 public enum SpawnState
 {
-    Idle,       // Chưa spawn
-    Spawned     // Đã spawn xong
+    Idle,      
+    Spawned    
 }

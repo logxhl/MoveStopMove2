@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
     public bool IsPlayerAlive { get; private set; } = true;
+    public GameObject winScene;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,13 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(IsPlayerAlive && winScene != null)
+        {
+            if(SpawnEnemy.Instance.GetRemainingCount() == 1)
+            {
+                winScene.SetActive(true);
+            }
+        }
     }
     public void LoadScene()
     {

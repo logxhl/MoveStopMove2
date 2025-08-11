@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class WeaponProjectile : MonoBehaviour
 {
-    private WeaponData weaponData;       //Data của vũ khí hiện tại
+    private WeaponData weaponData;  
 
     private LayerMask targetLayer;
 
-    [SerializeField] private float maxLifeTime = 0.6f;   // Sau thời gian này sẽ tự hủy (tránh bay mãi)
-    private Vector3 direction;      // Hướng bay của vũ khí
-    private float timer;        // Đếm cho đến thời gian biến mất
+    [SerializeField] private float maxLifeTime = 0.6f;   
+    private Vector3 direction;    
+    private float timer;        
     [SerializeField] private float rotateSpeed;
 
     private Rigidbody _rigidbody;
@@ -29,16 +29,6 @@ public class WeaponProjectile : MonoBehaviour
         this.owner = owner;
         this.timer = 0f;
         gameObject.SetActive(true);
-
-        // if (weaponData.modelPrefab != null)
-        // {
-        //     foreach (Transform child in transform)
-        //     {
-        //         Destroy(child.gameObject);
-        //     }
-        //     Instantiate(weaponData.visual, transform);
-        //     transform.name = weaponData.modelPrefab.name;
-        // }
     }
 
     void Update()
@@ -63,7 +53,7 @@ public class WeaponProjectile : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
-            Deactivate(); // Tắt projectile (pooling)
+            Deactivate(); 
             if (other.CompareTag(Params.PlayerTag))
             {
                 //other.gameObject.SetActive(false);

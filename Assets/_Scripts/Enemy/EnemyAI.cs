@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
             animationController.SetIdleAnimation();
             return;
         }
-        // 1. Tìm mục tiêu gần nhất trong bán kính tấn công
+
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             weaponAttack.GetAttackRadius(),
@@ -49,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            if (hit.gameObject == gameObject) continue; // bỏ qua bản thân
+            if (hit.gameObject == gameObject) continue;
             if (!hit.gameObject.activeSelf) continue;   // bỏ qua đối tượng đã disable
 
             float dist = Vector3.Distance(transform.position, hit.transform.position);
@@ -114,7 +114,6 @@ public class EnemyAI : MonoBehaviour
 
         OnDie?.Invoke();
         SpawnEnemy.Instance?.NotifyCharacterDied(false);
-        // Ẩn enemy
         //gameObject.SetActive(false);
         Invoke(nameof(SetDeactiveGameObj), 2f);
     }
@@ -139,7 +138,6 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.gameObject.CompareTag(Params.WallTag) || other.gameObject.CompareTag(Params.BotTag))
         {
-            Debug.Log("Enemy hit a wall, changing direction");
             ChooseRandomDirection();
         }
     }
