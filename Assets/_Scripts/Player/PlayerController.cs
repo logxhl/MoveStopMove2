@@ -93,7 +93,11 @@ public class PlayerController : MonoBehaviour
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);
-            coinText.text = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5).ToString();
+            int coin = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5);
+            
+            //Save coin
+            GameController.instance.SaveCoin(coin);
+            coinText.text = coin.ToString();
             //UIManager.instance.Load();
             UIManager.instance.isDead = true;
         }

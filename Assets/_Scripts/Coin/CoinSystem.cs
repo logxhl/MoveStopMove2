@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using TMPro; 
+using TMPro;
 
 public class CoinSystem : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI coinText; 
-    private int coin = 0; 
+    [SerializeField] private TextMeshProUGUI coinText;
+    private int coin = 0;
 
     private void Start()
     {
@@ -14,6 +14,8 @@ public class CoinSystem : MonoBehaviour
     public void AddCoin(int amount)
     {
         coin += amount;
+        //PlayerPrefs.SetInt("PlayerCoin", coin);
+        //PlayerPrefs.Save();
         UpdateCoinUI();
     }
 

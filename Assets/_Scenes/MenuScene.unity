@@ -3003,6 +3003,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c8ecce804ae54e49a44004c7cbdd9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winScene: {fileID: 0}
+  textCoin: {fileID: 1592499694}
 --- !u!4 &1320330321
 Transform:
   m_ObjectHideFlags: 0
@@ -3640,7 +3642,7 @@ GameObject:
   - component: {fileID: 1592499695}
   - component: {fileID: 1592499694}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5828,6 +5830,7 @@ MonoBehaviour:
   weaponInstantiateTransform: {fileID: 0}
   playerTransform: {fileID: 1792550526575419013}
   throwOrigin: {fileID: 8368389017104760175}
+  coinSystem: {fileID: 0}
 --- !u!4 &5121687177483610977
 Transform:
   m_ObjectHideFlags: 0
