@@ -61,4 +61,8 @@ public class GameController : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void SaveWeapon()
+    {
+        PlayerPrefs.SetInt("WeaponData", ChooseWepon.instance.count);
+    }
 }

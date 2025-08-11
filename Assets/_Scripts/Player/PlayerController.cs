@@ -22,7 +22,10 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 dir;
     private Vector3 move;
+    public ListWeapon listWeapon;
+    public GameObject currentWeapon;
 
+    public WeaponProjectile projectile;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -32,6 +35,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        int index = PlayerPrefs.GetInt("WeaponData");
+        for(int i = 0; i < listWeapon.weaponList.Length; i++)
+        {
+            if(index == listWeapon.weaponList[i].index)
+            {
+                currentWeapon.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
+                projectile.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
+            }
+        }
         dir = joystick.inputDir; // Lấy hướng từ joystick
         move = new Vector3(dir.x, 0, dir.y);
 
