@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject topUI;
     [SerializeField] private GameObject panelCountDown;
     [SerializeField] private TextMeshProUGUI textRank;
+    [SerializeField] private TextMeshProUGUI coinText;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);
+            coinText.text = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5).ToString();
             //UIManager.instance.Load();
             UIManager.instance.isDead = true;
         }

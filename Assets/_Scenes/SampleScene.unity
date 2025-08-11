@@ -5555,7 +5555,7 @@ GameObject:
   - component: {fileID: 3401895878661410961}
   - component: {fileID: 6841512791839120303}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CoinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6392,6 +6392,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 626262643}
     - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: coinText
+      value: 
+      objectReference: {fileID: 6841512791839120303}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: joystick
       value: 
       objectReference: {fileID: 812913336}
@@ -6415,6 +6419,10 @@ PrefabInstance:
       propertyPath: coinUI
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: coinText
+      value: 
+      objectReference: {fileID: 6841512791839120303}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: coinSystem
       value: 

@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class WeaponAttack : MonoBehaviour
@@ -25,6 +26,8 @@ public class WeaponAttack : MonoBehaviour
     [SerializeField] private CoinSystem coinSystem;
     public CoinSystem GetCoinSystem => coinSystem;
 
+    //[SerializeField] private TextMeshProUGUI coinText;
+
     private void Awake()
     {
         attackCooldown = 0f;
@@ -34,6 +37,11 @@ public class WeaponAttack : MonoBehaviour
 
     void Update()
     {
+        //if(coinText != null && coinSystem != null && gameObject.CompareTag("Player"))
+        //{
+        //    coinText.text = coinSystem.GetCoin().ToString();
+        //} 
+
         if (canAttack && attackCooldown <= 0f)
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
