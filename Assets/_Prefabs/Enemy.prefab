@@ -4982,7 +4982,6 @@ GameObject:
   - component: {fileID: 8791984506481383167}
   - component: {fileID: 2316727770531175232}
   - component: {fileID: 1915088212933773142}
-  - component: {fileID: 5772022607770048418}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -5049,22 +5048,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5772022607770048418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1743846525494475367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a2d1485b6d477b41b49f80ae83f3aba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 796226229095598089}
-  offset: {x: 0, y: 2.2, z: 0}
-  nameText: {fileID: 3764488034812828728}
-  coinText: {fileID: 1154685116127973558}
 --- !u!1 &1828565946704662427
 GameObject:
   m_ObjectHideFlags: 0
@@ -5099,8 +5082,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: -37}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0.044, y: 2.694}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8594520522030702149
 CanvasRenderer:
@@ -5157,8 +5140,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 0.4
+  m_fontSizeBase: 0.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5394,6 +5377,7 @@ GameObject:
   - component: {fileID: 8750033509777141898}
   - component: {fileID: 7902160895309879983}
   - component: {fileID: 675717247432364871}
+  - component: {fileID: 4937650815968641244}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5410,17 +5394,17 @@ RectTransform:
   m_GameObject: {fileID: 7273314077631013144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8791984506481383167}
   m_Father: {fileID: 796226229095598089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8750033509777141898
 Canvas:
   m_ObjectHideFlags: 0
@@ -5430,7 +5414,7 @@ Canvas:
   m_GameObject: {fileID: 7273314077631013144}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -5466,7 +5450,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &675717247432364871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5484,6 +5468,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4937650815968641244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7273314077631013144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2d1485b6d477b41b49f80ae83f3aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8587137606595429292
 GameObject:
   m_ObjectHideFlags: 0
@@ -5518,8 +5514,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: 13.000001}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0.09, y: 3.083}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1127950619492901607
 CanvasRenderer:
@@ -5576,8 +5572,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 0.4
+  m_fontSizeBase: 0.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5812,7 +5808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.4
+      value: 11.6
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalPosition.y
