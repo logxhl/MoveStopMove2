@@ -60,6 +60,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 67c567da09b9c714b9b2a5b7f471fd7c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e71403a71c5d2aa4bb12e3445fcee3e1, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 67c567da09b9c714b9b2a5b7f471fd7c, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fbca6fbb67a2e84593e5237ead8e746, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 67c567da09b9c714b9b2a5b7f471fd7c, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1101891f85eb9584c91da7286ae7a679, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 67c567da09b9c714b9b2a5b7f471fd7c, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0127a9d7238f948418e1c2b89b1a6a4c, type: 2}
     - target: {fileID: -927199367670048503, guid: 67c567da09b9c714b9b2a5b7f471fd7c, type: 3}
       propertyPath: m_Name
       value: Arrow

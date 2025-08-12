@@ -7,17 +7,7 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public Vector3 offset;
     public float smoothSpeed = 5f;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
     private void LateUpdate()
     {
         if (target != null)
