@@ -9,4 +9,5 @@ public class Weapon
     public string unlock;
     public string damage;
     public int coin;
+    public GameObject weaponPrefab;
 }

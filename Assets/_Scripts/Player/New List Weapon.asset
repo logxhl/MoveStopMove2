@@ -15,9 +15,13 @@ MonoBehaviour:
   weaponList:
   - index: 0
     meshWepon: {fileID: 3174812724623785705, guid: 39f7e8032bddadd4bbb8b0af7ea8c20e, type: 3}
+    isRotate: 1
   - index: 1
     meshWepon: {fileID: 2459579263309379254, guid: 02549e3ce8f14ea42b244ec60f5fd640, type: 3}
+    isRotate: 1
   - index: 2
     meshWepon: {fileID: 1913988541965732932, guid: c35cab8c0c03b2d4bbc4da84e47ac5bd, type: 3}
+    isRotate: 0
   - index: 3
     meshWepon: {fileID: -3780750940207061274, guid: db430810a18f3f8498327f513f4bb440, type: 3}
+    isRotate: 1

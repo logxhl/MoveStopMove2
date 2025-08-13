@@ -50,6 +50,11 @@ public class PlayerController : MonoBehaviour
             {
                 currentWeapon.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
                 projectile.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
+                if (listWeapon.weaponList[i].isRotate)
+                {
+                    projectile.checkRotate = true;
+                }
+                else projectile.checkRotate = false;
             }
         }
         dir = joystick.inputDir; // Lấy hướng từ joystick

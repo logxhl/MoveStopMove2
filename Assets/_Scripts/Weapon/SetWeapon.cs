@@ -6,4 +6,5 @@ public class SetWeapon
 {
     public int index;
     public Mesh meshWepon;
+    public bool isRotate;
 }

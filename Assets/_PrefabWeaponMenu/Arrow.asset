@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d77ea0bef3f971347a327ef7f121dc9f, type: 3}
+  m_Name: Arrow
+  m_EditorClassIdentifier: 
+  weaponName: Arrow
+  price: 20
+  weaponPrefab: {fileID: 4941701417808349748, guid: ada728db3c4a8574eb9119e4ab33b00d, type: 3}

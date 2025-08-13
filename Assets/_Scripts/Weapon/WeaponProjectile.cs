@@ -16,6 +16,7 @@ public class WeaponProjectile : MonoBehaviour
 
     //public WeaponAttack owner;
     private GameObject owner;
+    public bool checkRotate;
 
     private void Awake()
     {
@@ -38,6 +39,10 @@ public class WeaponProjectile : MonoBehaviour
         this.weaponData = weaponData;
         this.owner = owner;
         this.timer = 0f;
+        if(!checkRotate && this.direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(this.direction);
+        }
         gameObject.SetActive(true);
     }
 
@@ -50,8 +55,17 @@ public class WeaponProjectile : MonoBehaviour
         {
             Deactivate();
         }
-
-        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        if (checkRotate)
+        {
+            transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        }
+        else
+        {
+            Debug.Log("No Rotate");
+            Quaternion offset = Quaternion.Euler(90f, 0f, 0f);
+            transform.rotation = Quaternion.LookRotation(direction) * offset;
+            //transform.Rotate(90, 0, 0);
+        }
     }
 
     private void FixedUpdate()

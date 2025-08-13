@@ -15,6 +15,10 @@ public class ChooseWepon : MonoBehaviour
     public TextMeshProUGUI damage;
     public TextMeshProUGUI coin;
 
+    [Header("Weapon Holder(Right Hand)")]
+    public Transform weaponHolder;
+    private GameObject currentWeapon;
+
     private void Awake()
     {
         if(instance != null)
@@ -22,6 +26,10 @@ public class ChooseWepon : MonoBehaviour
             Destroy(instance.gameObject);
         }
         instance = this;
+        if (weaponHolder.childCount > 0)
+        {
+            currentWeapon = weaponHolder.GetChild(0).gameObject;
+        }
     }
 
     private void Start()
@@ -54,9 +62,18 @@ public class ChooseWepon : MonoBehaviour
         damage.text = weaponData.GetWeapon(count).damage;
         imgWeapon.sprite = weaponData.GetWeapon(count).spite;
         coin.text = weaponData.GetWeapon(count).coin.ToString();
-
-
-
-
+    }
+    public void BuyWeapon()
+    {
+        Weapon selectedWeapon = weaponData.GetWeapon(count);
+        if(currentWeapon != null)
+        {
+            Destroy(currentWeapon);
+        }
+        currentWeapon = Instantiate(selectedWeapon.weaponPrefab, weaponHolder);
+        //currentWeapon.transform.localPosition = Vector3.zero;
+        //currentWeapon.transform.localRotation = Quaternion.identity;
+        //currentWeapon.transform.localScale = Vector3.one;
+        Debug.Log("Equiped: " + selectedWeapon.nameWepon);
     }
 }

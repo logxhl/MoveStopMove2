@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_Name
-      value: Hammer
+      value: Hammer 1
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_TagString
@@ -153,4 +153,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifeTime: 0.6
   rotateSpeed: 1000
-  owner: {fileID: 0}
+  checkRotate: 1
