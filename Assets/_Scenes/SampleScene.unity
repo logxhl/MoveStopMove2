@@ -3317,7 +3317,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074730659}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -12465,6 +12465,10 @@ PrefabInstance:
       propertyPath: panelCountDown
       value: 
       objectReference: {fileID: 1853174901}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: particleUpScale
+      value: 
+      objectReference: {fileID: 1074730662}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: coinUI
       value: 

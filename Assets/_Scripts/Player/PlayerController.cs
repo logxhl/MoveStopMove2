@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textRank;
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI coinDeadScene;
+    [SerializeField] private ParticleSystem particleUpScale;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     //public CoinSystem GetCoinSystem => coinSystem;
 
     private int coin = 0;
+    public int countUpCoin = 0;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -126,10 +128,27 @@ public class PlayerController : MonoBehaviour
     {
         coin += amount;
         coinText.text = coin.ToString();
+        countUpCoin++;
+        UpScale();
     }
     public int GetCoin()
     {
         return coin;
+    }
+    public void UpScale()
+    {
+        if(countUpCoin % 2 == 0 && countUpCoin != 0)
+        {
+            particleUpScale.gameObject.SetActive(true);
+            particleUpScale.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            particleUpScale.Play();
+            transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+            Invoke(nameof(DisUpScale), 2f);
+        }
+    }
+    public void DisUpScale()
+    {
+        particleUpScale.gameObject.SetActive(false);
     }
 
     void SetDeactiveGameObj() => gameObject.SetActive(false);
