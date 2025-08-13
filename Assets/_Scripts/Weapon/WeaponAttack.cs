@@ -23,8 +23,8 @@ public class WeaponAttack : MonoBehaviour
 
     private bool canAttack = false;               
 
-    [SerializeField] private CoinSystem coinSystem;
-    public CoinSystem GetCoinSystem => coinSystem;
+    //[SerializeField] private CoinSystem coinSystem;
+    //public CoinSystem GetCoinSystem => coinSystem;
 
     //[SerializeField] private TextMeshProUGUI coinText;
 
@@ -85,6 +85,17 @@ public class WeaponAttack : MonoBehaviour
         canAttack = can;
     }
 
+    //public void FireProjectile(Collider collider)
+    //{
+    //    //weaponHandVisual.SetActive(false);
+
+    //    Vector3 direction = new Vector3(collider.transform.position.x, 0, collider.transform.position.z) - new Vector3(throwOrigin.position.x, 0, throwOrigin.position.z);
+    //    Vector3 dir = direction.normalized;
+
+    //    var projectile = Instantiate(currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(), throwOrigin.position, currentWeapon.modelPrefab.transform.rotation, weaponInstantiateTransform);
+    //    projectile.Launch(dir, targetLayer, currentWeapon, this);
+    //    SFXManager.Instance.PlayAttack();
+    //}
     public void FireProjectile(Collider collider)
     {
         //weaponHandVisual.SetActive(false);
@@ -93,7 +104,7 @@ public class WeaponAttack : MonoBehaviour
         Vector3 dir = direction.normalized;
 
         var projectile = Instantiate(currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(), throwOrigin.position, currentWeapon.modelPrefab.transform.rotation, weaponInstantiateTransform);
-        projectile.Launch(dir, targetLayer, currentWeapon, this);
+        projectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);
         SFXManager.Instance.PlayAttack();
     }
 

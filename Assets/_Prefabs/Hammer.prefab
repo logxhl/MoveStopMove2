@@ -153,4 +153,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifeTime: 0.6
   rotateSpeed: 1000
-  owner: {fileID: 0}

@@ -1,6 +1,8 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -18,6 +20,11 @@ public class EnemyAI : MonoBehaviour
     public event Action OnDie;
 
     private bool isPlayerAlive = true;
+
+    //[SerializeField] private CoinSystem coinSystem;
+    //public CoinSystem GetCoinSystem => coinSystem;
+    private int coin = 0;
+    public TextMeshProUGUI coinText;
 
     void Start()
     {
@@ -140,5 +147,14 @@ public class EnemyAI : MonoBehaviour
         {
             ChooseRandomDirection();
         }
+    }
+    public void AddCoin(int amount)
+    {
+        coin += amount;
+        coinText.text = coin.ToString();
+    }
+    public int GetCoin()
+    {
+        return coin;
     }
 }

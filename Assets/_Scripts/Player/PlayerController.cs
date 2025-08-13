@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject panelCountDown;
     [SerializeField] private TextMeshProUGUI textRank;
     [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI coinDeadScene;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -26,6 +27,11 @@ public class PlayerController : MonoBehaviour
     public GameObject currentWeapon;
 
     public WeaponProjectile projectile;
+
+    //[SerializeField] private CoinSystem coinSystem;
+    //public CoinSystem GetCoinSystem => coinSystem;
+
+    private int coin = 0;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -105,14 +111,25 @@ public class PlayerController : MonoBehaviour
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);
-            int coin = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5);
+            //int coin = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5);
+            int coinGet = coin;
             
             //Save coin
             GameController.instance.SaveCoin(coin);
-            coinText.text = coin.ToString();
+            coinDeadScene.text = coin.ToString();
             //UIManager.instance.Load();
             UIManager.instance.isDead = true;
         }
+    }
+
+    public void AddCoin(int amount)
+    {
+        coin += amount;
+        coinText.text = coin.ToString();
+    }
+    public int GetCoin()
+    {
+        return coin;
     }
 
     void SetDeactiveGameObj() => gameObject.SetActive(false);

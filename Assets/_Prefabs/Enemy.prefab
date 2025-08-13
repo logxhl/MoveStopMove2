@@ -56,7 +56,6 @@ MonoBehaviour:
   weaponInstantiateTransform: {fileID: 0}
   playerTransform: {fileID: 796226229095598089}
   throwOrigin: {fileID: 2830944571154534425}
-  coinSystem: {fileID: 6011228617265746165}
 --- !u!1 &738795189213920093
 GameObject:
   m_ObjectHideFlags: 0
@@ -6472,6 +6471,8 @@ MonoBehaviour:
   wanderChangeDirTime: 2.5
   weaponAttack: {fileID: 1909192883139428831}
   animationController: {fileID: 3699286355318903785}
+  coin: 0
+  coinText: {fileID: 1154685116127973558}
 --- !u!114 &6011228617265746165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6479,7 +6480,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4420171234210314778}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da97749633cf3384d8e08ff5f328fd60, type: 3}
   m_Name: 
