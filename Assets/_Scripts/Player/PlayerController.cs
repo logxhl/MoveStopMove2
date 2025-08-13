@@ -24,8 +24,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 dir;
     private Vector3 move;
+    [Header("SetWeapon")]
     public ListWeapon listWeapon;
     public GameObject currentWeapon;
+    [Header("SetPant")]
+    public PantTableObject listPant;
+    public GameObject currentPant;
 
     public WeaponProjectile projectile;
 
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private int coin = 0;
     public int countUpCoin = 0;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -43,10 +48,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        GetPant();
         int index = PlayerPrefs.GetInt("WeaponData");
-        for(int i = 0; i < listWeapon.weaponList.Length; i++)
+        for (int i = 0; i < listWeapon.weaponList.Length; i++)
         {
-            if(index == listWeapon.weaponList[i].index)
+            if (index == listWeapon.weaponList[i].index)
             {
                 currentWeapon.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
                 projectile.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
@@ -103,6 +109,17 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
+    public void GetPant()
+    {
+        int index = PlayerPrefs.GetInt("SelectedPant");
+        for (int i = 0; i < listPant.pantInfo.Length; i++)
+        {
+            if (index == listPant.pantInfo[i].index)
+            {
+                currentPant.GetComponent<SkinnedMeshRenderer>().material = listPant.pantInfo[i].pantMaterials;
+            }
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hammer"))
@@ -120,7 +137,7 @@ public class PlayerController : MonoBehaviour
             panelCountDown.SetActive(true);
             //int coin = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5);
             int coinGet = coin;
-            
+
             //Save coin
             GameController.instance.SaveCoin(coin);
             coinDeadScene.text = coin.ToString();
@@ -142,7 +159,7 @@ public class PlayerController : MonoBehaviour
     }
     public void UpScale()
     {
-        if(countUpCoin % 2 == 0 && countUpCoin != 0)
+        if (countUpCoin % 2 == 0 && countUpCoin != 0)
         {
             particleUpScale.gameObject.SetActive(true);
             particleUpScale.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);

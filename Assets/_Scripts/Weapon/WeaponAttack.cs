@@ -32,7 +32,16 @@ public class WeaponAttack : MonoBehaviour
     {
         attackCooldown = 0f;
         canAttack = false;
-        weaponInstantiateTransform = GameObject.Find("PoolManager").transform.GetChild(0).transform;
+        //weaponInstantiateTransform = GameObject.Find("PoolManager").transform.GetChild(0).transform;
+        GameObject poolManagerObj = GameObject.Find("PoolManager");
+        if (poolManagerObj != null && poolManagerObj.transform.childCount > 0)
+        {
+            weaponInstantiateTransform = poolManagerObj.transform.GetChild(0);
+        }
+        else
+        {
+            Debug.LogError("PoolManager không có child!");
+        }
     }
 
     void Update()

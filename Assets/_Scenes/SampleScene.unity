@@ -12434,6 +12434,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 812913336}
     - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: listPant
+      value: 
+      objectReference: {fileID: 11400000, guid: 99d9e9ad3379f4c48a998ce8adce53a6, type: 2}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: textRank
       value: 
       objectReference: {fileID: 383669514}
@@ -12449,6 +12453,10 @@ PrefabInstance:
       propertyPath: projectile
       value: 
       objectReference: {fileID: -5962739989046815547, guid: eaac1b510d9c20940ac729deb704dc59, type: 3}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: currentPant
+      value: 
+      objectReference: {fileID: 4569791686131516184}
     - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: coinDeadScene
       value: 
@@ -12557,6 +12565,11 @@ PrefabInstance:
 --- !u!1 &4569791686131516183 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2489297953941833151, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+  m_PrefabInstance: {fileID: 4569791686131516182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4569791686131516184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8286496471122013619, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
   m_PrefabInstance: {fileID: 4569791686131516182}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &4601000017358544415

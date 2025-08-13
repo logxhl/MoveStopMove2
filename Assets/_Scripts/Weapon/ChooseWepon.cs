@@ -21,7 +21,7 @@ public class ChooseWepon : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null)
+        if (instance != null)
         {
             Destroy(instance.gameObject);
         }
@@ -34,13 +34,19 @@ public class ChooseWepon : MonoBehaviour
 
     private void Start()
     {
-        count = 0;
+        count = PlayerPrefs.GetInt("LoadWeapon", 0);
+        UpdateWeapon(count);
+        for (int i = weaponHolder.childCount - 1; i >= 0; i--)
+        {
+            Destroy(weaponHolder.GetChild(i).gameObject);
+        }
+        EquipWeapon(count);
 
     }
     public void NextButton()
     {
         count++;
-        if(count > (weaponData.GetCountWeapon() -1))
+        if (count > (weaponData.GetCountWeapon() - 1))
         {
             count = 0;
         }
@@ -49,7 +55,7 @@ public class ChooseWepon : MonoBehaviour
     public void BackButton()
     {
         count--;
-        if(count < 0)
+        if (count < 0)
         {
             count = weaponData.GetCountWeapon() - 1;
         }
@@ -63,17 +69,21 @@ public class ChooseWepon : MonoBehaviour
         imgWeapon.sprite = weaponData.GetWeapon(count).spite;
         coin.text = weaponData.GetWeapon(count).coin.ToString();
     }
-    public void BuyWeapon()
+    private void EquipWeapon(int index)
     {
-        Weapon selectedWeapon = weaponData.GetWeapon(count);
-        if(currentWeapon != null)
+        Weapon selectedWeapon = weaponData.GetWeapon(index);
+        if (currentWeapon != null)
         {
             Destroy(currentWeapon);
         }
         currentWeapon = Instantiate(selectedWeapon.weaponPrefab, weaponHolder);
-        //currentWeapon.transform.localPosition = Vector3.zero;
-        //currentWeapon.transform.localRotation = Quaternion.identity;
-        //currentWeapon.transform.localScale = Vector3.one;
-        Debug.Log("Equiped: " + selectedWeapon.nameWepon);
     }
+    public void BuyWeapon()
+    {
+        EquipWeapon(count);
+        PlayerPrefs.SetInt("LoadWeapon", count);
+        PlayerPrefs.Save();
+        Debug.Log("Equiped: " + weaponData.GetWeapon(count).nameWepon);
+    }
+
 }
