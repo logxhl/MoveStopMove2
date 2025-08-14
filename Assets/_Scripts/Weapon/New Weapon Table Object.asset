@@ -23,17 +23,17 @@ MonoBehaviour:
     spite: {fileID: 21300000, guid: ea1caec6a91f5e14b8c2f6e8a274a099, type: 3}
     unlock: Lock
     damage: +3 Range
-    coin: 50
+    coin: 2
     weaponPrefab: {fileID: 3689594960200500991, guid: 24d37f3ae2dc589409075a563051d598, type: 3}
   - nameWepon: KNIFE
     spite: {fileID: 21300000, guid: 34fa371bfa35cad42bb29bb1444106b8, type: 3}
     unlock: Unlock
     damage: +5 Attack Speed
-    coin: 100
+    coin: 5
     weaponPrefab: {fileID: 4941701417808349748, guid: ada728db3c4a8574eb9119e4ab33b00d, type: 3}
   - nameWepon: CANDY
     spite: {fileID: 21300000, guid: e9498015d2b7c6e46bded4dec65eb92a, type: 3}
     unlock: Unlock
     damage: +5 Range*2
-    coin: 400
+    coin: 3
     weaponPrefab: {fileID: 1901946125402075438, guid: 127f6b1844199ea4d94a1d1d488c6e33, type: 3}

@@ -5,6 +5,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     [SerializeField] private AnimationController animationController;
     [SerializeField] private JoystickController joystick; // Kéo JoystickBG vào đây
     [SerializeField] private WeaponAttack weaponAttack;
@@ -41,6 +42,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if(instance != null && instance == this)
+        {
+            Destroy(gameObject);
+        }
+        instance = this;
+
         rigid = GetComponent<Rigidbody>();
         if (animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
@@ -156,6 +163,10 @@ public class PlayerController : MonoBehaviour
     public int GetCoin()
     {
         return coin;
+    }
+    public void SetCoin(int coinSet)
+    {
+        this.coin = coinSet;
     }
     public void UpScale()
     {

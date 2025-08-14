@@ -26,13 +26,14 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (textCoin != null) {
+        if (textCoin != null)
+        {
             coin = PlayerPrefs.GetInt("PlayerCoin");
             textCoin.text = coin.ToString();
         }
-        if(IsPlayerAlive && winScene != null)
+        if (IsPlayerAlive && winScene != null)
         {
-            if(SpawnEnemy.Instance.GetRemainingCount() == 1)
+            if (SpawnEnemy.Instance.GetRemainingCount() == 1)
             {
                 winScene.SetActive(true);
             }
@@ -52,7 +53,7 @@ public class GameController : MonoBehaviour
     public void ExitGame()
     {
 #if UNITY_EDITOR
-        EditorApplication.isPlaying = false; 
+        EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
@@ -80,7 +81,6 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt("PlayerCoin", totalCoin);
         PlayerPrefs.Save();
     }
-
     public void SaveWeapon()
     {
         //PlayerPrefs.SetInt("WeaponData", ChooseWepon.instance.count);
