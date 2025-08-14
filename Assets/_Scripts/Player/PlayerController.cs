@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        GetPant();
-        int index = PlayerPrefs.GetInt("WeaponData");
+        //GetPant();
+        int index = PlayerPrefs.GetInt("LoadWeapon");
         for (int i = 0; i < listWeapon.weaponList.Length; i++)
         {
             if (index == listWeapon.weaponList[i].index)

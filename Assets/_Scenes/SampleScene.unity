@@ -11168,6 +11168,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2832575465678930469, guid: 01f11dc00bb0ea343950bbce3cbfbdd9, type: 3}
   m_PrefabInstance: {fileID: 628934257}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2000630809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2000630811}
+  - component: {fileID: 2000630810}
+  m_Layer: 0
+  m_Name: LoadPant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2000630810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000630809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0be71f2eefcb94a9eeadabbf181898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pantRenderer: {fileID: 4569791686131516186}
+  pantMaterials:
+  - {fileID: 2100000, guid: d71e29b05a073204c8940e535d6974fa, type: 2}
+  - {fileID: 2100000, guid: 1101891f85eb9584c91da7286ae7a679, type: 2}
+  - {fileID: 2100000, guid: 7c9b0413fcfd48744a7da158af9fd4e3, type: 2}
+--- !u!4 &2000630811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000630809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 537, y: 647.32007, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2019273739
 GameObject:
   m_ObjectHideFlags: 0
@@ -12861,6 +12910,11 @@ GameObject:
 --- !u!1 &4569791686131516184 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8286496471122013619, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+  m_PrefabInstance: {fileID: 4569791686131516182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4569791686131516186 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5876262630819355732, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
   m_PrefabInstance: {fileID: 4569791686131516182}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &4601000017358544415
@@ -18627,3 +18681,4 @@ SceneRoots:
   - {fileID: 1910513571}
   - {fileID: 1392654284}
   - {fileID: 2093428632}
+  - {fileID: 2000630811}
