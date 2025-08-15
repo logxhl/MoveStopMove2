@@ -37,13 +37,37 @@ public class AIOfZombie : MonoBehaviour
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p) player = p.transform;
         }
+
+        //Tu tim patrol point
+        if(patrolPoints == null || patrolPoints.Length == 0)
+        {
+            GameObject pointsParent = GameObject.Find("PatrolPoints");
+            if(pointsParent != null)
+            {
+                List<Transform> list = new List<Transform>();
+                foreach(Transform t in pointsParent.GetComponentsInChildren<Transform>())
+                {
+                    if(t != pointsParent.transform) list.Add(t);
+                }
+                patrolPoints = list.ToArray();
+            }
+        }
     }
     private void Start()
     {
-        if(patrolPoints.Length > 0)
+        if(patrolPoints != null && patrolPoints.Length > 0)
         {
+            if(NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            {
+                transform.position = hit.position;
+                agent.Warp(hit.position);
+            }
             agent.SetDestination(patrolPoints[patrolIndex].position);
         }
+        //if(patrolPoints.Length > 0)
+        //{
+        //    agent.SetDestination(patrolPoints[patrolIndex].position);
+        //}
     }
     private void Update()
     {
