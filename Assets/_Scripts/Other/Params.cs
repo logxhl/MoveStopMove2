@@ -9,6 +9,7 @@
     public const string BotTag = "Bot";
     public const string PlayerTag = "Player";
     public const string WallTag = "Wall";
+    public const string IsWalk = "IsWalk";
 }
 
 public enum PlayerState
@@ -33,4 +34,11 @@ public enum SpawnState
 {
     Idle,      
     Spawned    
+}
+
+public enum ZombieState
+{
+    Walk,
+    Run,
+    Victory
 }
