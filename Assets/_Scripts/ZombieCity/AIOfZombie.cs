@@ -146,6 +146,10 @@ public class AIOfZombie : MonoBehaviour
             Debug.Log("Player Dead");
             SwitchState(ZombieState.Victory);
         }
+        if(other.CompareTag("Hammer"))
+        {
+            Destroy(gameObject);
+        }
     }
     private void OnDrawGizmosSelected()
     {

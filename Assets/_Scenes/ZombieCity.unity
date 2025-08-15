@@ -13562,6 +13562,10 @@ PrefabInstance:
       propertyPath: particleUpScale
       value: 
       objectReference: {fileID: 1074730662}
+    - target: {fileID: 3345523839687022903, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9b4a980794a8822429f5f0300d5fcb08, type: 2}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: coinUI
       value: 
@@ -13600,7 +13604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7805268963817612487, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -34.7
+      value: -15.38
       objectReference: {fileID: 0}
     - target: {fileID: 7805268963817612487, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: m_LocalRotation.w
