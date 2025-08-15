@@ -5645,6 +5645,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.059066
       objectReference: {fileID: 0}
+    - target: {fileID: -8699012472884554006, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9bb2de0609c5af34ead0182d94d0c84e, type: 2}
     - target: {fileID: -8680920848529040888, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.000000073372995
@@ -6471,7 +6475,6 @@ MonoBehaviour:
   wanderChangeDirTime: 2.5
   weaponAttack: {fileID: 1909192883139428831}
   animationController: {fileID: 3699286355318903785}
-  coin: 0
   coinText: {fileID: 1154685116127973558}
 --- !u!114 &6011228617265746165
 MonoBehaviour:
