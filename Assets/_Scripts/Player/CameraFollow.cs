@@ -1,73 +1,115 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [Header("Follow Settings")]
     public Transform target;
-    public Vector3 offset;
+    public Vector3 offset = new Vector3(0, 10, -10);
     public float smoothSpeed = 5f;
 
     [Header("Obstacle Fade Settings")]
-    public LayerMask obstacleMask;
-    public float fadeAlpha = 0.3f;
+    public LayerMask obstacleMask;     // Layer tòa nhà/vật cản
+    public float sphereRadius = 0.3f;  // bán kính sphere cast
+    public float checkInterval = 0.1f; // tần suất check
+    [Range(0f, 1f)] public float fadeAlpha = 0.3f;
     public float fadeSpeed = 5f;
 
-    private List<Renderer> fadeObjs = new List<Renderer>();
-    private Dictionary<Renderer, Color> originalColors = new Dictionary<Renderer, Color>();
+    private float _nextCheckTime;
+    private readonly Dictionary<Renderer, float> _currentAlpha = new();
+    private readonly Dictionary<Renderer, float> _targetAlpha = new();
+    private readonly List<Renderer> _hitsThisFrame = new();
+
+    private MaterialPropertyBlock _mpb;
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+
+    private void Awake()
+    {
+        _mpb = new MaterialPropertyBlock();
+        if (obstacleMask.value == 0)
+            obstacleMask = LayerMask.GetMask("Obstruction");
+    }
 
     private void LateUpdate()
     {
-        if (target != null)
-        {
-            Vector3 desiredPosition = target.position + offset;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-            transform.position = smoothedPosition;
+        if (target == null) return;
 
-            transform.LookAt(target);
+        // ===== Follow target =====
+        Vector3 desiredPosition = target.position + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+        transform.position = smoothedPosition;
+
+        transform.LookAt(target);
+
+        // ===== Obstacle fade =====
+        if (Time.time >= _nextCheckTime)
+        {
+            DoOcclusionCheck();
+            _nextCheckTime = Time.time + checkInterval;
         }
-        HandleObstacles();
+        UpdateAlphas();
     }
 
-    private void HandleObstacles()
+    private void DoOcclusionCheck()
     {
-        // Khôi phục alpha cũ
-        foreach (var rend in fadeObjs)
+        _hitsThisFrame.Clear();
+
+        Vector3 camPos = transform.position;
+        Vector3 dir = target.position - camPos;
+        float dist = dir.magnitude;
+        if (dist < 0.01f) return;
+        dir /= dist;
+
+        var hits = Physics.SphereCastAll(camPos, sphereRadius, dir, dist, obstacleMask, QueryTriggerInteraction.Ignore);
+
+        foreach (var h in hits)
         {
-            if (rend != null && originalColors.ContainsKey(rend))
+            foreach (var r in h.collider.GetComponentsInChildren<Renderer>())
             {
-                Color c = rend.material.color;
-                c.a = Mathf.MoveTowards(c.a, originalColors[rend].a, Time.deltaTime * fadeSpeed);
-                rend.material.color = c;
+                _hitsThisFrame.Add(r);
+                _targetAlpha[r] = fadeAlpha;
+                if (!_currentAlpha.ContainsKey(r)) _currentAlpha[r] = 1f;
             }
         }
-        fadeObjs.Clear();
 
-        // Raycast kiểm tra vật cản
-        Vector3 dir = target.position - transform.position;
-        Ray ray = new Ray(transform.position, dir);
-        RaycastHit[] hits = Physics.RaycastAll(ray, dir.magnitude, obstacleMask);
-
-        foreach (var hit in hits)
+        // Renderer không còn bị che → phục hồi
+        foreach (var r in _currentAlpha.Keys)
         {
-            Renderer rend = hit.collider.GetComponent<Renderer>();
-            if (rend != null)
+            if (!_hitsThisFrame.Contains(r))
+                _targetAlpha[r] = 1f;
+        }
+    }
+
+    private void UpdateAlphas()
+    {
+        var keys = new List<Renderer>(_targetAlpha.Keys);
+        foreach (var r in keys)
+        {
+            float cur = _currentAlpha.TryGetValue(r, out var a) ? a : 1f;
+            float next = Mathf.MoveTowards(cur, _targetAlpha[r], fadeSpeed * Time.deltaTime);
+            _currentAlpha[r] = next;
+
+            ApplyAlpha(r, next);
+
+            // Xóa khỏi danh sách khi đã trở lại trong suốt
+            if (Mathf.Approximately(next, 1f) && !_hitsThisFrame.Contains(r))
             {
-                // Lưu màu gốc
-                if (!originalColors.ContainsKey(rend))
-                    originalColors[rend] = rend.material.color;
-
-                // Chuyển sang transparent (URP Simple Lit dùng _Surface = 1)
-                rend.material.SetFloat("_Surface", 1);
-                rend.material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
-
-                // Giảm alpha
-                Color c = rend.material.color;
-                c.a = Mathf.MoveTowards(c.a, fadeAlpha, Time.deltaTime * fadeSpeed);
-                rend.material.color = c;
-
-                fadeObjs.Add(rend);
+                _targetAlpha.Remove(r);
             }
         }
+    }
+
+    private void ApplyAlpha(Renderer r, float a)
+    {
+        if (r == null) return;
+        r.GetPropertyBlock(_mpb);
+
+        Color baseCol = r.sharedMaterial.HasProperty(BaseColor)
+            ? r.sharedMaterial.GetColor(BaseColor)
+            : Color.white;
+
+        baseCol.a = a;
+        _mpb.SetColor(BaseColor, baseCol);
+        r.SetPropertyBlock(_mpb);
     }
 }
