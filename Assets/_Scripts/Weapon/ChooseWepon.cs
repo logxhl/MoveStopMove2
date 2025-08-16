@@ -25,7 +25,7 @@ public class ChooseWepon : MonoBehaviour
     public Button btnBuyCoin;
     public Image btnBuyCoinImg;
     public TextMeshProUGUI textBuyCoin;
-    public Color equipColor = Color.yellow;
+    public Color equipColor = Color.yellow * 0.8f; // nhân < 1 để màu tối hơn
     public Color buyColor = Color.green;
     public Color ownedColor = Color.yellow;
     public Image imgCoin;
@@ -51,7 +51,7 @@ public class ChooseWepon : MonoBehaviour
         {
             currentWeapon = weaponHolder.GetChild(0).gameObject;
         }
-        if(btnBuyCoin != null)
+        if (btnBuyCoin != null)
         {
             btnBuyCoin.onClick.RemoveListener(OnBuyOrEquip);
             btnBuyCoin.onClick.AddListener(OnBuyOrEquip);

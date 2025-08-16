@@ -40,7 +40,7 @@ public class WeaponAttack : MonoBehaviour
         }
         else
         {
-            Debug.LogError("PoolManager không có child!");
+            Debug.LogWarning("PoolManager không có child!");
         }
     }
 

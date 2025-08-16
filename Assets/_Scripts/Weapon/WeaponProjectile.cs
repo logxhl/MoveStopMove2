@@ -61,7 +61,6 @@ public class WeaponProjectile : MonoBehaviour
         }
         else
         {
-            Debug.Log("No Rotate");
             Quaternion offset = Quaternion.Euler(90f, 0f, 0f);
             transform.rotation = Quaternion.LookRotation(direction) * offset;
             //transform.Rotate(90, 0, 0);
