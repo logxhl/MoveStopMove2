@@ -157,4 +157,15 @@ public class EnemyAI : MonoBehaviour
     {
         return coin;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Hammer"))
+        {
+            if (SpawnEnemy.Instance.GetRemainingCount() == 1)
+            {
+                int coinPlayer = PlayerController.instance.GetCoin() + 100;
+                GameController.instance.SaveCoin(coinPlayer);
+            }
+        }
+    }
 }

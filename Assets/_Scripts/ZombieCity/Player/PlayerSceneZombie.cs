@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerSceneZombie : MonoBehaviour
 {
@@ -142,12 +143,11 @@ public class PlayerSceneZombie : MonoBehaviour
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);
-            //int coin = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5);
             int coinGet = coin;
 
             //Save coin
-            //GameController.instance.SaveCoin(coin);
-            //coinDeadScene.text = coin.ToString();
+            ControllerSceneZombie.instance.SaveCoin(coin);
+            coinDeadScene.text = coin.ToString();
             //UIManager.instance.Load();
             UIManager.instance.isDead = true;
         }

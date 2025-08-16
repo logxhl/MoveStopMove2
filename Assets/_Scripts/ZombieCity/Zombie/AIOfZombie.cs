@@ -149,6 +149,13 @@ public class AIOfZombie : MonoBehaviour
         {
             SpawnZombie.instance?.NotifyCharacterDied(false);
             Destroy(gameObject);
+            PlayerSceneZombie.instance.AddCoin(5);
+            if (SpawnZombie.instance.GetRemainingCount() == 0)
+            {
+                int coinPlayer = PlayerSceneZombie.instance.GetCoin() + 100;
+                ControllerSceneZombie.instance.SaveCoin(coinPlayer);
+            }
+            Debug.Log("Coin player: " + PlayerSceneZombie.instance.GetCoin());
             //if (zombieDead != null)
             //{
             //    zombieDead.Die();

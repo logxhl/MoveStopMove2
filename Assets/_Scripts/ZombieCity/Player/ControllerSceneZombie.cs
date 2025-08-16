@@ -10,6 +10,7 @@ public class ControllerSceneZombie : MonoBehaviour
     public static ControllerSceneZombie instance;
     public bool IsPlayerAlive { get; private set; } = true;
     public GameObject winScene;
+    public GameObject joyStick;
     public TextMeshProUGUI textCoin;
     private int coin = 0;
 
@@ -35,6 +36,7 @@ public class ControllerSceneZombie : MonoBehaviour
             if (SpawnZombie.instance.GetRemainingCount() == 0)
             {
                 winScene.SetActive(true);
+                joyStick.SetActive(false);
             }
         }
     }

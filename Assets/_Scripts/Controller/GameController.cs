@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     public static GameController instance;
     public bool IsPlayerAlive { get; private set; } = true;
     public GameObject winScene;
+    public GameObject joyStick;
     public TextMeshProUGUI textCoin;
     private int coin = 0;
 
@@ -36,6 +37,7 @@ public class GameController : MonoBehaviour
             if (SpawnEnemy.Instance.GetRemainingCount() == 1)
             {
                 winScene.SetActive(true);
+                joyStick.SetActive(false);
             }
         }
     }
