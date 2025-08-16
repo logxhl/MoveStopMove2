@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
@@ -9,10 +7,15 @@ public class SFXManager : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip attackSFX;
     [SerializeField] private AudioClip deadSFX;
+    [SerializeField] private AudioClip deadZombieSFX;
+    [SerializeField] private AudioClip clickSFX;
+    [SerializeField] private AudioClip loseSFX;
+
     private AudioSource audioSource;
+
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -21,25 +24,27 @@ public class SFXManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         audioSource = GetComponent<AudioSource>();
-        if(audioSource == null) 
+        if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false; // ⬅️ tránh tự phát khi start game
+        audioSource.loop = false;        // ⬅️ chỉ phát 1 lần cho mỗi SFX
     }
 
-    public void PlayAttack()
-    {
-        PlaySFX(attackSFX);
-    }
-
-    public void DeadSFX()
-    {
-        PlaySFX(deadSFX);
-    }
+    public void PlayAttack() => PlaySFX(attackSFX);
+    public void DeadSFX() => PlaySFX(deadSFX);
+    public void DeadZombieSFX() => PlaySFX(deadZombieSFX);
+    public void ClickSFX() => PlaySFX(clickSFX);
+    public void LoseSFX() => PlaySFX(loseSFX);
 
     private void PlaySFX(AudioClip clip)
     {
-        if(clip != null)
-        {
+        if (clip != null)
             audioSource.PlayOneShot(clip);
-        }
+    }
+
+    public void StopAllSFX()
+    {
+        audioSource.Stop();
     }
 }

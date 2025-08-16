@@ -131,6 +131,10 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Hammer"))
         {
+            //SFX
+            SFXManager.Instance.DeadSFX();
+            SFXManager.Instance.LoseSFX();
+
             playerState = PlayerState.Die;
             animationController.SetDeadAnimation();
             Invoke(nameof(SetDeactiveGameObj), 2);

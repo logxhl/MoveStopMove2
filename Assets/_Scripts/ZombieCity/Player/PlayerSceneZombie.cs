@@ -131,6 +131,10 @@ public class PlayerSceneZombie : MonoBehaviour
     {
         if (other.CompareTag("Bot"))
         {
+            //SFX
+            SFXManager.Instance.DeadSFX();
+            SFXManager.Instance.LoseSFX();
+
             playerState = PlayerState.Die;
             animationController.SetDeadAnimation();
             Invoke(nameof(SetDeactiveGameObj), 2);
