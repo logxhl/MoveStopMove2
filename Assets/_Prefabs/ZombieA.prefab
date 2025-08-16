@@ -1169,6 +1169,7 @@ GameObject:
   - component: {fileID: 3250607163018590839}
   - component: {fileID: 3909636132459202233}
   - component: {fileID: 7088130653762635000}
+  - component: {fileID: 6437331570204372937}
   m_Layer: 3
   m_Name: ZombieA
   m_TagString: Bot
@@ -1312,6 +1313,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6437331570204372937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5441061178661714215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ca904f1b99ad7499d46b0a9d3b37b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
 --- !u!1 &5742098987590708877
 GameObject:
   m_ObjectHideFlags: 0

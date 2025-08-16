@@ -23,7 +23,6 @@ public class AIOfZombie : MonoBehaviour
     public LayerMask obstructionLayers;
 
     private ZombieState state = ZombieState.Walk;
-
     private void Reset()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -31,7 +30,7 @@ public class AIOfZombie : MonoBehaviour
 
     private void Awake()
     {
-        if(!agent) agent = GetComponent<NavMeshAgent>();
+        if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!player)
         {
             GameObject p = GameObject.FindGameObjectWithTag("Player");
@@ -39,15 +38,15 @@ public class AIOfZombie : MonoBehaviour
         }
 
         //Tu tim patrol point
-        if(patrolPoints == null || patrolPoints.Length == 0)
+        if (patrolPoints == null || patrolPoints.Length == 0)
         {
             GameObject pointsParent = GameObject.Find("PatrolPoints");
-            if(pointsParent != null)
+            if (pointsParent != null)
             {
                 List<Transform> list = new List<Transform>();
-                foreach(Transform t in pointsParent.GetComponentsInChildren<Transform>())
+                foreach (Transform t in pointsParent.GetComponentsInChildren<Transform>())
                 {
-                    if(t != pointsParent.transform) list.Add(t);
+                    if (t != pointsParent.transform) list.Add(t);
                 }
                 patrolPoints = list.ToArray();
             }
@@ -55,9 +54,9 @@ public class AIOfZombie : MonoBehaviour
     }
     private void Start()
     {
-        if(patrolPoints != null && patrolPoints.Length > 0)
+        if (patrolPoints != null && patrolPoints.Length > 0)
         {
-            if(NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             {
                 transform.position = hit.position;
                 agent.Warp(hit.position);
@@ -72,7 +71,7 @@ public class AIOfZombie : MonoBehaviour
     private void Update()
     {
         if (!player) return;
-        switch(state)
+        switch (state)
         {
             case ZombieState.Walk:
                 Patrol();
@@ -89,7 +88,7 @@ public class AIOfZombie : MonoBehaviour
                 break;
         }
 
-        if(anim)
+        if (anim)
         {
             anim.SetBool("IsWalk", state == ZombieState.Walk);
             anim.SetBool("IsRun", state == ZombieState.Run);
@@ -101,9 +100,9 @@ public class AIOfZombie : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
-        if(!CanSeePlayer())
+        if (!CanSeePlayer())
         {
-            if(patrolPoints.Length > 0)
+            if (patrolPoints.Length > 0)
             {
                 SwitchState(ZombieState.Walk);
             }
@@ -123,7 +122,7 @@ public class AIOfZombie : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
         if (angle > viewAngle / 2f) return false;
 
-        if(Physics.Raycast(transform.position + Vector3.up * 1.6f, toPlayer.normalized, out RaycastHit hit, sightRange, detectionLayers | obstructionLayers))
+        if (Physics.Raycast(transform.position + Vector3.up * 1.6f, toPlayer.normalized, out RaycastHit hit, sightRange, detectionLayers | obstructionLayers))
         {
             if (hit.transform == player) return true;
         }
@@ -132,7 +131,7 @@ public class AIOfZombie : MonoBehaviour
 
     private void Patrol()
     {
-        if(!agent.pathPending && agent.remainingDistance <= patrolTolerance)
+        if (!agent.pathPending && agent.remainingDistance <= patrolTolerance)
         {
             patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
             agent.SetDestination(patrolPoints[patrolIndex].position);
@@ -141,14 +140,19 @@ public class AIOfZombie : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(state == ZombieState.Run && other.CompareTag("Player"))
+        if (state == ZombieState.Run && other.CompareTag("Player"))
         {
             Debug.Log("Player Dead");
             SwitchState(ZombieState.Victory);
         }
-        if(other.CompareTag("Hammer"))
+        if (other.CompareTag("Hammer"))
         {
+            SpawnZombie.instance?.NotifyCharacterDied(false);
             Destroy(gameObject);
+            //if (zombieDead != null)
+            //{
+            //    zombieDead.Die();
+            //}
         }
     }
     private void OnDrawGizmosSelected()
