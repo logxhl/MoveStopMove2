@@ -1167,7 +1167,7 @@ MonoBehaviour:
   spawnAreaMax: {x: 10, y: 10}
   spawnY: 3
   canSpawn: 1
-  totalEnemiesToSpawn: 2
+  totalEnemiesToSpawn: 5
   includePlayerInCount: 1
   aliveCountText: {fileID: 1865601685}
 --- !u!4 &302175406

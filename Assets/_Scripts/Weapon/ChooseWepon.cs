@@ -170,8 +170,8 @@ public class ChooseWepon : MonoBehaviour
         int playerCoin = PlayerPrefs.GetInt(PlayerCoinKey, 0);
         if (playerCoin >= price)
         {
-            //playerCoin -= price;
-            playerCoin += 1000000;
+            playerCoin -= price;
+            //playerCoin += 1000000;
             PlayerPrefs.SetInt(PlayerCoinKey, playerCoin);
             //Danh dau da mua
             ownedSet.Add(count);

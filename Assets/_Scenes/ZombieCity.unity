@@ -3254,7 +3254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombiePrefab: {fileID: 5441061178661714215, guid: f86a1622a752f4d46921c9d20ae07844, type: 3}
-  fixedSpawnCount: 1
+  fixedSpawnCount: 3
   randomSpawnCount: 1
   randomSpawnRadius: 50
   randomCenter: {x: -3.5, y: 4, z: -34.7}
