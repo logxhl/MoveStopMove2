@@ -6113,8 +6113,8 @@ MonoBehaviour:
   patrolPoints: []
   patrolTolerance: 0.5
   patrolIndex: 0
-  sightRange: 10
-  viewAngle: 120
+  sightRange: 50
+  viewAngle: 360
   detectionLayers:
     serializedVersion: 2
     m_Bits: 16384
