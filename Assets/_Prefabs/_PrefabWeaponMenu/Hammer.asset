@@ -12,6 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77ea0bef3f971347a327ef7f121dc9f, type: 3}
   m_Name: Hammer
   m_EditorClassIdentifier: 
-  weaponName: Hammer
-  price: 10
-  weaponPrefab: {fileID: 4055472324523428075, guid: 27e26cbeee1b00e47a6af5cda5a8c335, type: 3}

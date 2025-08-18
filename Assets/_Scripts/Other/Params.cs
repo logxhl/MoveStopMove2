@@ -8,6 +8,7 @@
     public const string IsUlti = "IsUlti";
     public const string BotTag = "Bot";
     public const string PlayerTag = "Player";
+    public const string GiftTag = "Gift";
     public const string WallTag = "Wall";
     public const string IsWalk = "IsWalk";
 }

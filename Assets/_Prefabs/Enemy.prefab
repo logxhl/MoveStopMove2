@@ -6411,6 +6411,7 @@ MonoBehaviour:
   weaponAttack: {fileID: 1909192883139428831}
   animationController: {fileID: 3699286355318903785}
   coinText: {fileID: 1154685116127973558}
+  weaponProjectile: {fileID: -5962739989046815547, guid: 5f2100bf0bca091488bd16da13246a94, type: 3}
 --- !u!114 &6011228617265746165
 MonoBehaviour:
   m_ObjectHideFlags: 0

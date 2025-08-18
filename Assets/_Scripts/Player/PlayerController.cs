@@ -40,8 +40,10 @@ public class PlayerController : MonoBehaviour
     private int coin = 0;
     public int countUpCoin = 0;
     private bool isGift = false;
+
     private void Awake()
     {
+       
         if (instance != null && instance == this)
         {
             Destroy(gameObject);
@@ -52,7 +54,7 @@ public class PlayerController : MonoBehaviour
         if (animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
     }
-
+  
     void Update()
     {
         //GetPant();
@@ -161,10 +163,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Gift"))
         {
             isGift = true;
-            Debug.Log("Va cham");
-            Vector3 throwOr = weaponAttack.GetThrowOrigin().transform.position;
-            Vector3 newThrow = throwOr + transform.forward * 1f;
-            weaponAttack.SetThrowOrigin(newThrow);
+            //Debug.Log("Va cham");
+            weaponAttack.PushThrowOrigin(1f);
             weaponAttack.SetAttackRadius(7f);
             CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
             if (circle != null)
@@ -180,6 +180,7 @@ public class PlayerController : MonoBehaviour
         if (isGift)
         {
             isGift = false;
+            weaponAttack.ResetThrowOrigin();
             weaponAttack.SetAttackRadius(5);
             CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
             if (circle != null)

@@ -20,14 +20,22 @@ public class EnemyAI : MonoBehaviour
     public event Action OnDie;
 
     private bool isPlayerAlive = true;
+    private bool isGift = false;
 
     //[SerializeField] private CoinSystem coinSystem;
     //public CoinSystem GetCoinSystem => coinSystem;
     private int coin = 0;
     public TextMeshProUGUI coinText;
+    public WeaponProjectile weaponProjectile;
+    private Vector3 defaultThrow;
 
     void Start()
     {
+        if (weaponAttack != null && weaponAttack.GetThrowOrigin() != null)
+        {
+            defaultThrow = weaponAttack.GetThrowOrigin().position;
+        }
+
         ChooseRandomDirection();
 
         if (animationController == null)
@@ -135,10 +143,7 @@ public class EnemyAI : MonoBehaviour
         moveTimer = 0f;
         wanderTimer = 0f;
     }
-    public void SetDefault()
-    {
 
-    }
 
     public bool HasListeners()
     {
@@ -163,13 +168,34 @@ public class EnemyAI : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Hammer"))
+        if (other.CompareTag("Hammer"))
         {
             if (SpawnEnemy.Instance.GetRemainingCount() == 1)
             {
                 int coinPlayer = PlayerController.instance.GetCoin() + 100;
                 GameController.instance.SaveCoin(coinPlayer);
             }
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag(Params.GiftTag))
+        {
+            isGift = true;
+            Debug.Log("Va cham");
+            weaponAttack.PushThrowOrigin(1f);
+            weaponAttack.SetAttackRadius(7f);
+            weaponProjectile.transform.localScale = new Vector3(40, 40, 40);
+        }
+    }
+    public void SetDefault()
+    {
+        if (isGift)
+        {
+            isGift = false;
+            weaponAttack.ResetThrowOrigin();
+            weaponAttack.SetAttackRadius(5);
+            weaponProjectile.transform.localScale = new Vector3(20, 20, 20);
         }
     }
 }

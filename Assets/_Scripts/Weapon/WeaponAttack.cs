@@ -19,6 +19,7 @@ public class WeaponAttack : MonoBehaviour
     [SerializeField] private Transform weaponInstantiateTransform;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform throwOrigin;
+    private Vector3 defaultLocalPos;
     private EnemyHighLight lastTargetHighLight;
 
 
@@ -29,8 +30,15 @@ public class WeaponAttack : MonoBehaviour
 
     //[SerializeField] private TextMeshProUGUI coinText;
 
+
     private void Awake()
     {
+        if (throwOrigin != null)
+        {
+            // Lưu lại vị trí local ban đầu của throwOrigin (trước mặt Player)
+            defaultLocalPos = throwOrigin.localPosition;
+        }
+
         attackCooldown = 0f;
         canAttack = false;
         //weaponInstantiateTransform = GameObject.Find("PoolManager").transform.GetChild(0).transform;
@@ -43,6 +51,22 @@ public class WeaponAttack : MonoBehaviour
         {
             Debug.LogWarning("PoolManager không có child!");
         }
+    }
+    public Transform GetThrowOrigin()
+    {
+        return throwOrigin;
+    }
+
+    // Đẩy throwOrigin ra xa hơn
+    public void PushThrowOrigin(float distance)
+    {
+        throwOrigin.localPosition = defaultLocalPos + new Vector3(0, 0, distance);
+    }
+
+    // Reset về mặc định (ngay trước mặt Player)
+    public void ResetThrowOrigin()
+    {
+        throwOrigin.localPosition = defaultLocalPos;
     }
 
     void Update()
@@ -160,9 +184,5 @@ public class WeaponAttack : MonoBehaviour
     public void SetThrowOrigin(Vector3 throwOr)
     {
         throwOrigin.transform.position = throwOr;
-    }
-    public Transform GetThrowOrigin()
-    {
-        return throwOrigin;
     }
 }

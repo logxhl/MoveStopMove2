@@ -12,7 +12,7 @@ public class GiftItem : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag(Params.PlayerTag))
+        if(collision.gameObject.CompareTag(Params.PlayerTag) || collision.gameObject.CompareTag(Params.BotTag))
         {
             //Debug.Log("Va cham");
             pool.ReturnToPool(gameObject);

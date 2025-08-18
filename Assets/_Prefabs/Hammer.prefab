@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 3300000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2459579263309379254, guid: 02549e3ce8f14ea42b244ec60f5fd640, type: 3}
+      objectReference: {fileID: 1913988541965732932, guid: c35cab8c0c03b2d4bbc4da84e47ac5bd, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -153,4 +153,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLifeTime: 0.6
   rotateSpeed: 1000
-  checkRotate: 1
+  checkRotate: 0
