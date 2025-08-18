@@ -162,7 +162,7 @@ public class PlayerSceneZombie : MonoBehaviour
         coin += amount;
         coinText.text = coin.ToString();
         countUpCoin++;
-        UpScale();
+        //UpScale();
     }
     public int GetCoin()
     {
