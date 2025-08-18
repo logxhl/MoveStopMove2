@@ -17,6 +17,11 @@ public class GameController : MonoBehaviour
 
     public GameObject setting;
 
+    [Header("FreeItemSetting")]
+    [SerializeField] private Image iconSprite;
+    [SerializeField] private TextMeshProUGUI itemDes;
+    [SerializeField] private ItemDatabase freeItem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,5 +95,15 @@ public class GameController : MonoBehaviour
     public void SaveWeapon()
     {
         //PlayerPrefs.SetInt("WeaponData", ChooseWepon.instance.count);
+    }
+
+    public void RandomItemGift()
+    {
+        if (freeItem.itemGift.Length != 0)
+        {
+            int ind = Random.Range(0, freeItem.itemGift.Length);
+            iconSprite.sprite = freeItem.itemGift[ind].itemIcon;
+            itemDes.text = freeItem.itemGift[ind].itemDescription;
+        }
     }
 }
