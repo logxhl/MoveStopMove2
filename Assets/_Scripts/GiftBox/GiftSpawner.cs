@@ -5,8 +5,8 @@ using UnityEngine;
 public class GiftSpawner : MonoBehaviour
 {
     [SerializeField] private ObjectPool giftPool;
-    [SerializeField] private float spawnInterval = 5f; //thoi gian giua cac lan spawn
-    [SerializeField] private Vector2 spawnRangeX = new Vector2(-5, 5);
+    [SerializeField] private float spawnInterval = 20f; //thoi gian giua cac lan spawn
+    [SerializeField] private Vector2 spawnRangeX = new Vector2(-10, 10);
     [SerializeField] private float spawnHeight = 10f;
 
     private float timer;

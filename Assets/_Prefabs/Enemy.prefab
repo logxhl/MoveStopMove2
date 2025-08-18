@@ -48,7 +48,7 @@ MonoBehaviour:
   weaponHandVisual: {fileID: 0}
   handHoldWeaponTransform: {fileID: 0}
   maxAttackCooldown: 5
-  attackRadius: 7
+  attackRadius: 5
   targetLayer:
     serializedVersion: 2
     m_Bits: 16392

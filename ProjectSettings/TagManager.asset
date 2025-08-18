@@ -13,6 +13,7 @@ TagManager:
   - Enemy
   - Hammer
   - GiftBox
+  - Gift
   layers:
   - Default
   - TransparentFX

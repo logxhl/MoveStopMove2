@@ -39,10 +39,10 @@ public class PlayerController : MonoBehaviour
 
     private int coin = 0;
     public int countUpCoin = 0;
-
+    private bool isGift = false;
     private void Awake()
     {
-        if(instance != null && instance == this)
+        if (instance != null && instance == this)
         {
             Destroy(gameObject);
         }
@@ -154,6 +154,40 @@ public class PlayerController : MonoBehaviour
             coinDeadScene.text = coin.ToString();
             //UIManager.instance.Load();
             UIManager.instance.isDead = true;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Gift"))
+        {
+            isGift = true;
+            Debug.Log("Va cham");
+            Vector3 throwOr = weaponAttack.GetThrowOrigin().transform.position;
+            Vector3 newThrow = throwOr + transform.forward * 1f;
+            weaponAttack.SetThrowOrigin(newThrow);
+            weaponAttack.SetAttackRadius(7f);
+            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+            if (circle != null)
+            {
+                circle.radius = 10f;
+                circle.DrawCircle();
+                projectile.transform.localScale = new Vector3(50, 50, 50);
+            }
+        }
+    }
+    public void SetDefault()
+    {
+        if (isGift)
+        {
+            isGift = false;
+            weaponAttack.SetAttackRadius(5);
+            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+            if (circle != null)
+            {
+                circle.radius = 7f;
+                circle.DrawCircle();
+                projectile.transform.localScale = new Vector3(20, 20, 20);
+            }
         }
     }
 

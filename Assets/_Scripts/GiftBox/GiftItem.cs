@@ -14,7 +14,7 @@ public class GiftItem : MonoBehaviour
     {
         if(collision.gameObject.CompareTag(Params.PlayerTag))
         {
-            Debug.Log("Va cham");
+            //Debug.Log("Va cham");
             pool.ReturnToPool(gameObject);
         }
     }

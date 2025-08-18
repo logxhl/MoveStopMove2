@@ -20,7 +20,7 @@ public class CircleAroundPlayer : MonoBehaviour
         DrawCircle();
     }
 
-    void DrawCircle()
+    public void DrawCircle()
     {
         float angle = 0f;
         for (int i = 0; i < segments; i++)

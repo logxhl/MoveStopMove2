@@ -47,38 +47,6 @@ public class WeaponAttack : MonoBehaviour
 
     void Update()
     {
-        //if(coinText != null && coinSystem != null && gameObject.CompareTag("Player"))
-        //{
-        //    coinText.text = coinSystem.GetCoin().ToString();
-        //} 
-
-        //if (canAttack && attackCooldown <= 0f)
-        //{
-        //    Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
-        //    foreach (Collider hit in hits)
-        //    {
-        //        if (hit.gameObject == playerTransform.gameObject) continue; 
-        //        if (!hit.gameObject.activeSelf) continue;  
-
-
-        //        if (hit.CompareTag(Params.BotTag) || hit.CompareTag(Params.PlayerTag))
-        //        {
-        //            playerTransform.LookAt(hit.transform);
-
-        //            //Debug.Log(hit.name + " bị attack!");
-
-        //            if (animationController != null)
-        //            {
-        //                animationController.OnAttack += () => FireProjectile(hit);
-
-        //                animationController.SetAttackAnimation();
-        //            }
-
-        //            attackCooldown = maxAttackCooldown;
-        //            break;
-        //        }
-        //    }
-        //}
         if (canAttack && attackCooldown <= 0f)
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
@@ -117,7 +85,7 @@ public class WeaponAttack : MonoBehaviour
                         targetHighLight.ShowCircle(isPlayerAttacking);
                         lastTargetHighLight = targetHighLight;
                     }
-                                      
+
 
                     playerTransform.LookAt(neasrest.transform);
                     if (animationController != null)
@@ -181,9 +149,20 @@ public class WeaponAttack : MonoBehaviour
     {
         return attackRadius;
     }
-
+    public void SetAttackRadius(float radius)
+    {
+        attackRadius = radius;
+    }
     public LayerMask GetTargetLayer()
     {
         return targetLayer;
+    }
+    public void SetThrowOrigin(Vector3 throwOr)
+    {
+        throwOrigin.transform.position = throwOr;
+    }
+    public Transform GetThrowOrigin()
+    {
+        return throwOrigin;
     }
 }

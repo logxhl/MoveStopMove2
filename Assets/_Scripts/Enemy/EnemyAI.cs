@@ -135,6 +135,10 @@ public class EnemyAI : MonoBehaviour
         moveTimer = 0f;
         wanderTimer = 0f;
     }
+    public void SetDefault()
+    {
+
+    }
 
     public bool HasListeners()
     {
