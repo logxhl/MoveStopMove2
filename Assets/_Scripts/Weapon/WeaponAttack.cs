@@ -24,6 +24,7 @@ public class WeaponAttack : MonoBehaviour
 
 
     private bool canAttack = false;
+    private bool isDead = false;
 
     //[SerializeField] private CoinSystem coinSystem;
     //public CoinSystem GetCoinSystem => coinSystem;
@@ -51,27 +52,10 @@ public class WeaponAttack : MonoBehaviour
         {
             Debug.LogWarning("PoolManager không có child!");
         }
-    }
-    public Transform GetThrowOrigin()
-    {
-        return throwOrigin;
-    }
-
-    // Đẩy throwOrigin ra xa hơn
-    public void PushThrowOrigin(float distance)
-    {
-        throwOrigin.localPosition = defaultLocalPos + new Vector3(0, 0, distance);
-    }
-
-    // Reset về mặc định (ngay trước mặt Player)
-    public void ResetThrowOrigin()
-    {
-        throwOrigin.localPosition = defaultLocalPos;
-    }
-
+    }    
     void Update()
     {
-        if (canAttack && attackCooldown <= 0f)
+        if (!isDead && canAttack && attackCooldown <= 0f)
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, attackRadius, targetLayer);
             if (hits.Length > 0)
@@ -140,6 +124,19 @@ public class WeaponAttack : MonoBehaviour
             }
         }
     }
+    public void SetDead(bool dead)
+    {
+        isDead = dead;
+        if(dead)
+        {
+            canAttack = false;
+            if(lastTargetHighLight != null)
+            {
+                lastTargetHighLight.ShowCircle(false);
+                lastTargetHighLight = null;
+            }
+        }
+    }
 
     public void SetCanAttack(bool can)
     {
@@ -185,4 +182,21 @@ public class WeaponAttack : MonoBehaviour
     {
         throwOrigin.transform.position = throwOr;
     }
+    public Transform GetThrowOrigin()
+    {
+        return throwOrigin;
+    }
+
+    // Đẩy throwOrigin ra xa hơn
+    public void PushThrowOrigin(float distance)
+    {
+        throwOrigin.localPosition = defaultLocalPos + new Vector3(0, 0, distance);
+    }
+
+    // Reset về mặc định (ngay trước mặt Player)
+    public void ResetThrowOrigin()
+    {
+        throwOrigin.localPosition = defaultLocalPos;
+    }
+
 }
