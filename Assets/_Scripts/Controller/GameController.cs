@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         instance = this;
+        PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
         //textCoin.text = coin.ToString();
     }
 
