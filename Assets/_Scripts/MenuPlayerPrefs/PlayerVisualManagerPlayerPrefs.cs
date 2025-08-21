@@ -12,6 +12,9 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
     [SerializeField] private Renderer pantRenderer;
     [SerializeField] private List<Material> pantMaterials;
 
+    //[SerializeField] private List<FullSetInfo> fullSets;
+    //[SerializeField] private Renderer[] setFullRenderers;
+
     public static PlayerVisualManagerPlayerPrefs instance;
 
     private void Awake()
@@ -25,6 +28,9 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
         int equippedHair = PlayerPrefs.GetInt("EquippedHair", -1);
         int equippedShield = PlayerPrefs.GetInt("EquippedShield", -1);
         int equippedPant = PlayerPrefs.GetInt("EquippedPant", -1);
+        Debug.Log("hair: " + equippedHair);
+        Debug.Log("pant: " + equippedPant);
+        Debug.Log("shield: " + equippedShield);
 
         ShowItem(hairs, equippedHair);
         ShowItem(shields, equippedShield);
@@ -44,6 +50,10 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
         for (int i = 0; i < list.Count; i++)
         {
             list[i].SetActive(i == index && index >= 0);
+            if(i == index)
+            {
+                Debug.Log(list[i].name);
+            }
         }
     }
 }

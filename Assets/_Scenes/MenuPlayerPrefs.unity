@@ -8980,7 +8980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &664396385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9671,6 +9671,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 238681329}
+        m_TargetAssemblyTypeName: PricePant, Assembly-CSharp
+        m_MethodName: OnBuyBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &698913022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10226,11 +10238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2832575465678930469, guid: 01f11dc00bb0ea343950bbce3cbfbdd9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 2832575465678930469, guid: 01f11dc00bb0ea343950bbce3cbfbdd9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.450238
+      value: -0.34
       objectReference: {fileID: 0}
     - target: {fileID: 2832575465678930469, guid: 01f11dc00bb0ea343950bbce3cbfbdd9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16927,7 +16939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1177867742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20335,15 +20347,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6922490038938714872, guid: af45b6ec5b1341241a2bbd1b555bb605, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 6922490038938714872, guid: af45b6ec5b1341241a2bbd1b555bb605, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.48
+      value: -0.43
       objectReference: {fileID: 0}
     - target: {fileID: 6922490038938714872, guid: af45b6ec5b1341241a2bbd1b555bb605, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6922490038938714872, guid: af45b6ec5b1341241a2bbd1b555bb605, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26300,15 +26312,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7159086036297172412, guid: 76d3910b8719fdc48aca3610ebb390f3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 7159086036297172412, guid: 76d3910b8719fdc48aca3610ebb390f3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.41
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 7159086036297172412, guid: 76d3910b8719fdc48aca3610ebb390f3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.424
+      value: -2.42
       objectReference: {fileID: 0}
     - target: {fileID: 7159086036297172412, guid: 76d3910b8719fdc48aca3610ebb390f3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -28433,8 +28445,8 @@ Transform:
   - {fileID: 1502582345}
   - {fileID: 1688291108}
   - {fileID: 743149244}
-  - {fileID: 2135675212}
   - {fileID: 2023113372}
+  - {fileID: 2135675212}
   - {fileID: 1515401632}
   - {fileID: 988219781}
   - {fileID: 1187657964}

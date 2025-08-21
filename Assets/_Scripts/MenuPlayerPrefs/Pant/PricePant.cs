@@ -33,7 +33,7 @@ public class PricePant : MonoBehaviour
     }
     private void Update()
     {
-        int indBtn = PlayerPrefs.GetInt("SelectHairBtn", -1);
+        int indBtn = PlayerPrefs.GetInt("SelectPantBtn", -1);
         if (layerBtn == indBtn)
         {
             txtSelect.text = "Equipped";
@@ -69,7 +69,7 @@ public class PricePant : MonoBehaviour
             PlayerPrefs.Save();
 
 
-            PlayerPrefs.SetInt("Hair_" + layerBtn, 1);
+            PlayerPrefs.SetInt("Pant_" + layerBtn, 1);
             Debug.Log("Mua thành công! Xu còn lại: " + playerCoin);
             btnBuy.SetActive(false);
             btnAds.SetActive(false);
@@ -82,7 +82,7 @@ public class PricePant : MonoBehaviour
     }
     public void SetDefaulBtn(int ind)
     {
-        int selectInd = PlayerPrefs.GetInt("Hair_" + ind, 0);
+        int selectInd = PlayerPrefs.GetInt("Pant_" + ind, 0);
         if (selectInd == 1)
         {
             btnSelect.SetActive(true);
@@ -100,7 +100,7 @@ public class PricePant : MonoBehaviour
     {
         if (txtSelect.text == "SELECT")
         {
-            PlayerPrefs.SetInt("SelectHairBtn", layerBtn);
+            PlayerPrefs.SetInt("SelectPantBtn", layerBtn);
             txtSelect.text = "Equipped";
             btnSelect.GetComponent<Image>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
         }
