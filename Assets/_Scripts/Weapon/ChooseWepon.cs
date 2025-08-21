@@ -37,6 +37,10 @@ public class ChooseWepon : MonoBehaviour
 
     //Danh sach da mua
     private HashSet<int> ownedSet = new HashSet<int>();
+
+    [SerializeField] private GameObject panelItemSelect;
+    [SerializeField] private List<Button> btnSelect;
+    private bool isBought = false;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -105,16 +109,96 @@ public class ChooseWepon : MonoBehaviour
         //UpdateBuyBtnUI();
     }
 
+    //public void UpdateWeapon(int count)
+    //{
+    //    nameWeapon.text = weaponData.GetWeapon(count).nameWepon;
+    //    unLock.text = weaponData.GetWeapon(count).unlock;
+    //    damage.text = weaponData.GetWeapon(count).damage;
+    //    imgWeapon.sprite = weaponData.GetWeapon(count).spite[0];
+    //    coin.text = weaponData.GetWeapon(count).coin.ToString();
+    //    if(isBought)
+    //    {
+    //        panelItemSelect.SetActive(true);
+    //        for(int i = 0; i < btnSelect.Count; i++)
+    //        {
+    //            btnSelect[i].GetComponentInChildren<Image>().sprite = weaponData.weapon[i].spite[i];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        panelItemSelect.SetActive(false);
+    //    }
+
+    //    UpdateBuyBtnUI();
+    //}
     public void UpdateWeapon(int count)
     {
-        nameWeapon.text = weaponData.GetWeapon(count).nameWepon;
-        unLock.text = weaponData.GetWeapon(count).unlock;
-        damage.text = weaponData.GetWeapon(count).damage;
-        imgWeapon.sprite = weaponData.GetWeapon(count).spite;
-        coin.text = weaponData.GetWeapon(count).coin.ToString();
+        Weapon currentWp = weaponData.GetWeapon(count);
+
+        nameWeapon.text = currentWp.nameWepon;
+        unLock.text = currentWp.unlock;
+        damage.text = currentWp.damage;
+        imgWeapon.sprite = currentWp.spite[0]; // sprite mặc định
+        coin.text = currentWp.coin.ToString();
+
+        // Nếu đã mua thì bật panel skin + điền sprite vào nút
+        if (ownedSet.Contains(count))  // hoặc if (isBought)
+        {
+            panelItemSelect.SetActive(true);
+
+            for (int i = 0; i < btnSelect.Count; i++)
+            {
+                if (i < currentWp.spite.Length)
+                {
+                    // Hiện nút và gán sprite
+                    btnSelect[i].gameObject.SetActive(true);
+                    Image childImg = btnSelect[i].transform.Find("Image").GetComponent<Image>();
+                    childImg.sprite = currentWp.spite[i];
+                    // Xóa listener cũ và add listener mới để chọn skin
+                    int index = i; // cần biến local tránh lỗi closure
+                    btnSelect[i].onClick.RemoveAllListeners();
+                    btnSelect[i].onClick.AddListener(() =>
+                    {
+                        OnSelectSkin(index, currentWp);
+                    });
+                }
+                else
+                {
+                    // Ẩn nút nếu không có sprite tương ứng
+                    btnSelect[i].gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            panelItemSelect.SetActive(false);
+        }
 
         UpdateBuyBtnUI();
     }
+    private void OnSelectSkin(int spriteIndex, Weapon weapon)
+    {
+        // đổi sprite chính trên UI
+        imgWeapon.sprite = weapon.spite[spriteIndex];
+
+        // Đổi màu vũ khí trong game (nếu weaponPrefab có MeshRenderer)
+        if (currentWeapon != null)
+        {
+            var renderer = currentWeapon.GetComponentInChildren<Renderer>();
+            if (renderer != null)
+            {
+                // Ví dụ: đổi màu theo index
+                switch (spriteIndex)
+                {
+                    case 0: renderer.material.color = Color.red; break;
+                    case 1: renderer.material.color = Color.gray; break;
+                    case 2: renderer.material.color = Color.green; break;
+                    case 3: renderer.material.color = Color.blue; break;
+                }
+            }
+        }
+    }
+
 
     private void EquipWeapon(int index)
     {
@@ -219,6 +303,7 @@ public class ChooseWepon : MonoBehaviour
             btnBuyCoinImg.color = equipColor;
             textBuyCoin.text = "    EQUIPPED";
             if (imgCoin != null) imgCoin.gameObject.SetActive(false);
+            isBought = true;
         }
         else if (ownedSet.Contains(count))
         {
@@ -226,6 +311,7 @@ public class ChooseWepon : MonoBehaviour
             btnBuyCoinImg.color = ownedColor;
             textBuyCoin.text = "    EQUIP";
             if (imgCoin != null) imgCoin.gameObject.SetActive(false);
+            isBought = true;
         }
         else
         {
@@ -233,6 +319,7 @@ public class ChooseWepon : MonoBehaviour
             btnBuyCoinImg.color = Color.green;
             textBuyCoin.text = weaponData.GetWeapon(count).coin.ToString();
             if (imgCoin != null) imgCoin.gameObject.SetActive(true);
+            isBought = false;
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon
 {
     public string nameWepon;
-    public Sprite spite;
+    public Sprite[] spite;
     public string unlock;
     public string damage;
     public int coin;
