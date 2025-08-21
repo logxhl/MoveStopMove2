@@ -65,9 +65,10 @@ public class SpawnEnemy : MonoBehaviour
             canSpawn = false;
             CancelInvoke(nameof(SpawnEnemyPrefab));
             return;
-        }
+        }        
         Vector3 randomPos = GetRandomPosition();
-        Instantiate(enemyPrefab, randomPos, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
+        EnemyIndicatorManager.instance.RegisterEnemy(enemy.transform);
         spawnCount++;
         //totalAliveCharacters++;
         UpDateAliveUI();

@@ -129,6 +129,7 @@ public class EnemyAI : MonoBehaviour
 
         OnDie?.Invoke();
         SpawnEnemy.Instance?.NotifyCharacterDied(false);
+        EnemyIndicatorManager.instance.UnregisterEnemy(transform);
         //gameObject.SetActive(false);
         Invoke(nameof(SetDeactiveGameObj), 2f);
     }

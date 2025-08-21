@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyIndicatorManager : MonoBehaviour
 {
+    public static EnemyIndicatorManager instance;
     [Header("Setup")]
     public Camera mainCam;
     public RectTransform indicatorsParent;
@@ -14,6 +15,15 @@ public class EnemyIndicatorManager : MonoBehaviour
     public float edgeOffset = 50f;
     private Dictionary<Transform, RectTransform> enemyIndi = new Dictionary<Transform, RectTransform>();
 
+    private void Awake()
+    {
+        if(instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
     public void RegisterEnemy(Transform enemy)
     {
         if (enemyIndi.ContainsKey(enemy)) return;
