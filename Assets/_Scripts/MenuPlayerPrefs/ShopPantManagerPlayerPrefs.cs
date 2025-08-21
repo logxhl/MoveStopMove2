@@ -15,7 +15,13 @@ public class ShopPantManagerPlayerPrefs : MonoBehaviour
     private void OnEnable()
     {
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
+        //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
+        //PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
         previewInd = -1;
+    }
+    private void OnDisable()
+    {
+        PlayerVisualManagerPlayerPrefs.instance.SaveCurrentState();
     }
     private void Start()
     {
@@ -35,6 +41,7 @@ public class ShopPantManagerPlayerPrefs : MonoBehaviour
         {
             PlayerPrefs.SetInt(key, 1);
         }
+        PlayerPrefs.SetInt("EquippedSetFull", -1);
         PlayerPrefs.SetInt("EquippedPant", previewInd);
         PlayerPrefs.Save();
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
@@ -42,6 +49,7 @@ public class ShopPantManagerPlayerPrefs : MonoBehaviour
 
     private void PreviewPant(int ind)
     {
+        PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewInd = ind;
         ShowPant(ind);
     }

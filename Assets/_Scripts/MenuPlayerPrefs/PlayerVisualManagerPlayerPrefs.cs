@@ -68,6 +68,8 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
         savedHair = PlayerPrefs.GetInt("EquippedHair", -1);
         savedShield = PlayerPrefs.GetInt("EquippedShield", -1);
         savedPant = PlayerPrefs.GetInt("EquippedPant", -1);
+        //PlayerPrefs.SetInt("EquippedSetFull", -1);
+
 
         //if (setFullRenderers.Length > 0 && setFullRenderers[0] != null)
         //    savedPantMaterial = setFullRenderers[0].material;
@@ -78,6 +80,7 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
 
     public void RestoreSavedState()
     {
+
         // load lại dữ liệu đã lưu
         ShowItem(hairs, savedHair);
         ShowItem(shields, savedShield);
@@ -99,7 +102,7 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
     }
 
 
-    private void ShowFullSet(int equippedSetFull)
+    public void ShowFullSet(int equippedSetFull)
     {
         for(int i = 0; i < fullSets.Count; i++)
         {
@@ -120,6 +123,10 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
             {
                 setFullRenderers[1].material = fullSets[equippedSetFull].initialFull;
             }
+        }
+        if(equippedSetFull == -1)
+        {
+            setFullRenderers[1].material = defaultInitialMaterial;
         }
     }
 

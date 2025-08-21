@@ -11,17 +11,19 @@ public class ShopSetFullManager : MonoBehaviour
     [SerializeField] private Renderer[] setFullRenderer;
     [SerializeField] private Button buyButton;
     private int previewInd = -1;
-
+    //private int equippedPreviewSetFull = -1;
     private void OnEnable()
     {
         PlayerVisualManagerPlayerPrefs.instance.SaveCurrentState();
-        PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
+        PlayerVisualManagerPlayerPrefs.instance.HideAllSingleItems();
+        //PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
         previewInd = -1;
     }
-    private void OnDisable()
-    {
-        PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
-    }
+
+    //private void OnDisable()
+    //{
+    //    PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
+    //}
     private void Start()
     {
         for (int i = 0; i < setFullBtns.Count; i++)
@@ -54,6 +56,10 @@ public class ShopSetFullManager : MonoBehaviour
         PlayerPrefs.Save();
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
     }
+
+
+
+
 
     private void PreviewSetFull(int ind)
     {

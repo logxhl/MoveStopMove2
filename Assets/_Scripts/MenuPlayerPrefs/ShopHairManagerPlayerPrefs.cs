@@ -14,9 +14,14 @@ public class ShopHairManagerPlayerPrefs : MonoBehaviour
     private void OnEnable()
     {
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
+        //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
+        //PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
         previewIndex = -1;
     }
-
+    private void OnDisable()
+    {
+        PlayerVisualManagerPlayerPrefs.instance.SaveCurrentState();
+    }
     private void Start()
     {
         for (int i = 0; i < hairBtns.Count; i++)
@@ -30,6 +35,7 @@ public class ShopHairManagerPlayerPrefs : MonoBehaviour
 
     private void PreviewHair(int ind)
     {
+        PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewIndex = ind;
         ShowHair(ind);
         Debug.Log("Preview hair: " + ind);
@@ -47,7 +53,12 @@ public class ShopHairManagerPlayerPrefs : MonoBehaviour
             Debug.Log("Đã mua hair: " + previewIndex);
         }
 
+        // Gỡ setfull khi chọn item lẻ
+        PlayerPrefs.SetInt("EquippedSetFull", -1);
+
+        // Trang bị tóc vừa mua
         PlayerPrefs.SetInt("EquippedHair", previewIndex);
+
         PlayerPrefs.Save();
 
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();

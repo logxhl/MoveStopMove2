@@ -15,9 +15,14 @@ public class ShopShieldManagerPlayerPrefs : MonoBehaviour
     {
         // reset về đúng shield đã equip
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
+        //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
+        //PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
         previewIndex = -1;
     }
-
+    private void OnDisable()
+    {
+        PlayerVisualManagerPlayerPrefs.instance.SaveCurrentState();
+    }
     private void Start()
     {
         for (int i = 0; i < shieldBtns.Count; i++)
@@ -31,6 +36,7 @@ public class ShopShieldManagerPlayerPrefs : MonoBehaviour
 
     private void PreviewShield(int ind)
     {
+        PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewIndex = ind;
         ShowShield(ind); // chỉ preview
         Debug.Log("Preview shield: " + ind);
@@ -48,7 +54,8 @@ public class ShopShieldManagerPlayerPrefs : MonoBehaviour
             PlayerPrefs.SetInt(key, 1);
             Debug.Log("Đã mua shield: " + previewIndex);
         }
-
+        // Gỡ setfull khi chọn item lẻ
+        PlayerPrefs.SetInt("EquippedSetFull", -1);
         // mặc luôn
         PlayerPrefs.SetInt("EquippedShield", previewIndex);
         PlayerPrefs.Save();
