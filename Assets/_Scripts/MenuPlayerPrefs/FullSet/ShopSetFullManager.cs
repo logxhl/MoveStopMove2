@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +14,17 @@ public class ShopSetFullManager : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerVisualManagerPlayerPrefs.instance.SaveCurrentState();
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
         previewInd = -1;
     }
+    private void OnDisable()
+    {
+        PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
+    }
     private void Start()
     {
-        for(int i = 0; i < setFullBtns.Count; i++)
+        for (int i = 0; i < setFullBtns.Count; i++)
         {
             int ind = i;
             setFullBtns[i].onClick.AddListener(() => PreviewSetFull(ind));
@@ -30,13 +35,22 @@ public class ShopSetFullManager : MonoBehaviour
     private void BuySetFull()
     {
         if (previewInd < 0) return;
+
         string key = "PurchasedSetFull_" + previewInd;
-        if(PlayerPrefs.GetInt(key, 0) == 0)
+        if (PlayerPrefs.GetInt(key, 0) == 0)
         {
             PlayerPrefs.SetInt(key, 1);
-            Debug.Log("Da mua hair: " + previewInd);
+            Debug.Log("Đã mua setfull: " + previewInd);
         }
+
         PlayerPrefs.SetInt("EquippedSetFull", previewInd);
+        //PlayerPrefs.SetInt("EquippedSetFull", -1);
+
+        // gỡ các item lẻ khi đã chọn fullset
+        PlayerPrefs.SetInt("EquippedHair", -1);
+        PlayerPrefs.SetInt("EquippedPant", -1);
+        PlayerPrefs.SetInt("EquippedShield", -1);
+
         PlayerPrefs.Save();
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
     }
@@ -50,13 +64,20 @@ public class ShopSetFullManager : MonoBehaviour
 
     private void ShowSetFull(int ind)
     {
-        for(int i = 0; i < fullSets.Count; i++)
+        // Ẩn toàn bộ đồ lẻ khi preview
+        PlayerVisualManagerPlayerPrefs.instance.HideAllSingleItems();
+
+        // Bật đúng fullset đang preview
+        for (int i = 0; i < fullSets.Count; i++)
         {
-            fullSets[i].hairFull.SetActive(i == ind);
-            fullSets[i].shieldFull.SetActive(i == ind);
-            fullSets[i].tailFull.SetActive(i == ind);
-            fullSets[i].wingFull.SetActive(i == ind);
+            bool active = (i == ind);
+            fullSets[i].hairFull.SetActive(active);
+            fullSets[i].shieldFull.SetActive(active);
+            fullSets[i].tailFull.SetActive(active);
+            fullSets[i].wingFull.SetActive(active);
         }
+
+        // Đổi material pant & body
         if (ind >= 0 && ind < fullSets.Count)
         {
             if (setFullRenderer.Length > 0 && setFullRenderer[0] != null)
