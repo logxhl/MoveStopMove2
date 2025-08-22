@@ -15389,6 +15389,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -5962739989046815547, guid: eaac1b510d9c20940ac729deb704dc59, type: 3}
     - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: weaponData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dc3f182f5357c8478988eeee1045894, type: 2}
+    - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: currentPant
       value: 
       objectReference: {fileID: 4569791686131516184}

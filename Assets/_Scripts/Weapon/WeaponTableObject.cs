@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponTableObject : ScriptableObject
 {
     public Weapon[] weapon;
+    public MaterialOfHammer[] listMaterials;
     public int GetCountWeapon()
     {
         return weapon.Length;

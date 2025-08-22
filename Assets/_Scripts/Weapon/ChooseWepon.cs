@@ -39,8 +39,11 @@ public class ChooseWepon : MonoBehaviour
     private HashSet<int> ownedSet = new HashSet<int>();
 
     [SerializeField] private GameObject panelItemSelect;
-    [SerializeField] private List<Button> btnSelect;
+    [SerializeField] private GameObject[] btnSelect;
     private bool isBought = false;
+    public int indexWp;
+    private int tempSelectedSkin = 0; // skin vừa chọn nhưng chưa equip
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -85,7 +88,76 @@ public class ChooseWepon : MonoBehaviour
             }
         }
         EquipWeapon(count);
+        SetMaterial();
+
+        // Gán listener cho các nút chọn skin
+        for (int i = 0; i < btnSelect.Length; i++)
+        {
+            int index = i;
+            btnSelect[index].GetComponent<Button>().onClick.RemoveAllListeners();
+            btnSelect[index].GetComponent<Button>().onClick.AddListener(() =>
+            {
+                OnSelectSkin(index, weaponData.GetWeapon(count));
+            });
+        }
     }
+
+    public void SetMaterial()
+    {
+        Weapon wp = weaponData.GetWeapon(count);
+        if (ownedSet.Contains(count))
+        {
+            int indMaterial = PlayerPrefs.GetInt("MaterialOfWp" + count);
+            MeshRenderer meshRenderer = currentWeapon.GetComponent<MeshRenderer>();
+            Material[] mats = meshRenderer.materials;
+            int max = Mathf.Min(
+mats.Length,
+weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
+);
+
+            for (int i = 0; i < max; i++)
+            {
+                mats[i] = weaponData.listMaterials[count].materialOfHammer[indMaterial].materials[i];
+            }
+
+            meshRenderer.materials = mats;
+
+        }
+    }
+
+    /// <summary>
+    /// Reset toàn bộ nút skin rồi set nút equip
+    /// </summary>
+    public void SetButtonMaterial(int equippedIndex)
+    {
+        for (int i = 0; i < btnSelect.Length; i++)
+        {
+            if (!btnSelect[i].activeSelf) continue;
+
+            //var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
+            //txt.text = (i == equippedIndex) ? "Equipped" : "Select";
+
+            var txt = btnSelect[i].GetComponentInChildren<TextMeshProUGUI>();
+            if (txt != null)
+            {
+                if (i == equippedIndex)
+                    txt.text = "Equipped"; // đã chọn
+                else
+                    txt.text = "Equip";    // chưa chọn
+            }
+        }
+    }
+
+    //public void SaveButtonMaterial()
+    //{
+    //    Weapon wp = weaponData.GetWeapon(count);
+    //    if (ownedSet.Contains(count))
+    //    {
+    //        int indMaterial = PlayerPrefs.GetInt("MaterialOfWp" + count);
+    //        PlayerPrefs.SetInt("ButtonOfMaterial" + count, indMaterial);
+    //    }
+    //}
+
 
     public void NextButton()
     {
@@ -109,28 +181,6 @@ public class ChooseWepon : MonoBehaviour
         //UpdateBuyBtnUI();
     }
 
-    //public void UpdateWeapon(int count)
-    //{
-    //    nameWeapon.text = weaponData.GetWeapon(count).nameWepon;
-    //    unLock.text = weaponData.GetWeapon(count).unlock;
-    //    damage.text = weaponData.GetWeapon(count).damage;
-    //    imgWeapon.sprite = weaponData.GetWeapon(count).spite[0];
-    //    coin.text = weaponData.GetWeapon(count).coin.ToString();
-    //    if(isBought)
-    //    {
-    //        panelItemSelect.SetActive(true);
-    //        for(int i = 0; i < btnSelect.Count; i++)
-    //        {
-    //            btnSelect[i].GetComponentInChildren<Image>().sprite = weaponData.weapon[i].spite[i];
-    //        }
-    //    }
-    //    else
-    //    {
-    //        panelItemSelect.SetActive(false);
-    //    }
-
-    //    UpdateBuyBtnUI();
-    //}
     public void UpdateWeapon(int count)
     {
         Weapon currentWp = weaponData.GetWeapon(count);
@@ -146,7 +196,7 @@ public class ChooseWepon : MonoBehaviour
         {
             panelItemSelect.SetActive(true);
 
-            for (int i = 0; i < btnSelect.Count; i++)
+            for (int i = 0; i < btnSelect.Length; i++)
             {
                 if (i < currentWp.spite.Length)
                 {
@@ -156,8 +206,8 @@ public class ChooseWepon : MonoBehaviour
                     childImg.sprite = currentWp.spite[i];
                     // Xóa listener cũ và add listener mới để chọn skin
                     int index = i; // cần biến local tránh lỗi closure
-                    btnSelect[i].onClick.RemoveAllListeners();
-                    btnSelect[i].onClick.AddListener(() =>
+                    btnSelect[i].GetComponent<Button>().onClick.RemoveAllListeners();
+                    btnSelect[i].GetComponent<Button>().onClick.AddListener(() =>
                     {
                         OnSelectSkin(index, currentWp);
                     });
@@ -180,23 +230,13 @@ public class ChooseWepon : MonoBehaviour
     {
         // đổi sprite chính trên UI
         imgWeapon.sprite = weapon.spite[spriteIndex];
+        // Lưu tạm index vào biến chứ không PlayerPrefs
+        tempSelectedSkin = spriteIndex;
 
-        // Đổi màu vũ khí trong game (nếu weaponPrefab có MeshRenderer)
-        if (currentWeapon != null)
-        {
-            var renderer = currentWeapon.GetComponentInChildren<Renderer>();
-            if (renderer != null)
-            {
-                // Ví dụ: đổi màu theo index
-                switch (spriteIndex)
-                {
-                    case 0: renderer.material.color = Color.red; break;
-                    case 1: renderer.material.color = Color.gray; break;
-                    case 2: renderer.material.color = Color.green; break;
-                    case 3: renderer.material.color = Color.blue; break;
-                }
-            }
-        }
+        // chỉ đổi trạng thái nút btnBuyCoin thành "Equip" chứ chưa lưu
+        var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
+        if (txt != null)
+            txt.text = "Equip";
     }
 
 
@@ -239,12 +279,16 @@ public class ChooseWepon : MonoBehaviour
     }
     public void OnBuyOrEquip()
     {
-        //Neu da mua => chi trang bi
-        if (ownedSet.Contains(count))
+        if (ownedSet.Contains(count)) // đã mua
         {
             PlayerPrefs.SetInt(LoadWeaponKey, count);
+            PlayerPrefs.SetInt("MaterialOfWp" + count, tempSelectedSkin); // lưu skin đã chọn khi equip
             PlayerPrefs.Save();
-            EquipWeapon(count);
+
+            EquipWeapon(count);    // đổi weapon prefab
+            SetMaterial();         // áp dụng material thật
+            SetButtonMaterial(tempSelectedSkin); // đổi nút sang trạng thái equip
+
             UpdateBuyBtnUI();
             return;
         }
@@ -263,9 +307,12 @@ public class ChooseWepon : MonoBehaviour
 
             //Trang bi luon
             PlayerPrefs.SetInt(LoadWeaponKey, count);
+            PlayerPrefs.SetInt("MaterialOfWp" + count, tempSelectedSkin);
             PlayerPrefs.Save();
 
             EquipWeapon(count);
+            SetMaterial();
+            SetButtonMaterial(tempSelectedSkin);
             UpdateBuyBtnUI();
             Debug.Log("Mua thanh cong, coin con lai: " + playerCoin);
         }

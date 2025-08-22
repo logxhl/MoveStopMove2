@@ -647,10 +647,11 @@ MonoBehaviour:
   imgCoin: {fileID: 1865841332}
   panelItemSelect: {fileID: 1461524281}
   btnSelect:
-  - {fileID: 1560327535}
-  - {fileID: 239373259}
-  - {fileID: 1572464573}
-  - {fileID: 678494162}
+  - {fileID: 1560327533}
+  - {fileID: 239373257}
+  - {fileID: 1572464571}
+  - {fileID: 678494160}
+  indexWp: 0
 --- !u!4 &92689450
 Transform:
   m_ObjectHideFlags: 0
@@ -2521,7 +2522,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 239373260}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 239373257}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &239373260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9666,7 +9679,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 678494163}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 678494160}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &678494163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21809,7 +21834,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1560327536}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1560327533}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1560327536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22184,7 +22221,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1572464574}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1572464571}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1572464574
 MonoBehaviour:
   m_ObjectHideFlags: 0
