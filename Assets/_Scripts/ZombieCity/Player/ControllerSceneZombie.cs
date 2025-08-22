@@ -19,6 +19,7 @@ public class ControllerSceneZombie : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 0f;
         instance = this;
         //textCoin.text = coin.ToString();
     }
@@ -67,6 +68,10 @@ public class ControllerSceneZombie : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0f;
+    }
+    public void UnPause()
+    {
+        Time.timeScale = 1f;
     }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -26,10 +27,7 @@ public class WeaponAttack : MonoBehaviour
     private bool canAttack = false;
     private bool isDead = false;
 
-    //[SerializeField] private CoinSystem coinSystem;
-    //public CoinSystem GetCoinSystem => coinSystem;
-
-    //[SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private bool specialDoubleThrow = false;
 
 
     private void Awake()
@@ -52,7 +50,7 @@ public class WeaponAttack : MonoBehaviour
         {
             Debug.LogWarning("PoolManager không có child!");
         }
-    }    
+    }
     void Update()
     {
         if (!isDead && canAttack && attackCooldown <= 0f)
@@ -127,10 +125,10 @@ public class WeaponAttack : MonoBehaviour
     public void SetDead(bool dead)
     {
         isDead = dead;
-        if(dead)
+        if (dead)
         {
             canAttack = false;
-            if(lastTargetHighLight != null)
+            if (lastTargetHighLight != null)
             {
                 lastTargetHighLight.ShowCircle(false);
                 lastTargetHighLight = null;
@@ -150,10 +148,33 @@ public class WeaponAttack : MonoBehaviour
         Vector3 direction = new Vector3(collider.transform.position.x, 0, collider.transform.position.z) - new Vector3(throwOrigin.position.x, 0, throwOrigin.position.z);
         Vector3 dir = direction.normalized;
 
-        var projectile = Instantiate(currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(), throwOrigin.position, currentWeapon.modelPrefab.transform.rotation, weaponInstantiateTransform);
+        //Nem vu khi thu nhat
+        ThrowOneProjectile(collider, dir, Vector3.zero);
+        SFXManager.Instance.PlayAttack();
+        if(specialDoubleThrow)
+        {
+            StartCoroutine(ThrowSecondProjectileAfterDelay(collider, dir, 0.1f));
+        }
+    }
+
+    private void ThrowOneProjectile(Collider collider, Vector3 dir, Vector3 offset)
+    {
+        var projectile = Instantiate(
+            currentWeapon.modelPrefab.GetComponent<WeaponProjectile>(),
+            throwOrigin.position + offset,
+            currentWeapon.modelPrefab.transform.rotation,
+            weaponInstantiateTransform
+        );
         projectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);
+    }
+    private IEnumerator ThrowSecondProjectileAfterDelay(Collider collider, Vector3 dir, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Vector3 offset = new Vector3(0.3f, 0, 0);
+        ThrowOneProjectile(collider, dir, offset);
         SFXManager.Instance.PlayAttack();
     }
+
 
     private void OnDrawGizmosSelected()
     {
@@ -197,6 +218,10 @@ public class WeaponAttack : MonoBehaviour
     public void ResetThrowOrigin()
     {
         throwOrigin.localPosition = defaultLocalPos;
+    }
+    public void SetSpecialDoubleThrow(bool active)
+    {
+        specialDoubleThrow = active;
     }
 
 }

@@ -16,6 +16,7 @@ public class PlayerSceneZombie : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI coinDeadScene;
     [SerializeField] private ParticleSystem particleUpScale;
+    [SerializeField] private WeaponTableObject weaponData;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -56,20 +57,7 @@ public class PlayerSceneZombie : MonoBehaviour
     void Update()
     {
         //GetPant();
-        int index = PlayerPrefs.GetInt("LoadWeapon");
-        for (int i = 0; i < listWeapon.weaponList.Length; i++)
-        {
-            if (index == listWeapon.weaponList[i].index)
-            {
-                currentWeapon.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
-                projectile.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
-                if (listWeapon.weaponList[i].isRotate)
-                {
-                    projectile.checkRotate = true;
-                }
-                else projectile.checkRotate = false;
-            }
-        }
+        ChangeWeapon();
         dir = joystick.inputDir; // Lấy hướng từ joystick
         move = new Vector3(dir.x, 0, dir.y);
 
@@ -114,6 +102,59 @@ public class PlayerSceneZombie : MonoBehaviour
         //{
         //    animationController.SetUltiAnimation();
         //}
+    }
+    private void ChangeWeapon()
+    {
+        int indexWp = PlayerPrefs.GetInt("LoadWeapon", 0);
+        int indMaterial = PlayerPrefs.GetInt("MaterialOfWp" + indexWp, 0);
+
+        // Kiểm tra indexWp có hợp lệ không
+        if (indexWp < 0 || indexWp >= weaponData.listMaterials.Length)
+        {
+            Debug.LogError($"❌ indexWp={indexWp} vượt quá giới hạn weaponData.listMaterials.Length={weaponData.listMaterials.Length}");
+            return;
+        }
+
+        if (indMaterial < 0 || indMaterial >= weaponData.listMaterials[indexWp].materialOfHammer.Length)
+        {
+            Debug.LogError($"❌ indMaterial={indMaterial} vượt quá giới hạn materialOfHammer.Length={weaponData.listMaterials[indexWp].materialOfHammer.Length}");
+            return;
+        }
+
+        MeshRenderer meshRenderer = currentWeapon.GetComponent<MeshRenderer>();
+        MeshRenderer meshProjectile = projectile.GetComponent<MeshRenderer>();
+
+        Material[] mats = meshRenderer.materials;
+        Material[] matsOfBullet = meshProjectile.sharedMaterials;
+
+        for (int i = 0; i < listWeapon.weaponList.Length; i++)
+        {
+            if (indexWp == listWeapon.weaponList[i].index)
+            {
+                // Set mesh
+                currentWeapon.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
+                projectile.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
+
+                // Lấy số lượng material hợp lệ
+                Material[] srcMats = weaponData.listMaterials[indexWp].materialOfHammer[indMaterial].materials;
+
+                // Số lượng material hợp lệ nhỏ nhất
+                int matCount = Mathf.Min(mats.Length, matsOfBullet.Length, srcMats.Length);
+
+                for (int j = 0; j < matCount; j++)
+                {
+                    mats[j] = srcMats[j];
+                    matsOfBullet[j] = srcMats[j];
+                }
+
+                meshRenderer.materials = mats;
+                meshProjectile.materials = matsOfBullet;
+
+
+                // Set rotate
+                projectile.checkRotate = listWeapon.weaponList[i].isRotate;
+            }
+        }
     }
 
     public void GetPant()
