@@ -44,9 +44,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
        
-        if (instance != null && instance == this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
         instance = this;
 
@@ -133,6 +134,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Hammer"))
         {
+            projectile.transform.localScale = new Vector3(20, 20, 20);
+            EnemyAI.instance.weaponProjectile.transform.localScale = new Vector3(20, 20, 20);
 
             //SFX
             SFXManager.Instance.DeadSFX();

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public static EnemyAI instance;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float wanderChangeDirTime = 2.5f;
 
@@ -29,6 +30,15 @@ public class EnemyAI : MonoBehaviour
     public WeaponProjectile weaponProjectile;
     private Vector3 defaultThrow;
 
+    private void Awake()
+    {
+        //if (instance != null && instance != this)
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
+        instance = this;
+    }
     void Start()
     {
         if (weaponAttack != null && weaponAttack.GetThrowOrigin() != null)
