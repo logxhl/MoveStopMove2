@@ -67907,14 +67907,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.1
-    functionName: OnSpecialAnimationEnd
+    functionName: SetDefault
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.1
-    functionName: SetDefault
+    functionName: OnSpecialAnimationEnd
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

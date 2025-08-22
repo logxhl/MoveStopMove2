@@ -21,7 +21,7 @@ public class AIOfZombie : MonoBehaviour
     public float viewAngle = 120f;
     public LayerMask detectionLayers;
     public LayerMask obstructionLayers;
-    public ParticleSystem effectDeadZombie;
+    public GameObject effectDeadZombie;
 
     private ZombieState state = ZombieState.Walk;
     private void Reset()
@@ -149,10 +149,18 @@ public class AIOfZombie : MonoBehaviour
         if (other.CompareTag("Hammer"))
         {
             SFXManager.Instance.DeadZombieSFX();
-            if(effectDeadZombie != null) 
-                effectDeadZombie.Play();
+
+            GameObject effect = Instantiate(effectDeadZombie);
+            //effect.transform.SetParent(PoolManager.Instance.transform);
+            effect.transform.rotation = Quaternion.identity;
+            effect.transform.position = new Vector3(transform.position.x, 6f, transform.position.z);
+            effect.GetComponent<ParticleSystem>().Play();
+
             SpawnZombie.instance?.NotifyCharacterDied(false);
-            Destroy(gameObject, 0.4f);
+
+            EnemyIndicatorManager.instance.UnregisterEnemy(transform);
+
+            Destroy(gameObject);
             PlayerSceneZombie.instance.AddCoin(5);
             if (SpawnZombie.instance.GetRemainingCount() == 0)
             {

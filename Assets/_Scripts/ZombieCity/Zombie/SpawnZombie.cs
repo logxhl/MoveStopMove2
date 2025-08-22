@@ -58,7 +58,8 @@ public class SpawnZombie : MonoBehaviour
         for (int i = 0; i < fixedSpawnCount; i++)
         {
             Transform spawnPoint = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)];
-            SpawnZombieAt(spawnPoint.position, Quaternion.identity);
+            Transform enemyPos = SpawnZombieAt(spawnPoint.position, Quaternion.identity);
+            EnemyIndicatorManager.instance.RegisterEnemy(enemyPos);
             yield return new WaitForSeconds(spawnDelay);
         }
 
@@ -66,18 +67,20 @@ public class SpawnZombie : MonoBehaviour
         for (int i = 0; i < randomSpawnCount; i++)
         {
             Vector3 spawnPos = GetRandomNavMeshPoint(randomCenter, randomSpawnRadius);
-            SpawnZombieAt(spawnPos, Quaternion.identity);
+            Transform enemyPos = SpawnZombieAt(spawnPos, Quaternion.identity);
+            EnemyIndicatorManager.instance.RegisterEnemy(enemyPos);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
 
-    private void SpawnZombieAt(Vector3 pos, Quaternion rot)
+    private Transform SpawnZombieAt(Vector3 pos, Quaternion rot)
     {
         GameObject zombie = Instantiate(zombiePrefab, pos, rot);
 
         spawnZombies.Add(zombie);
         zombiesAlive++;
         UpDateAliveUI();
+        return zombie.transform;
     }
 
     public int GetZombieAlive()
