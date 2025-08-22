@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,39 +40,76 @@ public class EnemyIndicatorManager : MonoBehaviour
     }
     private void Update()
     {
-        foreach(var kvp in enemyIndi)
+        foreach (var kvp in enemyIndi)
         {
             Transform enemy = kvp.Key;
             RectTransform arrowUI = kvp.Value;
-            if(enemy == null)
+
+            if (enemy == null)
             {
                 Destroy(arrowUI.gameObject);
                 continue;
             }
-            Vector3 screenPos = mainCam.WorldToScreenPoint(enemy.position);
-            //Enemy nam trong man hinh
-            if(screenPos.z > 0 && screenPos.x > 0 && screenPos.x < Screen.width && screenPos.y > 0 && screenPos.y < Screen.height)
+
+            Vector3 viewportPos = mainCam.WorldToViewportPoint(enemy.position);
+
+            // Enemy trong màn hình
+            if (viewportPos.z > 0 &&
+                viewportPos.x > 0 && viewportPos.x < 1 &&
+                viewportPos.y > 0 && viewportPos.y < 1)
             {
                 arrowUI.gameObject.SetActive(false);
+                continue;
             }
-            else
+
+            arrowUI.gameObject.SetActive(true);
+
+            // vector từ tâm màn hình -> enemy
+            Vector2 fromCenter = new Vector2(viewportPos.x - 0.5f, viewportPos.y - 0.5f);
+
+            // Nếu enemy ở sau camera thì đảo hướng
+            if (viewportPos.z < 0)
             {
-                arrowUI.gameObject.SetActive(true);
-                //Huong tu cam -> enemy
-                Vector3 dir = (enemy.position - mainCam.transform.position).normalized;
-                dir.y = 0;
-                float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-                arrowUI.rotation = Quaternion.Euler(0, 0, -angle);
+                fromCenter = -fromCenter;
 
-                //Dat o ria man hinh
-                Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-                Vector3 fromCenter = (new Vector3(screenPos.x, screenPos.y, 0) - screenCenter).normalized;
-                Vector3 arrowPos = screenCenter + fromCenter * ((Screen.height / 2) - edgeOffset);
-                arrowPos.x = Mathf.Clamp(arrowPos.x, edgeOffset, Screen.width - edgeOffset);
-                arrowPos.y = Mathf.Clamp(arrowPos.y, edgeOffset, Screen.height - edgeOffset);
-
-                arrowUI.position = arrowPos;
+                // đảo luôn screenPos
+                viewportPos.x = 1f - viewportPos.x;
+                viewportPos.y = 1f - viewportPos.y;
             }
+
+            // hướng mũi tên
+            float angle = Mathf.Atan2(fromCenter.y, fromCenter.x) * Mathf.Rad2Deg;
+            arrowUI.rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+            // đặt ở đúng mép màn hình
+            Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Vector2 screenPos = new Vector2(viewportPos.x * Screen.width, viewportPos.y * Screen.height);
+            Vector2 dir = (screenPos - screenCenter).normalized;
+
+            float slope = dir.y / dir.x;
+            Vector2 edgePos = screenCenter;
+
+            if (dir.x > 0)
+                edgePos.x = Screen.width - edgeOffset;
+            else
+                edgePos.x = edgeOffset;
+            edgePos.y = screenCenter.y + slope * (edgePos.x - screenCenter.x);
+
+            if (edgePos.y > Screen.height - edgeOffset || edgePos.y < edgeOffset)
+            {
+                if (dir.y > 0)
+                    edgePos.y = Screen.height - edgeOffset;
+                else
+                    edgePos.y = edgeOffset;
+
+                edgePos.x = screenCenter.x + (edgePos.y - screenCenter.y) / slope;
+            }
+
+            arrowUI.position = edgePos;
+
+
         }
     }
+
+
 }
