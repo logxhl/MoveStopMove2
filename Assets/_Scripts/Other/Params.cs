@@ -48,5 +48,7 @@ public enum SkillType
 {
     None,
     DoubleThrow,
-    Triple
+    Triple,
+    UpScale,
+    MoveFaster
 }

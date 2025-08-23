@@ -185,11 +185,34 @@ public class PlayerSceneZombie : MonoBehaviour
                     Debug.Log("Triple Spread actived: " + skill.skillName);
                     weaponAttack.EnableTripleSpread(true);
                     break;
+                case SkillType.UpScale:
+                    Debug.Log("Skill UpScale");
+                    SkillUpScale();
+                    break;
+                case SkillType.MoveFaster:
+                    Debug.Log("Skill MoveFaster");
+                    SkillMoveFaster();
+                    break;
                 default:
                     Debug.Log("Unknown special skill: " + skill.skillName);
                     break;
             }
         }
+    }
+    public void SkillUpScale()
+    {
+        transform.localScale += new Vector3(0.4f, 0.4f, 0.4f);
+        weaponAttack.SetAttackRadius(10f);
+        CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+        if (circle != null)
+        {
+            circle.radius = 9f;
+            circle.DrawCircle();
+        }
+    }
+    public void SkillMoveFaster()
+    {
+        moveSpeed = 7f;
     }
     public Skill GetActiveSkill()
     {

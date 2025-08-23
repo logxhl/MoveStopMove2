@@ -21,3 +21,11 @@ MonoBehaviour:
     skillName: Diagonal_Ability
     skillSpecial: 1
     skillType: 2
+  - spriteSkill: {fileID: 21300000, guid: f34c8dc083ce01f4ba8545de097ce781, type: 3}
+    skillName: StartBigger
+    skillSpecial: 1
+    skillType: 3
+  - spriteSkill: {fileID: 21300000, guid: 2953879533d7ac04cb60b53717ddbcfe, type: 3}
+    skillName: MoveFaster
+    skillSpecial: 1
+    skillType: 4
