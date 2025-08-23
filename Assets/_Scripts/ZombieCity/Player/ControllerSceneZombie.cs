@@ -23,6 +23,7 @@ public class ControllerSceneZombie : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
         instance = this;
         //textCoin.text = coin.ToString();
     }
