@@ -41,9 +41,11 @@ public class PlayerSceneZombie : MonoBehaviour
     private int coin = 0;
     public int countUpCoin = 0;
 
+    private Skill activeSkill;
+
     private void Awake()
     {
-        if (instance != null && instance == this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
@@ -167,6 +169,27 @@ public class PlayerSceneZombie : MonoBehaviour
                 currentPant.GetComponent<SkinnedMeshRenderer>().material = listPant.pantInfo[i].pantMaterials;
             }
         }
+    }
+    public void SetSkill(Skill skill)
+    {
+        activeSkill = skill;
+        if (skill.skillSpecial)
+        {
+            switch (skill.skillType)
+            {
+                case SkillType.DoubleThrow:
+                    Debug.Log("Double Throw actived: " + skill.skillName);
+                    weaponAttack.EnableDoubleThrow();
+                    break;
+                default:
+                    Debug.Log("Unknown special skill: " + skill.skillName);
+                    break;
+            }
+        }
+    }
+    public Skill GetActiveSkill()
+    {
+        return activeSkill;
     }
     private void OnTriggerEnter(Collider other)
     {

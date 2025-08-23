@@ -2093,6 +2093,7 @@ GameObject:
   - component: {fileID: 440677449}
   - component: {fileID: 440677448}
   - component: {fileID: 440677450}
+  - component: {fileID: 440677451}
   m_Layer: 0
   m_Name: UIManagerSystem
   m_TagString: Untagged
@@ -2150,6 +2151,25 @@ MonoBehaviour:
   indicatorsParent: {fileID: 738148850}
   indicatorPrefab: {fileID: 6147108099723620731, guid: 343b5f355b2dc3a4fb36d877e858fc9b, type: 3}
   edgeOffset: 50
+--- !u!114 &440677451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440677447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c4effbcbb8aab4b88388a4919edeca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData: {fileID: 11400000, guid: 9ce4eab523bc1a74aab94b6dcf67bbea, type: 2}
+  skillImg: {fileID: 723244476}
+  skillNameText: {fileID: 822313768}
+  selectBtn: {fileID: 932557568}
+  shuffleBtn: {fileID: 1154795394}
+  skillPanel: {fileID: 1489715772}
+  joyStick: {fileID: 812913333}
 --- !u!1 &445112000
 GameObject:
   m_ObjectHideFlags: 0
@@ -5662,7 +5682,7 @@ GameObject:
   - component: {fileID: 932557569}
   - component: {fileID: 932557568}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BtnSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6469,7 +6489,7 @@ GameObject:
   - component: {fileID: 1154795395}
   - component: {fileID: 1154795394}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BtnShuffle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7606,7 +7626,7 @@ GameObject:
   - component: {fileID: 1321894229}
   - component: {fileID: 1321894228}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BtnHome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11376,7 +11396,7 @@ GameObject:
   - component: {fileID: 1982463390}
   - component: {fileID: 1982463389}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BtnNoThank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12384,7 +12404,6 @@ MonoBehaviour:
   weaponInstantiateTransform: {fileID: 1354521044}
   playerTransform: {fileID: 5997329703631710161}
   throwOrigin: {fileID: 4609678150365168699}
-  specialDoubleThrow: 1
 --- !u!4 &1072914051544925773
 Transform:
   m_ObjectHideFlags: 0

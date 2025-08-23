@@ -43,3 +43,9 @@ public enum ZombieState
     Run,
     Victory
 }
+
+public enum SkillType
+{
+    None,
+    DoubleThrow
+}

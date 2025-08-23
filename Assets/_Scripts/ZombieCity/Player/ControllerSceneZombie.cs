@@ -16,10 +16,13 @@ public class ControllerSceneZombie : MonoBehaviour
 
     public GameObject setting;
 
+    private void Awake()
+    {
+        Time.timeScale = 0f;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 0f;
         instance = this;
         //textCoin.text = coin.ToString();
     }

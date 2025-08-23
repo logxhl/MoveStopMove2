@@ -27,11 +27,11 @@ public class WeaponAttack : MonoBehaviour
     private bool canAttack = false;
     private bool isDead = false;
 
-    [SerializeField] private bool specialDoubleThrow = false;
-
+    private bool specialDoubleThrow = false;
 
     private void Awake()
     {
+        specialDoubleThrow = false;
         if (throwOrigin != null)
         {
             // Lưu lại vị trí local ban đầu của throwOrigin (trước mặt Player)
@@ -121,6 +121,10 @@ public class WeaponAttack : MonoBehaviour
                 attackCooldown = 0f;
             }
         }
+    }
+    public void EnableDoubleThrow()
+    {
+        specialDoubleThrow = true;
     }
     public void SetDead(bool dead)
     {

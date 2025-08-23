@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8407622ab9bc8584c92af34c3bf48d75, type: 3}
+  m_Name: SkillDataList
+  m_EditorClassIdentifier: 
+  skills:
+  - spriteSkill: {fileID: 21300000, guid: 2b57b2cecf5455645ae72889f430667c, type: 3}
+    skillName: Continuous_Ability
+    skillSpecial: 1
+    skillType: 1
+  - spriteSkill: {fileID: 21300000, guid: 39bf17236dbcac04e9e8295ff8e323e8, type: 3}
+    skillName: Diagonal_Ability
+    skillSpecial: 1
+    skillType: 0
