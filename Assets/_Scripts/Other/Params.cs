@@ -47,5 +47,6 @@ public enum ZombieState
 public enum SkillType
 {
     None,
-    DoubleThrow
+    DoubleThrow,
+    Triple
 }

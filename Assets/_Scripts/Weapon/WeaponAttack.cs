@@ -27,11 +27,13 @@ public class WeaponAttack : MonoBehaviour
     private bool canAttack = false;
     private bool isDead = false;
 
+    //Bat tat skill
     private bool specialDoubleThrow = false;
-
+    private bool specialTripleSpread = false;
     private void Awake()
     {
         specialDoubleThrow = false;
+        specialTripleSpread = false;
         if (throwOrigin != null)
         {
             // Lưu lại vị trí local ban đầu của throwOrigin (trước mặt Player)
@@ -122,9 +124,13 @@ public class WeaponAttack : MonoBehaviour
             }
         }
     }
-    public void EnableDoubleThrow()
+    public void EnableDoubleThrow(bool active)
     {
-        specialDoubleThrow = true;
+        specialDoubleThrow = active;
+    }
+    public void EnableTripleSpread(bool active)
+    {
+        specialTripleSpread = active;
     }
     public void SetDead(bool dead)
     {
@@ -151,13 +157,19 @@ public class WeaponAttack : MonoBehaviour
 
         Vector3 direction = new Vector3(collider.transform.position.x, 0, collider.transform.position.z) - new Vector3(throwOrigin.position.x, 0, throwOrigin.position.z);
         Vector3 dir = direction.normalized;
-
-        //Nem vu khi thu nhat
-        ThrowOneProjectile(collider, dir, Vector3.zero);
-        SFXManager.Instance.PlayAttack();
-        if(specialDoubleThrow)
+        if (specialTripleSpread)
         {
-            StartCoroutine(ThrowSecondProjectileAfterDelay(collider, dir, 0.1f));
+            FireTripleSpread(dir);
+        }
+        else
+        {
+            //Nem vu khi thu nhat
+            ThrowOneProjectile(collider, dir, Vector3.zero);
+            SFXManager.Instance.PlayAttack();
+            if (specialDoubleThrow)
+            {
+                StartCoroutine(ThrowSecondProjectileAfterDelay(collider, dir, 0.1f));
+            }
         }
     }
 
@@ -170,6 +182,19 @@ public class WeaponAttack : MonoBehaviour
             weaponInstantiateTransform
         );
         projectile.Launch(dir, targetLayer, currentWeapon, playerTransform.gameObject);
+    }
+    private void FireTripleSpread(Vector3 dir)
+    {
+        float spreadAngle = 15f; //Goc lech moi vien;
+        //Vien thang giua
+        ThrowOneProjectile(null, dir, Vector3.zero);
+        //Tinh huong lech trai
+        Vector3 leftDir = Quaternion.Euler(0, -spreadAngle, 0) * dir;
+        ThrowOneProjectile(null, leftDir, Vector3.zero);
+        //Tinh huong lech phai
+        Vector3 rightDir = Quaternion.Euler(0, spreadAngle, 0) * dir;
+        ThrowOneProjectile(null, rightDir, Vector3.zero);
+        SFXManager.Instance.PlayAttack();
     }
     private IEnumerator ThrowSecondProjectileAfterDelay(Collider collider, Vector3 dir, float delay)
     {

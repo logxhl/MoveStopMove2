@@ -179,7 +179,11 @@ public class PlayerSceneZombie : MonoBehaviour
             {
                 case SkillType.DoubleThrow:
                     Debug.Log("Double Throw actived: " + skill.skillName);
-                    weaponAttack.EnableDoubleThrow();
+                    weaponAttack.EnableDoubleThrow(true);
+                    break;
+                case SkillType.Triple:
+                    Debug.Log("Triple Spread actived: " + skill.skillName);
+                    weaponAttack.EnableTripleSpread(true);
                     break;
                 default:
                     Debug.Log("Unknown special skill: " + skill.skillName);
