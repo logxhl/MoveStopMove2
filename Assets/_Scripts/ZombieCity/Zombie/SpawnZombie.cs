@@ -60,6 +60,7 @@ public class SpawnZombie : MonoBehaviour
             Transform spawnPoint = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)];
             Transform enemyPos = SpawnZombieAt(spawnPoint.position, Quaternion.identity);
             StartCoroutine(RegisterEnemyWithDelay(enemyPos, 0.4f));
+            //EnemyIndicatorManager.instance.RegisterEnemy(enemyPos);
             yield return new WaitForSeconds(spawnDelay);
         }
 
@@ -69,6 +70,7 @@ public class SpawnZombie : MonoBehaviour
             Vector3 spawnPos = GetRandomNavMeshPoint(randomCenter, randomSpawnRadius);
             Transform enemyPos = SpawnZombieAt(spawnPos, Quaternion.identity);
             StartCoroutine(RegisterEnemyWithDelay(enemyPos, 0.4f));
+            //EnemyIndicatorManager.instance.RegisterEnemy(enemyPos);
             yield return new WaitForSeconds(spawnDelay);
         }
     }

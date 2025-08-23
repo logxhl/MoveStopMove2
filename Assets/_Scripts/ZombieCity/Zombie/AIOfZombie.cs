@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class AIOfZombie : MonoBehaviour
 {
+    public static AIOfZombie instance;
     [Header("References")]
     public NavMeshAgent agent;
     public Animator anim;
@@ -22,6 +23,7 @@ public class AIOfZombie : MonoBehaviour
     public LayerMask detectionLayers;
     public LayerMask obstructionLayers;
     public GameObject effectDeadZombie;
+    //public GameObject levelUp;
 
     private ZombieState state = ZombieState.Walk;
     private void Reset()
@@ -31,6 +33,7 @@ public class AIOfZombie : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!player)
         {
@@ -162,6 +165,12 @@ public class AIOfZombie : MonoBehaviour
 
             Destroy(gameObject);
             PlayerSceneZombie.instance.AddCoin(5);
+            int coin = PlayerSceneZombie.instance.GetCoin();
+            if (coin == 10)
+            {
+                PlayerSceneZombie.instance.levelUp.gameObject.SetActive(true);
+                PlayerSceneZombie.instance.ShowLevelUp();
+            }
             if (SpawnZombie.instance.GetRemainingCount() == 0)
             {
                 int coinPlayer = PlayerSceneZombie.instance.GetCoin() + 100;

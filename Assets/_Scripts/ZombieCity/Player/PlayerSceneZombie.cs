@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class PlayerSceneZombie : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class PlayerSceneZombie : MonoBehaviour
     public int countUpCoin = 0;
 
     private Skill activeSkill;
+    public TextMeshProUGUI levelUp;
 
     private void Awake()
     {
@@ -284,4 +286,21 @@ public class PlayerSceneZombie : MonoBehaviour
     {
 
     }
+    public void ShowLevelUp()
+    {
+        levelUp.color = new Color(1, 1, 1, 1);
+        levelUp.transform.localPosition = Vector3.zero;
+        levelUp.transform.DOLocalMoveY(100f, 1f).SetEase(Ease.OutCubic);
+
+        DG.Tweening.DOTweenModuleUI.DOFade(levelUp, 0f, 1f) // gọi tường minh
+            .SetEase(Ease.InCubic)
+            .OnComplete(() =>
+            {
+                levelUp.gameObject.SetActive(false); // tắt đi sau khi xong
+            });
+
+        levelUp.gameObject.SetActive(true);
+        weaponAttack.EnableDoubleThrow(true);
+    }
+
 }
