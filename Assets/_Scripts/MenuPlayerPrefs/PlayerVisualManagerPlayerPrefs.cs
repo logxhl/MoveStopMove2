@@ -102,33 +102,64 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
     }
 
 
+    //public void ShowFullSet(int equippedSetFull)
+    //{
+    //    for(int i = 0; i < fullSets.Count; i++)
+    //    {
+    //        bool active = (i == equippedSetFull);
+    //        fullSets[i].hairFull.SetActive(active);
+    //        fullSets[i].shieldFull.SetActive(active);
+    //        fullSets[i].tailFull.SetActive(active);
+    //        fullSets[i].wingFull.SetActive(active);
+    //    }
+
+    //    if(equippedSetFull >= 0 && equippedSetFull < fullSets.Count)
+    //    {
+    //        if(setFullRenderers.Length > 0 && setFullRenderers[0] != null)
+    //        {
+    //            setFullRenderers[0].material = fullSets[equippedSetFull].pantFull;
+    //        }
+    //        if(setFullRenderers.Length > 1 && setFullRenderers[1] != null)
+    //        {
+    //            setFullRenderers[1].material = fullSets[equippedSetFull].initialFull;
+    //        }
+    //    }
+    //    if(equippedSetFull == -1)
+    //    {
+    //        setFullRenderers[1].material = defaultInitialMaterial;
+    //    }
+    //}
     public void ShowFullSet(int equippedSetFull)
     {
-        for(int i = 0; i < fullSets.Count; i++)
+        for (int i = 0; i < fullSets.Count; i++)
         {
             bool active = (i == equippedSetFull);
-            fullSets[i].hairFull.SetActive(active);
-            fullSets[i].shieldFull.SetActive(active);
-            fullSets[i].tailFull.SetActive(active);
-            fullSets[i].wingFull.SetActive(active);
+
+            if (fullSets[i].hairFull != null)
+                fullSets[i].hairFull.SetActive(active);
+            if (fullSets[i].shieldFull != null)
+                fullSets[i].shieldFull.SetActive(active);
+            if (fullSets[i].tailFull != null)
+                fullSets[i].tailFull.SetActive(active);
+            if (fullSets[i].wingFull != null)
+                fullSets[i].wingFull.SetActive(active);
         }
 
-        if(equippedSetFull >= 0 && equippedSetFull < fullSets.Count)
+        if (equippedSetFull >= 0 && equippedSetFull < fullSets.Count)
         {
-            if(setFullRenderers.Length > 0 && setFullRenderers[0] != null)
-            {
+            if (setFullRenderers.Length > 0 && setFullRenderers[0] != null)
                 setFullRenderers[0].material = fullSets[equippedSetFull].pantFull;
-            }
-            if(setFullRenderers.Length > 1 && setFullRenderers[1] != null)
-            {
+
+            if (setFullRenderers.Length > 1 && setFullRenderers[1] != null)
                 setFullRenderers[1].material = fullSets[equippedSetFull].initialFull;
-            }
         }
-        if(equippedSetFull == -1)
+        else if (equippedSetFull == -1)
         {
-            setFullRenderers[1].material = defaultInitialMaterial;
+            if (setFullRenderers.Length > 1 && setFullRenderers[1] != null)
+                setFullRenderers[1].material = defaultInitialMaterial;
         }
     }
+
 
     private void ShowPant(int index)
     {
