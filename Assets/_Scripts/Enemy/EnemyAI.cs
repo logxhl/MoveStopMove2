@@ -122,6 +122,8 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+    //public Transform GetTransform() => transform;
+    //public TextMeshProUGUI GetCoinText() => coinText;
 
     private void ChooseRandomDirection()
     {
