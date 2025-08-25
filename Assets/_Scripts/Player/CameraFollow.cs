@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    public static CameraFollow instance;   // ✅ để dễ gọi từ PlayerController
+
     [Header("Follow Settings")]
     public Transform target;
     public Vector3 offset = new Vector3(0, 10, -10);
@@ -23,19 +25,36 @@ public class CameraFollow : MonoBehaviour
     private MaterialPropertyBlock _mpb;
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
+    private Vector3 defaultOffset;
+    private float defaultScale = 1f;
+
     private void Awake()
     {
+        instance = this;   // ✅ set instance
         _mpb = new MaterialPropertyBlock();
         if (obstacleMask.value == 0)
             obstacleMask = LayerMask.GetMask("Obstruction");
+    }
+
+    private void Start()
+    {
+        defaultOffset = offset;
+        if (target != null)
+        {
+            defaultScale = target.localScale.x;
+        }
     }
 
     private void LateUpdate()
     {
         if (target == null) return;
 
+        // ===== Dynamic offset theo scale của target =====
+        float scaleFactor = target.localScale.x / defaultScale;
+        Vector3 dynamicOffset = offset * scaleFactor;
+
         // ===== Follow target =====
-        Vector3 desiredPosition = target.position + offset;
+        Vector3 desiredPosition = target.position + dynamicOffset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothedPosition;
 
@@ -111,5 +130,15 @@ public class CameraFollow : MonoBehaviour
         baseCol.a = a;
         _mpb.SetColor(BaseColor, baseCol);
         r.SetPropertyBlock(_mpb);
+    }
+
+    public void ShiftUp(float height)
+    {
+        offset = defaultOffset + new Vector3(0, height, -3);
+    }
+
+    public void ResetOffset()
+    {
+        offset = defaultOffset;
     }
 }
