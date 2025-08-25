@@ -172,7 +172,7 @@ public class WeaponAttack : MonoBehaviour
                 StartCoroutine(ThrowSecondProjectileAfterDelay(collider, dir, 0.1f));
             }
         }
-        StartCoroutine(ShowWeaponInHandAfterDelay(0.5f));
+        StartCoroutine(ShowWeaponInHandAfterDelay(1f));
     }
     private IEnumerator ShowWeaponInHandAfterDelay(float delay)
     {

@@ -3477,24 +3477,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7805268963817612487, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
   m_PrefabInstance: {fileID: 4569791686131516182}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &746916693 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6488203943509497556, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
-  m_PrefabInstance: {fileID: 4569791686131516182}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &746916699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746916693}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da97749633cf3384d8e08ff5f328fd60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coinText: {fileID: 893028358}
 --- !u!1 &758269059
 GameObject:
   m_ObjectHideFlags: 0
@@ -15517,7 +15499,7 @@ PrefabInstance:
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: coinSystem
       value: 
-      objectReference: {fileID: 746916699}
+      objectReference: {fileID: 0}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: attackRadius
       value: 5
@@ -15634,10 +15616,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7091288275465145525, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 568477585}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6488203943509497556, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 746916699}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
 --- !u!1 &4569791686131516183 stripped
 GameObject:
