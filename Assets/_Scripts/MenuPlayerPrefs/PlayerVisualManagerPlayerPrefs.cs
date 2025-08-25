@@ -138,17 +138,27 @@ public class PlayerVisualManagerPlayerPrefs : MonoBehaviour
         }
     }
 
+    //private void ShowItem(List<GameObject> list, int index)
+    //{
+    //    for (int i = 0; i < list.Count; i++)
+    //    {
+    //        list[i].SetActive(i == index && index >= 0);
+    //        //if (i == index)
+    //        //{
+    //        //    Debug.Log(list[i].name);
+    //        //}
+    //    }
+    //}
     private void ShowItem(List<GameObject> list, int index)
     {
         for (int i = 0; i < list.Count; i++)
         {
+            if (list[i] == null) continue; // bỏ qua nếu object đã bị destroy
             list[i].SetActive(i == index && index >= 0);
-            //if (i == index)
-            //{
-            //    Debug.Log(list[i].name);
-            //}
         }
     }
+
+
     public void HideAllSingleItems()
     {
         ShowItem(hairs, -1);

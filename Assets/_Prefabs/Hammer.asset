@@ -15,5 +15,4 @@ MonoBehaviour:
   icon: {fileID: 0}
   modelPrefab: {fileID: 6468330766293876196, guid: eaac1b510d9c20940ac729deb704dc59, type: 3}
   visual: {fileID: 0}
-  damage: 10
-  speed: 12
+  speed: 6

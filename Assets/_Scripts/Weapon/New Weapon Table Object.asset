@@ -15,34 +15,34 @@ MonoBehaviour:
   weapon:
   - nameWepon: HAMMER
     spite:
-    - {fileID: 21300000, guid: a515dc3d0f824f049908a8ddbbcb4966, type: 3}
-    - {fileID: 21300000, guid: b7be1392c91a7e343bc1bcd812cef1a8, type: 3}
-    - {fileID: 21300000, guid: 56efd85bf65e03d41ad1c6bfed71c57a, type: 3}
-    - {fileID: 21300000, guid: 76140e0ab5c44b1469d721b3e2241199, type: 3}
+    - {fileID: 21300000, guid: 6c4e5c64c317d7047ac5831fa51ae562, type: 3}
+    - {fileID: 21300000, guid: 8d2f2f3a682b4f447955e0a9964a6614, type: 3}
+    - {fileID: 21300000, guid: 362fa45cf439f064b8bf46ef30ba550b, type: 3}
+    - {fileID: 21300000, guid: 3c7d8123c44b4eb4bb39668485079be6, type: 3}
     unlock: Unlock
     damage: SpeedRun
     coin: 10
     weaponPrefab: {fileID: 4055472324523428075, guid: 27e26cbeee1b00e47a6af5cda5a8c335, type: 3}
   - nameWepon: LOOLIPOP
     spite:
-    - {fileID: 21300000, guid: ea1caec6a91f5e14b8c2f6e8a274a099, type: 3}
+    - {fileID: 21300000, guid: d394da8a8a03f62409bfaf3d79f6eb5e, type: 3}
     unlock: Lock
     damage: +3 Range
     coin: 2
     weaponPrefab: {fileID: 3689594960200500991, guid: 24d37f3ae2dc589409075a563051d598, type: 3}
   - nameWepon: KNIFE
     spite:
-    - {fileID: 21300000, guid: 282078a8033eb0c4d9266d5bd1f688ec, type: 3}
-    - {fileID: 21300000, guid: 4bdb8e08d842c8746b381cada8548d39, type: 3}
-    - {fileID: 21300000, guid: f14bc7a73b9b24f40972dbfb4cc70b07, type: 3}
-    - {fileID: 21300000, guid: 30e93dc4098f7d3478eaa9e2742414e4, type: 3}
+    - {fileID: 21300000, guid: 94c760cb0a2764a4389aeb597ccdddb0, type: 3}
+    - {fileID: 21300000, guid: f6efaeabea0a1294f99eb2e15eb6ad8f, type: 3}
+    - {fileID: 21300000, guid: cbf0b1fe38682a443bf4c631038ea455, type: 3}
+    - {fileID: 21300000, guid: 266044baee125d54ab7e93111eb9e270, type: 3}
     unlock: Unlock
     damage: +5 Attack Speed
     coin: 5
     weaponPrefab: {fileID: 4941701417808349748, guid: ada728db3c4a8574eb9119e4ab33b00d, type: 3}
   - nameWepon: CANDY
     spite:
-    - {fileID: 21300000, guid: e9498015d2b7c6e46bded4dec65eb92a, type: 3}
+    - {fileID: 21300000, guid: 857a990b9f3e8084e9fd9d0c984c3928, type: 3}
     unlock: Unlock
     damage: +5 Range*2
     coin: 3

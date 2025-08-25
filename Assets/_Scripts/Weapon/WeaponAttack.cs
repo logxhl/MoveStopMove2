@@ -153,7 +153,8 @@ public class WeaponAttack : MonoBehaviour
 
     public void FireProjectile(Collider collider)
     {
-        //weaponHandVisual.SetActive(false);
+        if (weaponHandVisual != null)
+            weaponHandVisual.SetActive(false);
 
         Vector3 direction = new Vector3(collider.transform.position.x, 0, collider.transform.position.z) - new Vector3(throwOrigin.position.x, 0, throwOrigin.position.z);
         Vector3 dir = direction.normalized;
@@ -170,6 +171,15 @@ public class WeaponAttack : MonoBehaviour
             {
                 StartCoroutine(ThrowSecondProjectileAfterDelay(collider, dir, 0.1f));
             }
+        }
+        StartCoroutine(ShowWeaponInHandAfterDelay(0.5f));
+    }
+    private IEnumerator ShowWeaponInHandAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if(weaponHandVisual != null)
+        {
+            weaponHandVisual.SetActive(true);
         }
     }
 

@@ -15353,9 +15353,17 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2489297953943837567, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e92ba4c12fae8b4890bbcd033908c05, type: 2}
+    - target: {fileID: 2489297953943837567, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a98ef8352322b4439a148209bf7de33, type: 2}
+    - target: {fileID: 2489297953943837567, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: b0ff7516ce033334c94c8025515efbce, type: 2}
+      objectReference: {fileID: 2100000, guid: dc57abf75f228d04fb672c5fc34518b0, type: 2}
     - target: {fileID: 3335676032624710685, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: topUI
       value: 
@@ -15436,6 +15444,10 @@ PrefabInstance:
       propertyPath: attackRadius
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+      propertyPath: weaponHandVisual
+      value: 
+      objectReference: {fileID: 4569791686131516183}
     - target: {fileID: 3588020786743119608, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
       propertyPath: maxAttackCooldown
       value: 2

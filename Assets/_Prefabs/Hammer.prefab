@@ -42,23 +42,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -75,15 +75,15 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f9072086260ac6e43b125048cd2201ee, type: 2}
+      objectReference: {fileID: 2100000, guid: ad02d84787adba6489d3055f7e75ee53, type: 2}
     - target: {fileID: 2300000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 50f1a61cf9c0a5d4ebaa5b6d20845371, type: 2}
+      objectReference: {fileID: -6478536213147159724, guid: a989a93ac434b7d4b905d2eb98bcf52d, type: 3}
     - target: {fileID: 3300000, guid: 90389cac50942cb4ca38583e6531094a, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2459579263309379254, guid: 02549e3ce8f14ea42b244ec60f5fd640, type: 3}
+      objectReference: {fileID: 3174812724623785705, guid: 39f7e8032bddadd4bbb8b0af7ea8c20e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -163,6 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4788f361bf2620b41864301f597acb46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLifeTime: 0.6
+  maxLifeTime: 1
   rotateSpeed: 1000
   checkRotate: 1
