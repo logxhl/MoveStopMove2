@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class EnemyIndicatorManager : MonoBehaviour
     [Header("Settings")]
     public float edgeOffset = 50f;
     private Dictionary<Transform, RectTransform> enemyIndi = new Dictionary<Transform, RectTransform>();
+    public EnemyAI enemy;
+    public TextMeshProUGUI textCoinEnemy;
 
     private void Awake()
     {
@@ -24,13 +27,27 @@ public class EnemyIndicatorManager : MonoBehaviour
         }
         instance = this;
     }
-    public void RegisterEnemy(Transform enemy)
+    //public void RegisterEnemy(Transform enemy)
+    //{
+    //    if (enemyIndi.ContainsKey(enemy)) return;
+    //    GameObject ind = Instantiate(indicatorPrefab, indicatorsParent);
+    //    ind.SetActive(true);
+    //    enemyIndi[enemy] = ind.GetComponent<RectTransform>();
+    //}
+    public void RegisterEnemy(EnemyAI enemy)
     {
-        if (enemyIndi.ContainsKey(enemy)) return;
+        if (enemyIndi.ContainsKey(enemy.transform)) return;
+
         GameObject ind = Instantiate(indicatorPrefab, indicatorsParent);
         ind.SetActive(true);
-        enemyIndi[enemy] = ind.GetComponent<RectTransform>();
+
+        // Lấy script Indicator trên prefab
+        EnemyIndicator indScript = ind.GetComponent<EnemyIndicator>();
+        indScript.Init(enemy.coinText); // coinText là text trên đầu enemy
+
+        enemyIndi[enemy.transform] = ind.GetComponent<RectTransform>();
     }
+
 
     public void UnregisterEnemy(Transform enemy)
     {
@@ -40,6 +57,11 @@ public class EnemyIndicatorManager : MonoBehaviour
     }
     private void Update()
     {
+        // Cập nhật text coin từ enemy
+        if (enemy != null && textCoinEnemy != null)
+        {
+            textCoinEnemy.text = enemy.coinText.text;
+        }
         foreach (var kvp in enemyIndi)
         {
             Transform enemy = kvp.Key;

@@ -11,7 +11,7 @@ public class ChangeCamera : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
-        skinCam = new Vector3(0.17f, 0.6f, -13.0f);
+        skinCam = new Vector3(-0.3f, 2.3f, -13.0f);
         originalCam = cam.transform.position;
     }
     public void SkinCam()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +56,23 @@ public class SpawnEnemy : MonoBehaviour
             aliveCountText.text = $"Alive: {GetRemainingCount()}";
         }
     }
+    //void SpawnEnemyPrefab()
+    //{
+    //    if (!canSpawn) { return; }
+
+    //    if (spawnCount >= totalEnemiesToSpawn)
+    //    {
+    //        canSpawn = false;
+    //        CancelInvoke(nameof(SpawnEnemyPrefab));
+    //        return;
+    //    }        
+    //    Vector3 randomPos = GetRandomPosition();
+    //    GameObject enemy = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
+    //    EnemyIndicatorManager.instance.RegisterEnemy(enemy);
+    //    spawnCount++;
+    //    //totalAliveCharacters++;
+    //    UpDateAliveUI();
+    //}
     void SpawnEnemyPrefab()
     {
         if (!canSpawn) { return; }
@@ -65,14 +82,26 @@ public class SpawnEnemy : MonoBehaviour
             canSpawn = false;
             CancelInvoke(nameof(SpawnEnemyPrefab));
             return;
-        }        
+        }
+
         Vector3 randomPos = GetRandomPosition();
-        GameObject enemy = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
-        EnemyIndicatorManager.instance.RegisterEnemy(enemy.transform);
+        GameObject enemyObj = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
+
+        // ✅ Lấy script EnemyAI từ prefab vừa spawn
+        EnemyAI enemyAI = enemyObj.GetComponent<EnemyAI>();
+        if (enemyAI != null)
+        {
+            EnemyIndicatorManager.instance.RegisterEnemy(enemyAI);
+        }
+        else
+        {
+            Debug.LogError("Enemy prefab thiếu component EnemyAI!");
+        }
+
         spawnCount++;
-        //totalAliveCharacters++;
         UpDateAliveUI();
     }
+
 
     Vector3 GetRandomPosition()
     {

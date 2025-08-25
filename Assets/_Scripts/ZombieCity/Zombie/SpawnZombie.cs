@@ -74,14 +74,27 @@ public class SpawnZombie : MonoBehaviour
             yield return new WaitForSeconds(spawnDelay);
         }
     }
+    //private IEnumerator RegisterEnemyWithDelay(Transform enemy, float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //    if(enemy != null)
+    //    {
+    //        EnemyIndicatorManager.instance.RegisterEnemy(enemy);
+    //    }
+    //}
     private IEnumerator RegisterEnemyWithDelay(Transform enemy, float delay)
     {
         yield return new WaitForSeconds(delay);
-        if(enemy != null)
+        if (enemy != null)
         {
-            EnemyIndicatorManager.instance.RegisterEnemy(enemy);
+            EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                EnemyIndicatorManager.instance.RegisterEnemy(enemyAI);
+            }
         }
     }
+
     private Transform SpawnZombieAt(Vector3 pos, Quaternion rot)
     {
         GameObject zombie = Instantiate(zombiePrefab, pos, rot);
