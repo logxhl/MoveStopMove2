@@ -266,6 +266,12 @@ public class PlayerController : MonoBehaviour
             particleUpScale.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             particleUpScale.Play();
             transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+            if (circle != null)
+            {
+                circle.transform.localScale -= new Vector3(0.2f, 0.2f, 0.2f);
+                circle.DrawCircle();
+            }
             Invoke(nameof(DisUpScale), 2f);
         }
     }
