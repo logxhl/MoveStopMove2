@@ -19,9 +19,7 @@ public class AIOfZombie : MonoBehaviour
 
     [Header("Detection Settings")]
     public float sightRange = 10f;
-    public float viewAngle = 120f;
     public LayerMask detectionLayers;
-    public LayerMask obstructionLayers;
     public GameObject effectDeadZombie;
     //public GameObject levelUp;
 
@@ -67,10 +65,6 @@ public class AIOfZombie : MonoBehaviour
             }
             agent.SetDestination(patrolPoints[patrolIndex].position);
         }
-        //if(patrolPoints.Length > 0)
-        //{
-        //    agent.SetDestination(patrolPoints[patrolIndex].position);
-        //}
     }
     private void Update()
     {
@@ -103,13 +97,14 @@ public class AIOfZombie : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
-        if (!CanSeePlayer())
+        if (player != null)
         {
-            if (patrolPoints.Length > 0)
-            {
-                SwitchState(ZombieState.Walk);
-            }
+            agent.SetDestination(player.position);
+        }
+
+        if (!CanSeePlayer() && patrolPoints.Length > 0)
+        {
+            SwitchState(ZombieState.Walk);
         }
     }
 
@@ -120,15 +115,14 @@ public class AIOfZombie : MonoBehaviour
 
     private bool CanSeePlayer()
     {
-        Vector3 toPlayer = player.position - transform.position;
-        float dist = toPlayer.magnitude;
-        if (dist > sightRange) return false;
-        float angle = Vector3.Angle(transform.forward, toPlayer.normalized);
-        if (angle > viewAngle / 2f) return false;
-
-        if (Physics.Raycast(transform.position + Vector3.up * 1.6f, toPlayer.normalized, out RaycastHit hit, sightRange, detectionLayers | obstructionLayers))
+        Collider[] hits = Physics.OverlapSphere(transform.position, sightRange, detectionLayers);
+        foreach(var hit in hits)
         {
-            if (hit.transform == player) return true;
+            if(hit.CompareTag("Player"))
+            {
+                player = hit.transform;
+                return true;
+            }
         }
         return false;
     }

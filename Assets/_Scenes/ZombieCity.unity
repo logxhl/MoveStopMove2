@@ -2171,6 +2171,8 @@ MonoBehaviour:
   indicatorsParent: {fileID: 738148850}
   indicatorPrefab: {fileID: 6147108099723620731, guid: 343b5f355b2dc3a4fb36d877e858fc9b, type: 3}
   edgeOffset: 50
+  enemy: {fileID: 0}
+  textCoinEnemy: {fileID: 0}
 --- !u!114 &440677451
 MonoBehaviour:
   m_ObjectHideFlags: 0
