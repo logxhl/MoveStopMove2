@@ -2392,8 +2392,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459182319}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0047429893, y: -0.9927457, z: 0.1126026, w: 0.041884124}
-  m_LocalPosition: {x: 0.10095227, y: 7.8474092, z: 11.347996}
+  m_LocalRotation: {x: -0.3299888, y: 0.009059631, z: -0.003164428, w: -0.9439361}
+  m_LocalPosition: {x: -0.7268419, y: 20.602901, z: -84.51587}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2412,8 +2412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 5997329703631710161}
-  offset: {x: 0, y: 15, z: -20}
-  smoothSpeed: 5
+  offset: {x: 0, y: 13, z: -15}
+  smoothTime: 0.2
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8704

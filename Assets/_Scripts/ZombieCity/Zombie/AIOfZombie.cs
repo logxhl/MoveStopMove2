@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -145,6 +145,7 @@ public class AIOfZombie : MonoBehaviour
         }
         if (other.CompareTag("Hammer"))
         {
+            DisablePhysics();
             SFXManager.Instance.DeadZombieSFX();
 
             GameObject effect = Instantiate(effectDeadZombie);
@@ -181,5 +182,22 @@ public class AIOfZombie : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+    private void DisablePhysics()
+    {
+        // Tắt tất cả Collider
+        Collider[] cols = GetComponentsInChildren<Collider>();
+        foreach (Collider col in cols)
+        {
+            col.enabled = false;
+        }
+
+        // Tắt tất cả Rigidbody
+        Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.isKinematic = true;   // ngừng tính toán vật lý
+            rb.detectCollisions = false; // ngừng va chạm
+        }
     }
 }

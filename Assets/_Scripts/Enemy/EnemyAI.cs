@@ -231,6 +231,4 @@ public class EnemyAI : MonoBehaviour
             rb.detectCollisions = false; // ngừng va chạm
         }
     }
-
-
 }
