@@ -53,6 +53,8 @@ public class PlayerSceneZombie : MonoBehaviour
 
     public bool isShieldActive = false;
 
+    public float currentSpeed;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -60,13 +62,13 @@ public class PlayerSceneZombie : MonoBehaviour
             Destroy(gameObject);
         }
         instance = this;
-
         rigid = GetComponent<Rigidbody>();
         if (animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
     }
     private void Start()
     {
+        currentSpeed = moveSpeed;
         shieldShpere.SetActive(false);
     }
     void Update()
@@ -182,6 +184,23 @@ public class PlayerSceneZombie : MonoBehaviour
                 currentPant.GetComponent<SkinnedMeshRenderer>().material = listPant.pantInfo[i].pantMaterials;
             }
         }
+    }
+    public void IncreaseSpeed(float percent)
+    {
+        moveSpeed += moveSpeed * percent;
+    }
+    public void IncreaseRange(float percent)
+    {
+        float currentRange = weaponAttack.GetAttackRadius();
+        currentRange += currentRange * percent;
+        weaponAttack.SetAttackRadius(currentRange);
+        CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+        if (circle != null)
+        {
+            circle.radius += circle.radius * percent;
+            circle.DrawCircle();
+        }
+        CameraFollow.instance.ShiftUp(3f);
     }
     public void SetSkill(Skill skill)
     {

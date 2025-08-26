@@ -283,7 +283,7 @@ public class CameraFollow : MonoBehaviour
 
     public void ShiftUp(float height)
     {
-        offset = defaultOffset + new Vector3(0, height, -3);
+        offset +=  new Vector3(0, height, -height);
     }
 
     public void ResetOffset()
