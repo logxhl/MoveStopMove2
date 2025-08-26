@@ -1968,6 +1968,7 @@ MonoBehaviour:
   rotationSpeed: 100
   currentTime: 5
   deadScene: {fileID: 5817176145092565361}
+  shieldText: {fileID: 0}
   isDead: 0
 --- !u!4 &440677449
 Transform:
@@ -2285,8 +2286,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459182319}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0047429893, y: -0.9927457, z: 0.1126026, w: 0.041884124}
-  m_LocalPosition: {x: 0.10095227, y: 7.8474092, z: 11.347996}
+  m_LocalRotation: {x: -0.22047283, y: -0.008196255, z: 0.0018535408, w: -0.97535694}
+  m_LocalPosition: {x: -0.75498664, y: 6.059473, z: 1.7640018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11343,6 +11344,7 @@ MonoBehaviour:
   iconSprite: {fileID: 1174333630}
   itemDes: {fileID: 644836911}
   freeItem: {fileID: 11400000, guid: f57a15091b8a1464397f421404cc9c4c, type: 2}
+  animationController: {fileID: 1489140814}
 --- !u!4 &1349353076
 Transform:
   m_ObjectHideFlags: 0
@@ -12069,6 +12071,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480110087}
   m_CullTransparentMesh: 1
+--- !u!114 &1489140814 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6238803855522832741, guid: c3f5e1aaf8f3b2a4a8e0887a027be51a, type: 3}
+  m_PrefabInstance: {fileID: 4569791686131516182}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45721e9886bc6e8468631f820a5ece60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1531622233
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemDes;
     [SerializeField] private ItemDatabase freeItem;
 
+    [SerializeField] private AnimationController animationController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,8 @@ public class GameController : MonoBehaviour
         {
             if (SpawnEnemy.Instance.GetRemainingCount() == 1)
             {
+                CameraFollow.instance.WinCam();
+                animationController.SetDanceWinAnimation();
                 winScene.SetActive(true);
                 joyStick.SetActive(false);
             }
