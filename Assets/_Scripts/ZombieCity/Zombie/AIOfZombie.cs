@@ -73,23 +73,23 @@ public class AIOfZombie : MonoBehaviour
         {
             case ZombieState.Walk:
                 Patrol();
-                Debug.Log("Walk");
+                //Debug.Log("Walk");
                 if (CanSeePlayer()) SwitchState(ZombieState.Run);
                 break;
             case ZombieState.Run:
                 ChasePlayer();
-                Debug.Log("Run");
+                //Debug.Log("Run");
                 break;
             case ZombieState.Victory:
                 agent.ResetPath();
-                Debug.Log("Victory");
+                //Debug.Log("Victory");
                 break;
         }
 
         if (anim)
         {
             anim.SetBool("IsWalk", state == ZombieState.Walk);
-            anim.SetBool("IsRun", state == ZombieState.Run);
+            //anim.SetBool("IsRun", state == ZombieState.Run);
             anim.SetBool("IsWin", state == ZombieState.Victory);
         }
 
@@ -108,7 +108,7 @@ public class AIOfZombie : MonoBehaviour
         }
     }
 
-    private void SwitchState(ZombieState newState)
+    public void SwitchState(ZombieState newState)
     {
         state = newState;
     }
@@ -116,9 +116,9 @@ public class AIOfZombie : MonoBehaviour
     private bool CanSeePlayer()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, sightRange, detectionLayers);
-        foreach(var hit in hits)
+        foreach (var hit in hits)
         {
-            if(hit.CompareTag("Player"))
+            if (hit.CompareTag("Player"))
             {
                 player = hit.transform;
                 return true;
@@ -140,8 +140,10 @@ public class AIOfZombie : MonoBehaviour
     {
         if (state == ZombieState.Run && other.CompareTag("Player"))
         {
-            Debug.Log("Player Dead");
-            SwitchState(ZombieState.Victory);
+            if (PlayerSceneZombie.instance != null)
+            {
+                PlayerSceneZombie.instance.OnHitByZombie(this);
+            }
         }
         if (other.CompareTag("Hammer"))
         {

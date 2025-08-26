@@ -96,11 +96,26 @@ public class WeaponAttack : MonoBehaviour
 
 
                     playerTransform.LookAt(neasrest.transform);
+                    //if (animationController != null)
+                    //{
+                    //    animationController.OnAttack += () => FireProjectile(neasrest);
+                    //    animationController.SetAttackAnimation();
+                    //}
                     if (animationController != null)
                     {
-                        animationController.OnAttack += () => FireProjectile(neasrest);
+                        // chỉ đăng ký nếu target vẫn tồn tại
+                        if (neasrest != null)
+                        {
+                            animationController.OnAttack += () =>
+                            {
+                                if (neasrest != null) // check lại lần nữa khi animation gọi
+                                    FireProjectile(neasrest);
+                            };
+                        }
+
                         animationController.SetAttackAnimation();
                     }
+
                     attackCooldown = maxAttackCooldown;
                 }
             }
@@ -153,6 +168,12 @@ public class WeaponAttack : MonoBehaviour
 
     public void FireProjectile(Collider collider)
     {
+        if (collider == null) return;  // tránh null
+
+        Transform target = collider.transform;
+        if (target == null) return;
+
+
         if (weaponHandVisual != null)
             weaponHandVisual.SetActive(false);
 

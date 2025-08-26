@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float rotationSpeed = 100f;
     [SerializeField] private float currentTime;
     [SerializeField] private GameObject deadScene;
+    public TextMeshProUGUI shieldText;
 
     public static UIManager instance;
 
@@ -30,6 +31,11 @@ public class UIManager : MonoBehaviour
         {
             Load();
         }
+    }
+
+    public void UpdateShield(int count)
+    {
+        shieldText.text = count + " Time";
     }
 
     public void Load()

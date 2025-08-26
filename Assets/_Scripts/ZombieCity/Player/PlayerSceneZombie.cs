@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using System;
+using System.Collections;
 
 public class PlayerSceneZombie : MonoBehaviour
 {
@@ -45,6 +47,12 @@ public class PlayerSceneZombie : MonoBehaviour
     private Skill activeSkill;
     public TextMeshProUGUI levelUp;
 
+    [SerializeField] private GameObject shieldShpere;
+    public float shieldDuration = 3f;
+    public int shieldCount = 0;
+
+    public bool isShieldActive = false;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -57,7 +65,10 @@ public class PlayerSceneZombie : MonoBehaviour
         if (animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
     }
-
+    private void Start()
+    {
+        shieldShpere.SetActive(false);
+    }
     void Update()
     {
         //GetPant();
@@ -222,8 +233,38 @@ public class PlayerSceneZombie : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        // Nếu bị zombie (Bot) đụng thì gọi OnHitByZombie
         if (other.CompareTag("Bot"))
         {
+            AIOfZombie zombie = other.GetComponent<AIOfZombie>();
+            if (zombie != null)
+            {
+                OnHitByZombie(zombie);
+            }
+        }
+    }
+
+    public void OnHitByZombie(AIOfZombie zombie)
+    {
+        if (isShieldActive)
+        {
+            Debug.Log("⚡ Player đang có shield, không chết");
+            return;
+        }
+
+        if (shieldCount > 0)
+        {
+            Debug.Log("Shield = " + shieldCount);
+            StartCoroutine(ActivateShield());
+            Debug.Log("⚡ Shield được kích hoạt để chặn zombie");
+        }
+        else
+        {
+            Debug.Log("💀 Player Dead");
+
+            // Báo cho zombie thắng
+            zombie.SwitchState(ZombieState.Victory);
+
             //SFX
             SFXManager.Instance.DeadSFX();
             SFXManager.Instance.LoseSFX();
@@ -231,23 +272,36 @@ public class PlayerSceneZombie : MonoBehaviour
             playerState = PlayerState.Die;
             animationController.SetDeadAnimation();
             Invoke(nameof(SetDeactiveGameObj), 2);
+
             if (ControllerSceneZombie.instance != null)
                 ControllerSceneZombie.instance.SetPlayerAlive(false);
 
-            //SpawnEnemy.Instance?.NotifyCharacterDied(true);
-            //textRank.text = "#" + (SpawnEnemy.Instance?.GetRemainingCount() + 1);
             SpawnZombie.instance?.NotifyCharacterDied(true);
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);
-            int coinGet = coin;
 
             //Save coin
             ControllerSceneZombie.instance.SaveCoin(coin);
             coinDeadScene.text = coin.ToString();
-            //UIManager.instance.Load();
             UIManager.instance.isDead = true;
         }
+    }
+
+
+
+    private IEnumerator ActivateShield()
+    {
+        shieldCount--;
+        isShieldActive = true;
+        shieldShpere.SetActive(true);
+        yield return new WaitForSeconds(shieldDuration);
+        shieldShpere.SetActive(false);
+        isShieldActive = false;
+    }
+    private void UpdateShieldUI()
+    {
+
     }
 
     public void AddCoin(int amount)
