@@ -61,9 +61,8 @@ public class WeaponProjectile : MonoBehaviour
         }
         else
         {
-            Quaternion offset = Quaternion.Euler(90f, 0f, 0f);
+            Quaternion offset = Quaternion.Euler(90f, 180f, 0f);
             transform.rotation = Quaternion.LookRotation(direction) * offset;
-            //transform.Rotate(90, 0, 0);
         }
     }
 

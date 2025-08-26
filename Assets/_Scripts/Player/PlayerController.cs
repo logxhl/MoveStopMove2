@@ -35,8 +35,8 @@ public class PlayerController : MonoBehaviour
 
     public WeaponProjectile projectile;
 
-    //[SerializeField] private CoinSystem coinSystem;
-    //public CoinSystem GetCoinSystem => coinSystem;
+    // Biến lưu trạng thái xoay ban đầu của vũ khí
+    private bool originalWeaponRotateState;
 
     private int coin = 0;
     public int countUpCoin = 0;
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-       
+
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -55,11 +55,13 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         if (animationController == null)
             animationController = GetComponentInChildren<AnimationController>();
+
+        // Lưu trạng thái xoay ban đầu
+        SaveOriginalWeaponRotateState();
     }
-  
+
     void Update()
     {
-        //GetPant();
         ChangeWeapon();
         dir = joystick.inputDir; // Lấy hướng từ joystick
         move = new Vector3(dir.x, 0, dir.y);
@@ -86,25 +88,21 @@ public class PlayerController : MonoBehaviour
                 weaponAttack.SetCanAttack(true);
             }
         }
+    }
 
+    // Lưu trạng thái xoay ban đầu của vũ khí hiện tại
+    private void SaveOriginalWeaponRotateState()
+    {
+        int indexWp = PlayerPrefs.GetInt("LoadWeapon", 0);
 
-
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    animationController.SetDeadAnimation();
-        //}
-        //else if (Input.GetKey(KeyCode.D))
-        //{
-        //    animationController.SetDanceWinAnimation();
-        //}
-        //else if (Input.GetKey(KeyCode.S))
-        //{
-        //    animationController.SetDanceAnimation();
-        //}
-        //else if (Input.GetKey(KeyCode.W))
-        //{
-        //    animationController.SetUltiAnimation();
-        //}
+        for (int i = 0; i < listWeapon.weaponList.Length; i++)
+        {
+            if (indexWp == listWeapon.weaponList[i].index)
+            {
+                originalWeaponRotateState = listWeapon.weaponList[i].isRotate;
+                break;
+            }
+        }
     }
 
     private void ChangeWeapon()
@@ -154,25 +152,22 @@ public class PlayerController : MonoBehaviour
                 meshRenderer.materials = mats;
                 meshProjectile.materials = matsOfBullet;
 
+                // Lưu trạng thái xoay ban đầu
+                originalWeaponRotateState = listWeapon.weaponList[i].isRotate;
 
-                // Set rotate
-                projectile.checkRotate = listWeapon.weaponList[i].isRotate;
+                // Set rotate - Nếu đang có Gift thì luôn bay thẳng, nếu không thì theo cấu hình ban đầu
+                if (isGift)
+                {
+                    projectile.checkRotate = false; // Gift mode: luôn bay thẳng
+                }
+                else
+                {
+                    projectile.checkRotate = originalWeaponRotateState; // Normal mode: theo cấu hình vũ khí
+                }
             }
         }
     }
 
-
-    public void GetPant()
-    {
-        int index = PlayerPrefs.GetInt("SelectedPant");
-        for (int i = 0; i < listPant.pantInfo.Length; i++)
-        {
-            if (index == listPant.pantInfo[i].index)
-            {
-                currentPant.GetComponent<SkinnedMeshRenderer>().material = listPant.pantInfo[i].pantMaterials;
-            }
-        }
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hammer"))
@@ -197,22 +192,25 @@ public class PlayerController : MonoBehaviour
             fixedJoyStick.SetActive(false);
             topUI.SetActive(false);
             panelCountDown.SetActive(true);
-            //int coin = ((SpawnEnemy.Instance.totalEnemiesToSpawn - SpawnEnemy.Instance.GetRemainingCount()) * 5);
             int coinGet = coin;
 
             //Save coin
             GameController.instance.SaveCoin(coin);
             coinDeadScene.text = coin.ToString();
-            //UIManager.instance.Load();
             UIManager.instance.isDead = true;
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Gift"))
         {
             isGift = true;
-            //Debug.Log("Va cham");
+            Debug.Log("🎁 Gift activated! Weapon now flies straight.");
+
+            // Chuyển vũ khí sang chế độ bay thẳng khi nhận Gift
+            projectile.checkRotate = false;
+
             weaponAttack.PushThrowOrigin(1f);
             weaponAttack.SetAttackRadius(7f);
             CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
@@ -225,11 +223,17 @@ public class PlayerController : MonoBehaviour
             CameraFollow.instance.ShiftUp(3f);
         }
     }
+
     public void SetDefault()
     {
         if (isGift)
         {
             isGift = false;
+            Debug.Log("🔄 Gift effect ended. Weapon behavior reset to original.");
+
+            // Khôi phục trạng thái xoay ban đầu của vũ khí
+            projectile.checkRotate = originalWeaponRotateState;
+
             weaponAttack.ResetThrowOrigin();
             weaponAttack.SetAttackRadius(5);
             CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
@@ -250,14 +254,17 @@ public class PlayerController : MonoBehaviour
         countUpCoin++;
         UpScale();
     }
+
     public int GetCoin()
     {
         return coin;
     }
+
     public void SetCoin(int coinSet)
     {
         this.coin = coinSet;
     }
+
     public void UpScale()
     {
         if (countUpCoin % 2 == 0 && countUpCoin != 0)
@@ -275,6 +282,7 @@ public class PlayerController : MonoBehaviour
             Invoke(nameof(DisUpScale), 2f);
         }
     }
+
     public void DisUpScale()
     {
         particleUpScale.gameObject.SetActive(false);
