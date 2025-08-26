@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class WeaponProjectile : MonoBehaviour
 {
     private WeaponData weaponData;
-
     private LayerMask targetLayer;
 
     [SerializeField] private float maxLifeTime = 0.6f;
@@ -13,25 +13,20 @@ public class WeaponProjectile : MonoBehaviour
     [SerializeField] private float rotateSpeed;
 
     private Rigidbody _rigidbody;
-
-    //public WeaponAttack owner;
     private GameObject owner;
     public bool checkRotate;
+
+    // Thêm các biến để xử lý ignore collision
+    private Collider shooterCollider;
+    private Collider projectileCollider;
+    [SerializeField] private float ignoreCollisionTime = 0.5f; // Thời gian ignore collision
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        projectileCollider = GetComponent<Collider>();
     }
 
-    //public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData, WeaponAttack owner)
-    //{
-    //    this.direction = direction.normalized;
-    //    this.targetLayer = targetLayer;
-    //    this.weaponData = weaponData;
-    //    this.owner = owner;
-    //    this.timer = 0f;
-    //    gameObject.SetActive(true);
-    //}
     public void Launch(Vector3 direction, LayerMask targetLayer, WeaponData weaponData, GameObject owner)
     {
         this.direction = direction.normalized;
@@ -39,22 +34,60 @@ public class WeaponProjectile : MonoBehaviour
         this.weaponData = weaponData;
         this.owner = owner;
         this.timer = 0f;
-        if(!checkRotate && this.direction != Vector3.zero)
+
+        // Thiết lập ignore collision với người bắn
+        SetupIgnoreCollision();
+
+        if (!checkRotate && this.direction != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(this.direction);
         }
         gameObject.SetActive(true);
     }
 
+    private void SetupIgnoreCollision()
+    {
+        if (owner != null && projectileCollider != null)
+        {
+            // Lấy collider của người bắn
+            shooterCollider = owner.GetComponent<Collider>();
+
+            if (shooterCollider != null)
+            {
+                // Bỏ qua va chạm với người bắn
+                Physics.IgnoreCollision(projectileCollider, shooterCollider, true);
+                Debug.Log($"🚀 Projectile ignoring collision with shooter: {owner.name}");
+
+                // Sau một khoảng thời gian thì cho phép va chạm trở lại
+                StartCoroutine(EnableCollisionAfterDelay());
+            }
+            else
+            {
+                Debug.LogWarning($"⚠️ Shooter {owner.name} không có Collider!");
+            }
+        }
+    }
+
+    private IEnumerator EnableCollisionAfterDelay()
+    {
+        yield return new WaitForSeconds(ignoreCollisionTime);
+
+        // Kiểm tra lại để đảm bảo các object vẫn tồn tại
+        if (shooterCollider != null && projectileCollider != null && gameObject.activeInHierarchy)
+        {
+            Physics.IgnoreCollision(projectileCollider, shooterCollider, false);
+            Debug.Log($"✅ Projectile can now collide with shooter: {owner.name}");
+        }
+    }
+
     void Update()
     {
-        // Di chuyển theo hướng đã set
-        //transform.position += _direction * speed * Time.deltaTime;
         timer += Time.deltaTime;
         if (timer >= maxLifeTime)
         {
             Deactivate();
         }
+
         if (checkRotate)
         {
             transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
@@ -73,43 +106,21 @@ public class WeaponProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Kiểm tra xem có phải target layer không
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
+            // Debug log để theo dõi va chạm
+            Debug.Log($"💥 Projectile hit: {other.name}, Owner: {owner?.name}");
+
             Deactivate();
+
             if (other.CompareTag(Params.PlayerTag))
             {
                 EnemyAI actor = owner.GetComponent<EnemyAI>();
-                //other.gameObject.SetActive(false);
                 SpawnEnemy.Instance.canSpawn = false;
                 actor.AddCoin(5);
-
                 SFXManager.Instance.DeadSFX();
-
-
             }
-            //else if (other.CompareTag(Params.BotTag))
-            //{
-
-            //    PlayerController actor = owner.GetComponent<PlayerController>();
-            //    EnemyAI actorEnemy = owner.GetComponent<EnemyAI>();
-            //    EnemyAI enemyAI = other.GetComponent<EnemyAI>();
-            //    if (actorEnemy != null)
-            //    {
-            //        if (enemyAI != null)
-            //            enemyAI.Die();
-            //        actorEnemy.AddCoin(5);
-            //        Debug.Log(actor.coin.ToString());
-            //        SFXManager.Instance.DeadSFX();
-            //    }
-            //    else if(actor != null)
-            //    {
-            //        if (enemyAI != null)
-            //            enemyAI.Die();
-            //        actor.AddCoin(5);
-            //        Debug.Log(actor.coin.ToString());
-            //        SFXManager.Instance.DeadSFX();
-            //    }
-            //}
             else if (other.CompareTag(Params.BotTag))
             {
                 // Lấy AI của mục tiêu bị bắn
@@ -140,12 +151,29 @@ public class WeaponProjectile : MonoBehaviour
                     SFXManager.Instance.DeadSFX();
                 }
             }
-
         }
     }
 
     void Deactivate()
     {
+        // Reset ignore collision trước khi deactivate
+        if (shooterCollider != null && projectileCollider != null)
+        {
+            Physics.IgnoreCollision(projectileCollider, shooterCollider, false);
+        }
+
+        // Stop tất cả coroutines
+        StopAllCoroutines();
+
         gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        // Đảm bảo reset collision khi object bị disable
+        if (shooterCollider != null && projectileCollider != null)
+        {
+            Physics.IgnoreCollision(projectileCollider, shooterCollider, false);
+        }
     }
 }

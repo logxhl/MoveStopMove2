@@ -166,3 +166,4 @@ MonoBehaviour:
   maxLifeTime: 1
   rotateSpeed: 1000
   checkRotate: 1
+  ignoreCollisionTime: 0.5
