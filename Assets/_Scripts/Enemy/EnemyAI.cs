@@ -139,6 +139,8 @@ public class EnemyAI : MonoBehaviour
         state = EnemyState.Dead;
         animationController.SetDeadAnimation();
 
+        DisablePhysics();
+
         OnDie?.Invoke();
         SpawnEnemy.Instance?.NotifyCharacterDied(false);
         EnemyIndicatorManager.instance.UnregisterEnemy(transform);
@@ -183,6 +185,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Hammer"))
         {
+            DisablePhysics();
             if (SpawnEnemy.Instance.GetRemainingCount() == 1)
             {
                 int coinPlayer = PlayerController.instance.GetCoin() + 100;
@@ -211,4 +214,23 @@ public class EnemyAI : MonoBehaviour
             weaponProjectile.transform.localScale = new Vector3(20, 20, 20);
         }
     }
+    private void DisablePhysics()
+    {
+        // Tắt tất cả Collider
+        Collider[] cols = GetComponentsInChildren<Collider>();
+        foreach (Collider col in cols)
+        {
+            col.enabled = false;
+        }
+
+        // Tắt tất cả Rigidbody
+        Rigidbody[] rbs = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.isKinematic = true;   // ngừng tính toán vật lý
+            rb.detectCollisions = false; // ngừng va chạm
+        }
+    }
+
+
 }
