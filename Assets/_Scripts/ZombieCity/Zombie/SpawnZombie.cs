@@ -12,6 +12,9 @@ public class SpawnZombie : MonoBehaviour
     public int fixedSpawnCount = 5;
     public int randomSpawnCount = 10;
 
+    [Header("Zombie color")]
+    public Material[] zombieMaterials;
+
     [Header("Spawn random")]
     public float randomSpawnRadius = 50f;
     public Vector3 randomCenter = Vector3.zero;
@@ -75,10 +78,39 @@ public class SpawnZombie : MonoBehaviour
     {
         GameObject zombie = Instantiate(zombiePrefab, pos, rot);
 
+        ApplyRandomColor(zombie);
+
         spawnZombies.Add(zombie);
         zombiesAlive++;
         UpDateAliveUI();
         return zombie.transform;
+    }
+    private void ApplyRandomColor(GameObject zombie)
+    {
+        // Kiểm tra có material để áp dụng không
+        if (zombieMaterials == null || zombieMaterials.Length == 0)
+        {
+            Debug.LogWarning("⚠️ Không có material nào trong danh sách zombieMaterials!");
+            return;
+        }
+
+        // Tìm SkinnedMeshRenderer trong zombie
+        SkinnedMeshRenderer skinnedRenderer = zombie.GetComponentInChildren<SkinnedMeshRenderer>();
+
+        if (skinnedRenderer != null)
+        {
+            // Chọn material ngẫu nhiên từ danh sách
+            Material randomMaterial = zombieMaterials[Random.Range(0, zombieMaterials.Length)];
+
+            // Áp dụng material
+            skinnedRenderer.material = randomMaterial;
+
+            Debug.Log($"🎨 Zombie {zombie.name} được tô màu với material: {randomMaterial.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ Không tìm thấy SkinnedMeshRenderer trong zombie: {zombie.name}");
+        }
     }
 
     public int GetZombieAlive()
