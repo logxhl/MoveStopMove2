@@ -167,3 +167,4 @@ MonoBehaviour:
   rotateSpeed: 1000
   checkRotate: 1
   ignoreCollisionTime: 0.5
+  scaleUpDuration: 0.3

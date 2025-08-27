@@ -2,8 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IGiftReceiver
 {
     public static PlayerController instance;
     [SerializeField] private AnimationController animationController;
@@ -205,46 +206,49 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Gift"))
         {
-            isGift = true;
-            Debug.Log("🎁 Gift activated! Weapon now flies straight.");
+            //isGift = true;
+            //Debug.Log("🎁 Gift activated! Weapon now flies straight.");
 
-            // Chuyển vũ khí sang chế độ bay thẳng khi nhận Gift
-            projectile.checkRotate = false;
+            //// Chuyển vũ khí sang chế độ bay thẳng khi nhận Gift
+            //projectile.checkRotate = false;
 
-            weaponAttack.PushThrowOrigin(1f);
-            weaponAttack.SetAttackRadius(7f);
-            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
-            if (circle != null)
-            {
-                circle.radius = 10f;
-                circle.DrawCircle();
-                projectile.transform.localScale = new Vector3(50, 50, 50);
-            }
-            CameraFollow.instance.ShiftUp(3f);
+            //weaponAttack.PushThrowOrigin(1f);
+            //weaponAttack.SetAttackRadius(7f);
+            //CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+            //if (circle != null)
+            //{
+            //    circle.radius = 10f;
+            //    circle.DrawCircle();
+            //    //projectile.transform.localScale = new Vector3(50, 50, 50);
+
+            //}
+            //CameraFollow.instance.ShiftUp(3f);
+            ActivateGift();
         }
     }
 
     public void SetDefault()
     {
-        if (isGift)
-        {
-            isGift = false;
-            Debug.Log("🔄 Gift effect ended. Weapon behavior reset to original.");
+        //if (isGift)
+        //{
+        //    isGift = false;
+        //    Debug.Log("🔄 Gift effect ended. Weapon behavior reset to original.");
 
-            // Khôi phục trạng thái xoay ban đầu của vũ khí
-            projectile.checkRotate = originalWeaponRotateState;
+        //    // Khôi phục trạng thái xoay ban đầu của vũ khí
+        //    projectile.checkRotate = originalWeaponRotateState;
 
-            weaponAttack.ResetThrowOrigin();
-            weaponAttack.SetAttackRadius(5);
-            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
-            if (circle != null)
-            {
-                circle.radius = 7f;
-                circle.DrawCircle();
-                projectile.transform.localScale = new Vector3(20, 20, 20);
-            }
-            CameraFollow.instance.ResetOffset();
-        }
+        //    weaponAttack.ResetThrowOrigin();
+        //    weaponAttack.SetAttackRadius(5);
+        //    CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+        //    if (circle != null)
+        //    {
+        //        circle.radius = 7f;
+        //        circle.DrawCircle();
+        //        //projectile.transform.localScale = new Vector3(20, 20, 20);
+        //    }
+        //    CameraFollow.instance.ResetOffset();
+        //}
+        DeactivateGift();
     }
 
     public void AddCoin(int amount)
@@ -289,4 +293,63 @@ public class PlayerController : MonoBehaviour
     }
 
     void SetDeactiveGameObj() => gameObject.SetActive(false);
+    public bool HasGift()
+    {
+        return isGift;
+    }
+
+    // Cũng có thể thêm method để get gift scale values
+    public Vector3 GetGiftProjectileScale()
+    {
+        return new Vector3(50, 50, 50);
+    }
+
+    public Vector3 GetNormalProjectileScale()
+    {
+        return new Vector3(20, 20, 20);
+    }
+
+    public void ActivateGift()
+    {
+        if (!isGift)
+        {
+            isGift = true;
+            Debug.Log("🎁 Player Gift activated!");
+
+            projectile.checkRotate = false;
+            weaponAttack.PushThrowOrigin(1f);
+            weaponAttack.SetAttackRadius(7f);
+
+            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+            if (circle != null)
+            {
+                circle.radius = 10f;
+                circle.DrawCircle();
+            }
+
+            CameraFollow.instance.ShiftUp(3f);
+        }
+    }
+
+    public void DeactivateGift()
+    {
+        if (isGift)
+        {
+            isGift = false;
+            Debug.Log("🔄 Player Gift ended.");
+
+            projectile.checkRotate = originalWeaponRotateState;
+            weaponAttack.ResetThrowOrigin();
+            weaponAttack.SetAttackRadius(5);
+
+            CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
+            if (circle != null)
+            {
+                circle.radius = 7f;
+                circle.DrawCircle();
+            }
+
+            CameraFollow.instance.ResetOffset();
+        }
+    }
 }

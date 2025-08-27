@@ -21,6 +21,13 @@ public class WeaponProjectile : MonoBehaviour
     private Collider projectileCollider;
     [SerializeField] private float ignoreCollisionTime = 0.5f; // Thời gian ignore collision
 
+    [Header("Gift Scaling Settings")]
+    [SerializeField] private float scaleUpDuration = 0.3f;
+    private Vector3 originalScale;
+    private Vector3 normalScale = new Vector3(20, 20, 20);      // Scale bình thường
+    private Vector3 giftScale = new Vector3(100, 100, 100);        // Scale khi có gift
+
+    private Coroutine scaleCoroutine;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -43,8 +50,70 @@ public class WeaponProjectile : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(this.direction);
         }
         gameObject.SetActive(true);
+
+        // Kiểm tra xem owner có đang trong trạng thái Gift không
+        CheckAndApplyGiftEffect();
+    }
+    private void CheckAndApplyGiftEffect()
+    {
+        // Kiểm tra owner có implement IGiftReceiver không
+        IGiftReceiver giftReceiver = owner.GetComponent<IGiftReceiver>();
+
+        if (giftReceiver != null && giftReceiver.HasGift())
+        {
+            // Scale từ bình thường lên Gift size
+            StartSmoothScaling(normalScale, giftScale);
+            Debug.Log($"🎁 {owner.name} has Gift! Projectile scaling up!");
+        }
+        else
+        {
+            // Scale bình thường
+            transform.localScale = normalScale;
+        }
     }
 
+    //// Hàm check xem player có gift không (cần access đến biến private của PlayerController)
+    //private bool IsPlayerHasGift(PlayerController player)
+    //{
+    //    // Có thể dùng reflection hoặc tạo public method trong PlayerController
+    //    // Ở đây tôi sẽ suggest tạo method public trong PlayerController
+    //    return player.HasGift(); // Method này cần được thêm vào PlayerController
+    //}
+
+    private void StartSmoothScaling(Vector3 fromScale, Vector3 toScale)
+    {
+        // Stop coroutine cũ nếu có
+        if (scaleCoroutine != null)
+        {
+            StopCoroutine(scaleCoroutine);
+        }
+
+        // Set scale ban đầu
+        transform.localScale = fromScale;
+
+        // Start scaling
+        scaleCoroutine = StartCoroutine(SmoothScaleCoroutine(fromScale, toScale));
+    }
+    private IEnumerator SmoothScaleCoroutine(Vector3 fromScale, Vector3 toScale)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < scaleUpDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / scaleUpDuration;
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+            transform.localScale = Vector3.Lerp(fromScale, toScale, smoothT);
+
+            yield return null;
+        }
+
+        // Đảm bảo scale chính xác
+        transform.localScale = toScale;
+        scaleCoroutine = null;
+    }
+   
     private void SetupIgnoreCollision()
     {
         if (owner != null && projectileCollider != null)
@@ -167,6 +236,7 @@ public class WeaponProjectile : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+
 
     private void OnDisable()
     {
