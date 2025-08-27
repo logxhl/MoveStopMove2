@@ -267,7 +267,7 @@ public class PlayerSceneZombie : MonoBehaviour
     {
         if (isShieldActive)
         {
-            Debug.Log("⚡ Player đang có shield, không chết");
+            Debug.Log("Player đang có shield, không chết");
             return;
         }
 
@@ -275,11 +275,11 @@ public class PlayerSceneZombie : MonoBehaviour
         {
             Debug.Log("Shield = " + shieldCount);
             StartCoroutine(ActivateShield());
-            Debug.Log("⚡ Shield được kích hoạt để chặn zombie");
+            Debug.Log("Shield được kích hoạt để chặn zombie");
         }
         else
         {
-            Debug.Log("💀 Player Dead");
+            Debug.Log("Player Dead");
 
             // Báo cho zombie thắng
             zombie.SwitchState(ZombieState.Victory);

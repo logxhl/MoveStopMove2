@@ -4722,8 +4722,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombiePrefab: {fileID: 5441061178661714215, guid: f86a1622a752f4d46921c9d20ae07844, type: 3}
-  fixedSpawnCount: 3
-  randomSpawnCount: 1
+  zombieDog: {fileID: 1287920387205330110, guid: ab043f45c58a0a341b80a31eab424df0, type: 3}
+  bossLv1: {fileID: 7192730008696281069, guid: 4774545c8a4917f4f84a964415aa7937, type: 3}
+  bossLv2: {fileID: 6852267993665320416, guid: 5eb034c2315f0414c81921467eca24ee, type: 3}
+  fixedSpawnCount: 5
+  randomSpawnCount: 25
   zombieMaterials:
   - {fileID: 2100000, guid: 9bb2de0609c5af34ead0182d94d0c84e, type: 2}
   - {fileID: 2100000, guid: 4b48111cf41481a4db905a310c9ec531, type: 2}
@@ -4732,6 +4735,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ad02d84787adba6489d3055f7e75ee53, type: 2}
   - {fileID: 2100000, guid: dc57abf75f228d04fb672c5fc34518b0, type: 2}
   - {fileID: 2100000, guid: 9e92ba4c12fae8b4890bbcd033908c05, type: 2}
+  dogMaterials:
+  - {fileID: 2100000, guid: 1101891f85eb9584c91da7286ae7a679, type: 2}
+  - {fileID: 2100000, guid: f9072086260ac6e43b125048cd2201ee, type: 2}
+  - {fileID: 2100000, guid: 50f1a61cf9c0a5d4ebaa5b6d20845371, type: 2}
   randomSpawnRadius: 50
   randomCenter: {x: -3.5, y: 4, z: -34.7}
   fixedSpawnPoints:
@@ -4744,6 +4751,7 @@ MonoBehaviour:
   - {fileID: 1829927761}
   navMeshCheckDistance: 2
   spawnDelay: 2
+  bossSpawnDelay: 3
   aliveCountText: {fileID: 1865601685}
 --- !u!4 &685680006
 Transform:
