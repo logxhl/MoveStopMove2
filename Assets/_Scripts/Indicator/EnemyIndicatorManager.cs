@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EnemyIndicatorManager : MonoBehaviour
 {
     public static EnemyIndicatorManager instance;
+
     [Header("Setup")]
     public Camera mainCam;
     public RectTransform indicatorsParent;
@@ -14,26 +15,24 @@ public class EnemyIndicatorManager : MonoBehaviour
 
     [Header("Settings")]
     public float edgeOffset = 50f;
-    private Dictionary<Transform, RectTransform> enemyIndi = new Dictionary<Transform, RectTransform>();
+
+    private Dictionary<Transform, IndicatorData> enemyIndi = new Dictionary<Transform, IndicatorData>();
+
     public EnemyAI enemy;
     public TextMeshProUGUI textCoinEnemy;
+    public Image indica;
+    public Image oval;
 
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
         instance = this;
     }
-    //public void RegisterEnemy(Transform enemy)
-    //{
-    //    if (enemyIndi.ContainsKey(enemy)) return;
-    //    GameObject ind = Instantiate(indicatorPrefab, indicatorsParent);
-    //    ind.SetActive(true);
-    //    enemyIndi[enemy] = ind.GetComponent<RectTransform>();
-    //}
+
     public void RegisterEnemy(EnemyAI enemy)
     {
         if (enemyIndi.ContainsKey(enemy.transform)) return;
@@ -41,20 +40,54 @@ public class EnemyIndicatorManager : MonoBehaviour
         GameObject ind = Instantiate(indicatorPrefab, indicatorsParent);
         ind.SetActive(true);
 
-        // Lấy script Indicator trên prefab
         EnemyIndicator indScript = ind.GetComponent<EnemyIndicator>();
-        indScript.Init(enemy.coinText); // coinText là text trên đầu enemy
+        if (indScript != null)
+        {
+            indScript.Init(enemy.coinText);
+        }
 
-        enemyIndi[enemy.transform] = ind.GetComponent<RectTransform>();
+        // TẠO IndicatorData với màu mặc định
+        IndicatorData indicatorData = new IndicatorData(ind.GetComponent<RectTransform>(), enemy);
+        enemyIndi[enemy.transform] = indicatorData;
+    }
+    // HÀM CẬP NHẬT MÀU CHO ENEMY ĐÃ ĐĂNG KÝ
+    public void UpdateEnemyColor(Transform enemyTransform, Color newColor)
+    {
+        if (enemyIndi.ContainsKey(enemyTransform))
+        {
+            IndicatorData data = enemyIndi[enemyTransform];
+            ApplyColorToIndicator(data, newColor);
+        }
+        else
+        {
+            Debug.LogWarning($"Enemy {enemyTransform.name} not found in indicator registry");
+        }
     }
 
+    // Giữ nguyên ApplyColorToIndicator() như cũ
+    private void ApplyColorToIndicator(IndicatorData data, Color enemyColor)
+    {
+        if (data.indica != null)
+        {
+            Color beforeColor = data.indica.color;
+            data.indica.color = enemyColor;
+            //Debug.Log($"Indica: {beforeColor} → {data.indica.color}");
+        }
 
+        if (data.oval != null)
+        {
+            Color beforeColor = data.oval.color;
+            data.oval.color = enemyColor;
+            //Debug.Log($"Oval: {beforeColor} → {data.oval.color}");
+        }
+    }
     public void UnregisterEnemy(Transform enemy)
     {
-        if(!enemyIndi.ContainsKey(enemy)) return;
-        Destroy(enemyIndi[enemy].gameObject);
+        if (!enemyIndi.ContainsKey(enemy)) return;
+        Destroy(enemyIndi[enemy].indicatorUI.gameObject);
         enemyIndi.Remove(enemy);
     }
+
     private void Update()
     {
         // Cập nhật text coin từ enemy
@@ -62,14 +95,15 @@ public class EnemyIndicatorManager : MonoBehaviour
         {
             textCoinEnemy.text = enemy.coinText.text;
         }
+
         foreach (var kvp in enemyIndi)
         {
             Transform enemy = kvp.Key;
-            RectTransform arrowUI = kvp.Value;
+            IndicatorData arrowUI = kvp.Value;
 
             if (enemy == null)
             {
-                Destroy(arrowUI.gameObject);
+                Destroy(arrowUI.indicatorUI.gameObject);
                 continue;
             }
 
@@ -80,11 +114,11 @@ public class EnemyIndicatorManager : MonoBehaviour
                 viewportPos.x > 0 && viewportPos.x < 1 &&
                 viewportPos.y > 0 && viewportPos.y < 1)
             {
-                arrowUI.gameObject.SetActive(false);
+                arrowUI.indicatorUI.gameObject.SetActive(false);
                 continue;
             }
 
-            arrowUI.gameObject.SetActive(true);
+            arrowUI.indicatorUI.gameObject.SetActive(true);
 
             // vector từ tâm màn hình -> enemy
             Vector2 fromCenter = new Vector2(viewportPos.x - 0.5f, viewportPos.y - 0.5f);
@@ -93,15 +127,13 @@ public class EnemyIndicatorManager : MonoBehaviour
             if (viewportPos.z < 0)
             {
                 fromCenter = -fromCenter;
-
-                // đảo luôn screenPos
                 viewportPos.x = 1f - viewportPos.x;
                 viewportPos.y = 1f - viewportPos.y;
             }
 
             // hướng mũi tên
             float angle = Mathf.Atan2(fromCenter.y, fromCenter.x) * Mathf.Rad2Deg;
-            arrowUI.rotation = Quaternion.Euler(0, 0, angle - 90f);
+            arrowUI.indicatorUI.rotation = Quaternion.Euler(0, 0, angle - 90f);
 
             // đặt ở đúng mép màn hình
             Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -126,12 +158,7 @@ public class EnemyIndicatorManager : MonoBehaviour
 
                 edgePos.x = screenCenter.x + (edgePos.y - screenCenter.y) / slope;
             }
-
-            arrowUI.position = edgePos;
-
-
+            arrowUI.indicatorUI.position = edgePos;
         }
     }
-
-
 }

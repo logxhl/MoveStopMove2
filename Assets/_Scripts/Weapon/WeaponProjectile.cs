@@ -69,7 +69,7 @@ public class WeaponProjectile : MonoBehaviour
         {
             // Scale từ bình thường lên Gift size
             StartSmoothScaling(normalScale, giftScale);
-            Debug.Log($"🎁 {owner.name} has Gift! Projectile scaling up!");
+            Debug.Log($"{owner.name} has Gift! Projectile scaling up!");
         }
         else
         {
@@ -77,15 +77,6 @@ public class WeaponProjectile : MonoBehaviour
             transform.localScale = normalScale;
         }
     }
-
-    //// Hàm check xem player có gift không (cần access đến biến private của PlayerController)
-    //private bool IsPlayerHasGift(PlayerController player)
-    //{
-    //    // Có thể dùng reflection hoặc tạo public method trong PlayerController
-    //    // Ở đây tôi sẽ suggest tạo method public trong PlayerController
-    //    return player.HasGift(); // Method này cần được thêm vào PlayerController
-    //}
-
     private void StartSmoothScaling(Vector3 fromScale, Vector3 toScale)
     {
         // Stop coroutine cũ nếu có
@@ -236,7 +227,6 @@ public class WeaponProjectile : MonoBehaviour
             }
         }
     }
-
     void Deactivate()
     {
         // Reset ignore collision trước khi deactivate
@@ -250,8 +240,6 @@ public class WeaponProjectile : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-
-
     private void OnDisable()
     {
         // Đảm bảo reset collision khi object bị disable

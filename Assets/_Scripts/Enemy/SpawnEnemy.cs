@@ -33,6 +33,8 @@ public class SpawnEnemy : MonoBehaviour
 
     private int totalAliveCharacters = 0;
 
+    [SerializeField] private Material[] colorMaterials;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -65,12 +67,25 @@ public class SpawnEnemy : MonoBehaviour
     //        canSpawn = false;
     //        CancelInvoke(nameof(SpawnEnemyPrefab));
     //        return;
-    //    }        
+    //    }
+
     //    Vector3 randomPos = GetRandomPosition();
-    //    GameObject enemy = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
-    //    EnemyIndicatorManager.instance.RegisterEnemy(enemy);
+    //    GameObject enemyObj = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
+
+    //    Material usedMaterial = ApplyRandomColor(enemyObj);
+
+    //    // ✅ Lấy script EnemyAI từ prefab vừa spawn
+    //    EnemyAI enemyAI = enemyObj.GetComponent<EnemyAI>();
+    //    if (enemyAI != null)
+    //    {
+    //        EnemyIndicatorManager.instance.RegisterEnemy(enemyAI);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Enemy prefab thiếu component EnemyAI!");
+    //    }
+
     //    spawnCount++;
-    //    //totalAliveCharacters++;
     //    UpDateAliveUI();
     //}
     void SpawnEnemyPrefab()
@@ -87,19 +102,68 @@ public class SpawnEnemy : MonoBehaviour
         Vector3 randomPos = GetRandomPosition();
         GameObject enemyObj = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
 
-        // ✅ Lấy script EnemyAI từ prefab vừa spawn
+        // ✅ LẤY ENEMYAI TRƯỚC
         EnemyAI enemyAI = enemyObj.GetComponent<EnemyAI>();
-        if (enemyAI != null)
-        {
-            EnemyIndicatorManager.instance.RegisterEnemy(enemyAI);
-        }
-        else
+        if (enemyAI == null)
         {
             Debug.LogError("Enemy prefab thiếu component EnemyAI!");
+            return;
         }
+
+        // ✅ ĐĂNG KÝ INDICATOR TRƯỚC (với màu mặc định)
+        EnemyIndicatorManager.instance.RegisterEnemy(enemyAI);
+
+        // ✅ ÁP DỤNG MÀU SAU (sẽ tự động cập nhật indicator)
+        Material usedMaterial = ApplyRandomColor(enemyObj);
+        enemyAI.SetEnemyColor(usedMaterial); // Này sẽ gọi UpdateIndicatorColor()
 
         spawnCount++;
         UpDateAliveUI();
+    }
+
+    //private Material ApplyRandomColor(GameObject enemy)
+    //{
+    //    if (colorMaterials == null || colorMaterials.Length == 0)
+    //    {
+    //        Debug.Log("Khong co ds material");
+    //        return null;
+    //    }
+    //    SkinnedMeshRenderer skinnedRenderer = enemy.GetComponentInChildren<SkinnedMeshRenderer>();
+    //    if(skinnedRenderer != null )
+    //    {
+    //        Material randomMaterial = colorMaterials[Random.Range(0, colorMaterials.Length)];
+    //        skinnedRenderer.material = randomMaterial;
+    //        return randomMaterial;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Khong tim thay skinnedmeshrenderer trong enemy");
+    //        return null;
+    //    }
+
+    //}
+    // Trong SpawnEnemy.ApplyRandomColor(), thêm debug:
+    private Material ApplyRandomColor(GameObject enemy)
+    {
+        if (colorMaterials == null || colorMaterials.Length == 0)
+        {
+            Debug.Log("Khong co ds material");
+            return null;
+        }
+
+        SkinnedMeshRenderer skinnedRenderer = enemy.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (skinnedRenderer != null)
+        {
+            Material randomMaterial = colorMaterials[Random.Range(0, colorMaterials.Length)];
+
+            skinnedRenderer.material = randomMaterial;
+            return randomMaterial;
+        }
+        else
+        {
+            Debug.Log("Khong tim thay skinnedmeshrenderer trong enemy");
+            return null;
+        }
     }
 
 

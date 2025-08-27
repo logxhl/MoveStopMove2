@@ -2257,6 +2257,8 @@ MonoBehaviour:
   edgeOffset: 50
   enemy: {fileID: 0}
   textCoinEnemy: {fileID: 0}
+  indica: {fileID: 0}
+  oval: {fileID: 0}
 --- !u!114 &440677451
 MonoBehaviour:
   m_ObjectHideFlags: 0

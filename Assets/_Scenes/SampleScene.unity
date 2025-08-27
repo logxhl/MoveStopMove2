@@ -1326,6 +1326,12 @@ MonoBehaviour:
   totalEnemiesToSpawn: 5
   includePlayerInCount: 1
   aliveCountText: {fileID: 1865601685}
+  colorMaterials:
+  - {fileID: 2100000, guid: a927a6f9940b265419c15dd63209ffcc, type: 2}
+  - {fileID: 2100000, guid: 9bce5afa5beb8dc49a0984d20b6efa5f, type: 2}
+  - {fileID: 2100000, guid: 9e99f69d84d2fa640a83c8f3d1e10744, type: 2}
+  - {fileID: 2100000, guid: a7976053482f4e64a927cc26c86d8a59, type: 2}
+  - {fileID: 2100000, guid: 316802c247217b84b973703c38c03f37, type: 2}
 --- !u!4 &302175406
 Transform:
   m_ObjectHideFlags: 0
@@ -2003,6 +2009,8 @@ MonoBehaviour:
   edgeOffset: 50
   enemy: {fileID: 8341549549860802140, guid: 7491305a99843be4496519b14c97183a, type: 3}
   textCoinEnemy: {fileID: 0}
+  indica: {fileID: 0}
+  oval: {fileID: 0}
 --- !u!1 &445112000
 GameObject:
   m_ObjectHideFlags: 0
