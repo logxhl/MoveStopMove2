@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponProjectile : MonoBehaviour
@@ -28,6 +29,9 @@ public class WeaponProjectile : MonoBehaviour
     private Vector3 giftScale = new Vector3(100, 100, 100);        // Scale khi có gift
 
     private Coroutine scaleCoroutine;
+
+    private bool hasGift;
+    private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -51,6 +55,8 @@ public class WeaponProjectile : MonoBehaviour
         }
         gameObject.SetActive(true);
 
+        IGiftReceiver giftReceiver = owner.GetComponent<IGiftReceiver>();
+        hasGift = giftReceiver != null && giftReceiver.HasGift();
         // Kiểm tra xem owner có đang trong trạng thái Gift không
         CheckAndApplyGiftEffect();
     }
@@ -178,10 +184,14 @@ public class WeaponProjectile : MonoBehaviour
         // Kiểm tra xem có phải target layer không
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
+            //Neu da trung target nay roi thi bo qua
+            if (hitTargets.Contains(other.gameObject)) return;
+            hitTargets.Add(other.gameObject);
+
             // Debug log để theo dõi va chạm
             //Debug.Log($"💥 Projectile hit: {other.name}, Owner: {owner?.name}");
-
-            Deactivate();
+            
+            //Deactivate();
 
             if (other.CompareTag(Params.PlayerTag))
             {
@@ -219,6 +229,10 @@ public class WeaponProjectile : MonoBehaviour
 
                     SFXManager.Instance.DeadSFX();
                 }
+            }
+            if(!hasGift)
+            {
+                Deactivate();
             }
         }
     }
