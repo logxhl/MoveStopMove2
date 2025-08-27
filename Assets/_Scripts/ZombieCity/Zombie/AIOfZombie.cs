@@ -22,6 +22,10 @@ public class AIOfZombie : MonoBehaviour
     public LayerMask detectionLayers;
     public GameObject effectDeadZombie;
     //public GameObject levelUp;
+    public bool isBoss;
+    public bool isBossEnd;
+    private int countAttackIsBoss = 4;
+    private int countAttackIsBossEnd = 5;
 
     private ZombieState state = ZombieState.Walk;
     private void Reset()
@@ -147,38 +151,61 @@ public class AIOfZombie : MonoBehaviour
         }
         if (other.CompareTag("Hammer"))
         {
-            DisablePhysics();
-            SFXManager.Instance.DeadZombieSFX();
-
-            GameObject effect = Instantiate(effectDeadZombie);
-            //effect.transform.SetParent(PoolManager.Instance.transform);
-            effect.transform.rotation = Quaternion.identity;
-            effect.transform.position = new Vector3(transform.position.x, 6f, transform.position.z);
-            effect.GetComponent<ParticleSystem>().Play();
-
-            SpawnZombie.instance?.NotifyCharacterDied(false);
-
-            EnemyIndicatorManager.instance.UnregisterEnemy(transform);
-
-            Destroy(gameObject);
-            PlayerSceneZombie.instance.AddCoin(5);
-            int coin = PlayerSceneZombie.instance.GetCoin();
-            if (coin == 10)
+            if (isBoss)
             {
-                PlayerSceneZombie.instance.levelUp.gameObject.SetActive(true);
-                PlayerSceneZombie.instance.ShowLevelUp();
+                countAttackIsBoss -= 1;
+                if (countAttackIsBoss <= 0)
+                {
+                    DieZombie();
+                }
+                else
+                {
+                    //Hit zombie
+                }
             }
-            if (SpawnZombie.instance.GetRemainingCount() == 0)
+            else if(isBossEnd)
             {
-                int coinPlayer = PlayerSceneZombie.instance.GetCoin() + 100;
-                ControllerSceneZombie.instance.SaveCoin(coinPlayer);
+                countAttackIsBossEnd -= 1;
+                if(countAttackIsBossEnd <= 0)
+                {
+                    DieZombie();
+                }
             }
-            Debug.Log("Coin player: " + PlayerSceneZombie.instance.GetCoin());
-            //if (zombieDead != null)
-            //{
-            //    zombieDead.Die();
-            //}
+            else
+            {
+                DieZombie();
+            }
         }
+    }
+    private void DieZombie()
+    {
+        DisablePhysics();
+        SFXManager.Instance.DeadZombieSFX();
+
+        GameObject effect = Instantiate(effectDeadZombie);
+        effect.transform.rotation = Quaternion.identity;
+        effect.transform.position = new Vector3(transform.position.x, 6f, transform.position.z);
+        effect.GetComponent<ParticleSystem>().Play();
+
+        SpawnZombie.instance?.NotifyCharacterDied(false);
+        EnemyIndicatorManager.instance.UnregisterEnemy(transform);
+
+        Destroy(gameObject);
+        PlayerSceneZombie.instance.AddCoin(5);
+
+        int coin = PlayerSceneZombie.instance.GetCoin();
+        if (coin == 10)
+        {
+            PlayerSceneZombie.instance.levelUp.gameObject.SetActive(true);
+            PlayerSceneZombie.instance.ShowLevelUp();
+        }
+        if (SpawnZombie.instance.GetRemainingCount() == 0)
+        {
+            int coinPlayer = PlayerSceneZombie.instance.GetCoin() + 100;
+            ControllerSceneZombie.instance.SaveCoin(coinPlayer);
+        }
+
+        Debug.Log("Coin player: " + PlayerSceneZombie.instance.GetCoin());
     }
     private void OnDrawGizmosSelected()
     {

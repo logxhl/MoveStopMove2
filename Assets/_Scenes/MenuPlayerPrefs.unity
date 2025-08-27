@@ -19652,6 +19652,7 @@ MonoBehaviour:
   iconSprite: {fileID: 0}
   itemDes: {fileID: 0}
   freeItem: {fileID: 0}
+  animationController: {fileID: 0}
 --- !u!4 &1320330321
 Transform:
   m_ObjectHideFlags: 0

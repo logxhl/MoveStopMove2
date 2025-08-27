@@ -141,9 +141,9 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
             if (txt != null)
             {
                 if (i == equippedIndex)
-                    txt.text = "Equipped"; // đã chọn
+                    txt.text = "EQUIPPED"; // đã chọn
                 else
-                    txt.text = "Equip";    // chưa chọn
+                    txt.text = "    SELECT";    // chưa chọn
             }
         }
     }
@@ -236,7 +236,7 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
         // chỉ đổi trạng thái nút btnBuyCoin thành "Equip" chứ chưa lưu
         var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
         if (txt != null)
-            txt.text = "Equip";
+            txt.text = "    SELECT";
     }
 
 
@@ -269,7 +269,7 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
 
             //Doi giao dien thanh equip
             btnBuyCoinImg.color = equipColor;
-            textBuyCoin.text = "EQUIP";
+            textBuyCoin.text = "    SELECT";
         }
         else
         {
@@ -356,7 +356,7 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
         {
             //Da mua nhung chua trang bi
             btnBuyCoinImg.color = ownedColor;
-            textBuyCoin.text = "    EQUIP";
+            textBuyCoin.text = "    SELECT";
             if (imgCoin != null) imgCoin.gameObject.SetActive(false);
             isBought = true;
         }
