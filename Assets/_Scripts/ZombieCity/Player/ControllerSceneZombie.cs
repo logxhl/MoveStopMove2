@@ -15,6 +15,7 @@ public class ControllerSceneZombie : MonoBehaviour
     private int coin = 0;
 
     public GameObject setting;
+    [SerializeField] private AnimationController anim;
 
     private void Awake()
     {
@@ -40,6 +41,8 @@ public class ControllerSceneZombie : MonoBehaviour
         {
             if (SpawnZombie.instance.GetRemainingCount() == 0)
             {
+                CameraFollow.instance.WinCam();
+                anim.SetDanceWinAnimation();
                 winScene.SetActive(true);
                 joyStick.SetActive(false);
             }

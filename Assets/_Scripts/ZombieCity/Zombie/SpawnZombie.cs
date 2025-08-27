@@ -105,7 +105,7 @@ public class SpawnZombie : MonoBehaviour
             // Áp dụng material
             skinnedRenderer.material = randomMaterial;
 
-            Debug.Log($"🎨 Zombie {zombie.name} được tô màu với material: {randomMaterial.name}");
+            //Debug.Log($"🎨 Zombie {zombie.name} được tô màu với material: {randomMaterial.name}");
         }
         else
         {
@@ -133,7 +133,7 @@ public class SpawnZombie : MonoBehaviour
     }
     public void NotifyCharacterDied(bool isPlayer = false)
     {
-        Debug.Log("Vao day");
+        //Debug.Log("Vao day");
         if (isPlayer)
         {
             if (playerAlive)

@@ -125,7 +125,7 @@ public class WeaponProjectile : MonoBehaviour
             {
                 // Bỏ qua va chạm với người bắn
                 Physics.IgnoreCollision(projectileCollider, shooterCollider, true);
-                Debug.Log($"🚀 Projectile ignoring collision with shooter: {owner.name}");
+                //Debug.Log($"🚀 Projectile ignoring collision with shooter: {owner.name}");
 
                 // Sau một khoảng thời gian thì cho phép va chạm trở lại
                 StartCoroutine(EnableCollisionAfterDelay());
@@ -145,7 +145,7 @@ public class WeaponProjectile : MonoBehaviour
         if (shooterCollider != null && projectileCollider != null && gameObject.activeInHierarchy)
         {
             Physics.IgnoreCollision(projectileCollider, shooterCollider, false);
-            Debug.Log($"✅ Projectile can now collide with shooter: {owner.name}");
+            //Debug.Log($"✅ Projectile can now collide with shooter: {owner.name}");
         }
     }
 
@@ -179,7 +179,7 @@ public class WeaponProjectile : MonoBehaviour
         if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
             // Debug log để theo dõi va chạm
-            Debug.Log($"💥 Projectile hit: {other.name}, Owner: {owner?.name}");
+            //Debug.Log($"💥 Projectile hit: {other.name}, Owner: {owner?.name}");
 
             Deactivate();
 
