@@ -24,6 +24,10 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private AnimationController animationController;
 
+    private int currentLevel;
+
+    
+    
     // Start is called before the first frame update
     void Start()
     {

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour, IGiftReceiver
 {
@@ -43,6 +44,13 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
     public int countUpCoin = 0;
     private bool isGift = false;
 
+    //Obstacle
+    public float checkRadius = 2f;
+    public LayerMask checkLayer;   // layer chứa obstacle
+    public Material transparentMat;
+    private Dictionary<GameObject, Material> originalMats = new Dictionary<GameObject, Material>();
+
+
     private void Awake()
     {
 
@@ -63,6 +71,8 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
 
     void Update()
     {
+        CheckObstacle();
+
         ChangeWeapon();
         dir = joystick.inputDir; // Lấy hướng từ joystick
         move = new Vector3(dir.x, 0, dir.y);
@@ -88,6 +98,59 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
                 animationController.SetIdleAnimation();
                 weaponAttack.SetCanAttack(true);
             }
+        }
+    }
+
+    private void CheckObstacle()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, checkRadius, checkLayer);
+
+        foreach (Collider col in hitColliders)
+        {
+            if (col.CompareTag("Obstacle"))
+            {
+                Renderer rend = col.GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    // Lưu material gốc để sau có thể khôi phục
+                    if (!originalMats.ContainsKey(col.gameObject))
+                    {
+                        originalMats[col.gameObject] = rend.material;
+                        rend.material = transparentMat;  // đổi sang transparent
+                    }
+                }
+            }
+        }
+
+        // Khôi phục material cho những object không còn trong vùng Overlap nữa
+        List<GameObject> toRestore = new List<GameObject>();
+        foreach (var kvp in originalMats)
+        {
+            bool stillInside = false;
+            foreach (Collider col in hitColliders)
+            {
+                if (col.gameObject == kvp.Key)
+                {
+                    stillInside = true;
+                    break;
+                }
+            }
+
+            if (!stillInside)
+            {
+                Renderer rend = kvp.Key.GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    rend.material = kvp.Value; // restore lại material gốc
+                }
+                toRestore.Add(kvp.Key);
+            }
+        }
+
+        // Xóa những object đã restore
+        foreach (var obj in toRestore)
+        {
+            originalMats.Remove(obj);
         }
     }
 
@@ -206,48 +269,12 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
     {
         if (collision.gameObject.CompareTag("Gift"))
         {
-            //isGift = true;
-            //Debug.Log("🎁 Gift activated! Weapon now flies straight.");
-
-            //// Chuyển vũ khí sang chế độ bay thẳng khi nhận Gift
-            //projectile.checkRotate = false;
-
-            //weaponAttack.PushThrowOrigin(1f);
-            //weaponAttack.SetAttackRadius(7f);
-            //CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
-            //if (circle != null)
-            //{
-            //    circle.radius = 10f;
-            //    circle.DrawCircle();
-            //    //projectile.transform.localScale = new Vector3(50, 50, 50);
-
-            //}
-            //CameraFollow.instance.ShiftUp(3f);
             ActivateGift();
         }
     }
 
     public void SetDefault()
     {
-        //if (isGift)
-        //{
-        //    isGift = false;
-        //    Debug.Log("🔄 Gift effect ended. Weapon behavior reset to original.");
-
-        //    // Khôi phục trạng thái xoay ban đầu của vũ khí
-        //    projectile.checkRotate = originalWeaponRotateState;
-
-        //    weaponAttack.ResetThrowOrigin();
-        //    weaponAttack.SetAttackRadius(5);
-        //    CircleAroundPlayer circle = GetComponentInChildren<CircleAroundPlayer>();
-        //    if (circle != null)
-        //    {
-        //        circle.radius = 7f;
-        //        circle.DrawCircle();
-        //        //projectile.transform.localScale = new Vector3(20, 20, 20);
-        //    }
-        //    CameraFollow.instance.ResetOffset();
-        //}
         DeactivateGift();
     }
 
