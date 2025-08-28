@@ -63,7 +63,6 @@ public class SpawnZombie : MonoBehaviour
         zombiesAlive = totalZombiesToSpawn;
 
         UpDateAliveUI();
-
         StartCoroutine(SpawnZombies());
     }
 
@@ -72,6 +71,7 @@ public class SpawnZombie : MonoBehaviour
         // Spawn cố định
         for (int i = 0; i < fixedSpawnCount; i++)
         {
+            if (!playerAlive) yield break;
             Transform spawnPoint = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)];
             GameObject zombies = Random.Range(0f, 1f) < 0.7f ? zombiePrefab : zombieDog;
             Transform enemyPos = SpawnZombieAt(spawnPoint.position, Quaternion.identity, zombies);
@@ -81,6 +81,7 @@ public class SpawnZombie : MonoBehaviour
         // Spawn random
         for (int i = 0; i < randomSpawnCount; i++)
         {
+            if(!playerAlive) yield break;
             Vector3 spawnPos = GetRandomNavMeshPoint(randomCenter, randomSpawnRadius);
             GameObject zombies = Random.Range(0f, 1f) < 0.6f ? zombiePrefab : zombieDog;
             Transform enemyPos = SpawnZombieAt(spawnPos, Quaternion.identity, zombies);
@@ -108,7 +109,7 @@ public class SpawnZombie : MonoBehaviour
             materialsToUse = zombieMaterials;
         else if (prefabZombie == zombieDog)
             materialsToUse = dogMaterials;
-               // Kiểm tra có material để áp dụng không
+        // Kiểm tra có material để áp dụng không
         if (materialsToUse == null || materialsToUse.Length == 0)
         {
             Debug.LogWarning($"Không có material nào cho {prefabZombie.name}!");
@@ -166,6 +167,7 @@ public class SpawnZombie : MonoBehaviour
             if (playerAlive)
             {
                 playerAlive = false;
+                StopAllCoroutines();
             }
             return;
         }
@@ -176,6 +178,7 @@ public class SpawnZombie : MonoBehaviour
         UpDateAliveUI();
         zombiesAlive--;
 
+        if (!playerAlive) return;
         // Spawn Boss Level 1 mỗi khi giết được 10 zombie
         if (zombiesKilled % 10 == 0 && bossLv1Spawned < maxBossLv1)
         {
@@ -200,7 +203,7 @@ public class SpawnZombie : MonoBehaviour
         SpawnZombieAt(spawnPos, Quaternion.identity, bossLv1);
 
         bossLv1Spawned++;
-        Debug.Log($"Boss Level 1 spawned! ({bossLv1Spawned}/{maxBossLv1})");
+        //Debug.Log($"Boss Level 1 spawned! ({bossLv1Spawned}/{maxBossLv1})");
     }
 
     private IEnumerator SpawnBossLevel2()
@@ -249,5 +252,3 @@ public class SpawnZombie : MonoBehaviour
         return zombiesAlive <= 0;
     }
 }
-
-

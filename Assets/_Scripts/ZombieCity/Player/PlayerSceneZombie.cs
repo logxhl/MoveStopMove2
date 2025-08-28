@@ -280,7 +280,6 @@ public class PlayerSceneZombie : MonoBehaviour
         else
         {
             Debug.Log("Player Dead");
-
             // Báo cho zombie thắng
             zombie.SwitchState(ZombieState.Victory);
 

@@ -163,10 +163,10 @@ public class AIOfZombie : MonoBehaviour
                     //Hit zombie
                 }
             }
-            else if(isBossEnd)
+            else if (isBossEnd)
             {
                 countAttackIsBossEnd -= 1;
-                if(countAttackIsBossEnd <= 0)
+                if (countAttackIsBossEnd <= 0)
                 {
                     DieZombie();
                 }
