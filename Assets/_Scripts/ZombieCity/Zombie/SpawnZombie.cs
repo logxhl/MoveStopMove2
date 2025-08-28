@@ -95,6 +95,17 @@ public class SpawnZombie : MonoBehaviour
 
         ApplyRandomColor(zombie, prefabZombie);
 
+        //Luon quay ve huong player
+        NavMeshAgent agent = zombie.GetComponent<NavMeshAgent>();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if(agent != null && player != null)
+        {
+            Vector3 dir = (player.transform.position - pos).normalized;
+            if(dir != Vector3.zero)
+            {
+                zombie.transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
+            }
+        }
         spawnZombies.Add(zombie);
         zombiesAlive++;
         UpDateAliveUI();
