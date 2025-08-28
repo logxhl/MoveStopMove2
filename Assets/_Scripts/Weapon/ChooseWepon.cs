@@ -10,7 +10,8 @@ public class ChooseWepon : MonoBehaviour
 {
     public static ChooseWepon instance;
     public WeaponTableObject weaponData;
-    public Image imgWeapon;
+    [SerializeField] private GameObject[] wps;
+    //public Image imgWeapon;
     public int count;
     public TextMeshProUGUI nameWeapon;
     public TextMeshProUGUI unLock;
@@ -67,6 +68,10 @@ public class ChooseWepon : MonoBehaviour
 
     private void Start()
     {
+        foreach (GameObject wp in wps)
+            wp.SetActive(false);
+
+
         count = PlayerPrefs.GetInt(LoadWeaponKey, 0);
 
         //Load danh sach da mua
@@ -148,35 +153,41 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
         }
     }
 
-    //public void SaveButtonMaterial()
-    //{
-    //    Weapon wp = weaponData.GetWeapon(count);
-    //    if (ownedSet.Contains(count))
-    //    {
-    //        int indMaterial = PlayerPrefs.GetInt("MaterialOfWp" + count);
-    //        PlayerPrefs.SetInt("ButtonOfMaterial" + count, indMaterial);
-    //    }
-    //}
+    public void LoadCurrentWp()
+    {
+        foreach (GameObject wp in wps)
+            wp.SetActive(false);
+        count = PlayerPrefs.GetInt(LoadWeaponKey, 0);
+        wps[count].SetActive(true);
+    }
 
-
+    public void SetActiveWp(bool active)
+    {
+        foreach (GameObject wp in wps)
+            wp.SetActive(active);
+    }
     public void NextButton()
     {
+        wps[count].SetActive(false);
         count++;
         if (count > (weaponData.GetCountWeapon() - 1))
         {
             count = 0;
         }
+        wps[count].SetActive(true);
         UpdateWeapon(count);
         //UpdateBuyBtnUI();
     }
 
     public void BackButton()
     {
+        wps[count].SetActive(false);
         count--;
         if (count < 0)
         {
             count = weaponData.GetCountWeapon() - 1;
         }
+        wps[count].SetActive(true);
         UpdateWeapon(count);
         //UpdateBuyBtnUI();
     }
@@ -188,24 +199,26 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
         nameWeapon.text = currentWp.nameWepon;
         unLock.text = currentWp.unlock;
         damage.text = currentWp.damage;
-        imgWeapon.sprite = currentWp.spite[0]; // sprite mặc định
+        //imgWeapon.sprite = currentWp.spite[0]; // sprite mặc định
         coin.text = currentWp.coin.ToString();
 
-        // Nếu đã mua thì bật panel skin + điền sprite vào nút
-        if (ownedSet.Contains(count))  // hoặc if (isBought)
+        if (ownedSet.Contains(count))
         {
             panelItemSelect.SetActive(true);
+
+            // Lấy skin hiện tại đang được trang bị
+            int currentEquippedSkin = PlayerPrefs.GetInt("MaterialOfWp" + count, 0);
 
             for (int i = 0; i < btnSelect.Length; i++)
             {
                 if (i < currentWp.spite.Length)
                 {
-                    // Hiện nút và gán sprite
                     btnSelect[i].gameObject.SetActive(true);
                     Image childImg = btnSelect[i].transform.Find("Image").GetComponent<Image>();
                     childImg.sprite = currentWp.spite[i];
-                    // Xóa listener cũ và add listener mới để chọn skin
-                    int index = i; // cần biến local tránh lỗi closure
+
+                    // Setup listener cho từng button
+                    int index = i;
                     btnSelect[i].GetComponent<Button>().onClick.RemoveAllListeners();
                     btnSelect[i].GetComponent<Button>().onClick.AddListener(() =>
                     {
@@ -214,10 +227,16 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
                 }
                 else
                 {
-                    // Ẩn nút nếu không có sprite tương ứng
                     btnSelect[i].gameObject.SetActive(false);
                 }
             }
+
+            // Cập nhật trạng thái button ban đầu
+            SetButtonMaterial(currentEquippedSkin);
+
+            // Apply material hiện tại cho weapon display
+            tempSelectedSkin = currentEquippedSkin;
+            OnSelectSkin(currentEquippedSkin, currentWp);
         }
         else
         {
@@ -228,15 +247,60 @@ weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
     }
     private void OnSelectSkin(int spriteIndex, Weapon weapon)
     {
-        // đổi sprite chính trên UI
-        imgWeapon.sprite = weapon.spite[spriteIndex];
-        // Lưu tạm index vào biến chứ không PlayerPrefs
+        // Đảm bảo lấy đúng weapon hiện tại
+        weapon = weaponData.GetWeapon(count);
+
+        // Lấy GameObject weapon đang hiển thị ở giữa (trong wps array)
+        GameObject currentDisplayWeapon = wps[count];
+
+        // Kiểm tra nếu đã mua weapon này
+        if (ownedSet.Contains(count))
+        {
+            // Lấy MeshRenderer của weapon đang hiển thị
+            MeshRenderer meshRenderer = currentDisplayWeapon.GetComponent<MeshRenderer>();
+            if (meshRenderer == null)
+            {
+                Debug.LogError("Không tìm thấy MeshRenderer trên weapon: " + currentDisplayWeapon.name);
+                return;
+            }
+
+            // Kiểm tra xem có đủ material cho skin này không
+            if (spriteIndex >= weaponData.listMaterials[count].materialOfHammer.Length)
+            {
+                Debug.LogError("Skin index vượt quá số lượng material có sẵn!");
+                return;
+            }
+
+            // Lấy material array tương ứng với skin được chọn
+            Material[] newMaterials = weaponData.listMaterials[count].materialOfHammer[spriteIndex].materials;
+
+            // Tạo copy của materials hiện tại
+            Material[] currentMaterials = meshRenderer.materials;
+
+            // Thay thế material, đảm bảo không vượt quá số lượng material slots
+            int maxMaterials = Mathf.Min(currentMaterials.Length, newMaterials.Length);
+
+            for (int i = 0; i < maxMaterials; i++)
+            {
+                currentMaterials[i] = newMaterials[i];
+            }
+
+            // Apply materials mới
+            meshRenderer.materials = currentMaterials;
+
+            Debug.Log($"Đã thay đổi material skin {spriteIndex} cho weapon {weapon.nameWepon}");
+        }
+
+        // Lưu tạm index skin đã chọn
         tempSelectedSkin = spriteIndex;
 
-        // chỉ đổi trạng thái nút btnBuyCoin thành "Equip" chứ chưa lưu
+        // Cập nhật UI button
         var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
         if (txt != null)
             txt.text = "    SELECT";
+
+        // Cập nhật trạng thái các button skin
+        SetButtonMaterial(spriteIndex);
     }
 
 

@@ -1004,7 +1004,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 8dc3f182f5357c8478988eeee1045894, type: 2}
-  imgWeapon: {fileID: 1510133293}
+  wps:
+  - {fileID: 1529429126}
+  - {fileID: 390696652}
+  - {fileID: 1840338376}
+  - {fileID: 1810726729}
   count: 0
   nameWeapon: {fileID: 1843474218}
   unLock: {fileID: 345377256}
@@ -3207,9 +3211,9 @@ RectTransform:
   - {fileID: 568688219}
   m_Father: {fileID: 1461524282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 320.0743, y: -94.55795}
   m_SizeDelta: {x: 186.7162, y: 189.1159}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239373259
@@ -5645,6 +5649,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371956636}
   m_CullTransparentMesh: 1
+--- !u!1 &390696652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2196699236620971091, guid: d9b11906175a84d4ca0b294017921341, type: 3}
+  m_PrefabInstance: {fileID: 951893844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &395191245
 GameObject:
   m_ObjectHideFlags: 0
@@ -10286,9 +10295,9 @@ RectTransform:
   - {fileID: 1085772517}
   m_Father: {fileID: 1461524282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 773.5067, y: -94.55795}
   m_SizeDelta: {x: 186.7162, y: 189.1159}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &678494162
@@ -18470,7 +18479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1172108557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22669,6 +22678,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af45b6ec5b1341241a2bbd1b555bb605, type: 3}
+--- !u!1 &1529429126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4146967728608118719, guid: 8f2064847a95c8d469e857013c708cae, type: 3}
+  m_PrefabInstance: {fileID: 1776092114}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1531134263
 GameObject:
   m_ObjectHideFlags: 0
@@ -23173,9 +23187,9 @@ RectTransform:
   - {fileID: 1326843660}
   m_Father: {fileID: 1461524282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 93.3581, y: -94.55795}
   m_SizeDelta: {x: 186.7162, y: 189.1159}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1560327535
@@ -23560,9 +23574,9 @@ RectTransform:
   - {fileID: 2028420757}
   m_Father: {fileID: 1461524282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 546.7905, y: -94.55795}
   m_SizeDelta: {x: 186.7162, y: 189.1159}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1572464573
@@ -26148,6 +26162,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 92689449}
+        m_TargetAssemblyTypeName: ChooseWepon, Assembly-CSharp
+        m_MethodName: SetActiveWp
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1692912603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26573,6 +26599,18 @@ MonoBehaviour:
       - m_Target: {fileID: 894994590}
         m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
         m_MethodName: ClickSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 92689449}
+        m_TargetAssemblyTypeName: ChooseWepon, Assembly-CSharp
+        m_MethodName: LoadCurrentWp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -28048,6 +28086,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1810726729 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6415061210946265431, guid: c6f27c37eab929045adcbbc88ce97174, type: 3}
+  m_PrefabInstance: {fileID: 1594290590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1816610250
 GameObject:
   m_ObjectHideFlags: 0
@@ -28305,6 +28348,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829483007}
   m_CullTransparentMesh: 1
+--- !u!1 &1840338376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2720858487010457009, guid: 5d0975ea14e64eb418816d4809431e64, type: 3}
+  m_PrefabInstance: {fileID: 2128942981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1843474217
 GameObject:
   m_ObjectHideFlags: 0
