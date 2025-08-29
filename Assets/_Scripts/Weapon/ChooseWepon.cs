@@ -131,6 +131,20 @@ public class ChooseWepon : MonoBehaviour
                 OnSelectSkin(index, weaponData.GetWeapon(count));
             });
         }
+        int isCustomModeLoaded = PlayerPrefs.GetInt("IsCustomMode_" + count, 0);
+        if (isCustomModeLoaded == 1)
+        {
+            isCustomMode = true;
+            customColorPanel.SetActive(true);
+
+            // Cập nhật UI để hiển thị đúng trạng thái
+            UpdateBuyBtnUI();
+        }
+        else
+        {
+            isCustomMode = false;
+            customColorPanel.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -160,8 +174,95 @@ public class ChooseWepon : MonoBehaviour
     {
         foreach (GameObject wp in wps)
             wp.SetActive(false);
+
         count = PlayerPrefs.GetInt(LoadWeaponKey, 0);
         wps[count].SetActive(true);
+
+        // Áp dụng skin/material đã lưu cho vũ khí
+        ApplySavedSkinToWeapon(wps[count], count);
+    }
+    // Hàm mới để áp dụng skin/material đã lưu cho weapon
+    private void ApplySavedSkinToWeapon(GameObject weaponObj, int weaponIndex)
+    {
+        if (weaponObj == null) return;
+
+        // Kiểm tra xem vũ khí này có phải custom mode không
+        bool isCustomMode = PlayerPrefs.GetInt("IsCustomMode_" + weaponIndex, 0) == 1;
+
+        if (isCustomMode)
+        {
+            // Áp dụng màu custom đã lưu
+            ApplySavedCustomColorsToWeapon(weaponObj, weaponIndex);
+        }
+        else
+        {
+            // Áp dụng skin material thông thường đã lưu
+            ApplySavedMaterialToWeapon(weaponObj, weaponIndex);
+        }
+    }
+
+    // Hàm áp dụng material thông thường đã lưu
+    private void ApplySavedMaterialToWeapon(GameObject weaponObj, int weaponIndex)
+    {
+        MeshRenderer meshRenderer = weaponObj.GetComponent<MeshRenderer>();
+        if (meshRenderer == null) return;
+
+        // Lấy index material đã lưu
+        int materialIndex = PlayerPrefs.GetInt("MaterialOfWp" + weaponIndex, 0);
+
+        // Kiểm tra xem material index có hợp lệ không
+        if (weaponIndex < weaponData.listMaterials.Length &&
+            materialIndex < weaponData.listMaterials[weaponIndex].materialOfHammer.Length)
+        {
+            Material[] newMaterials = weaponData.listMaterials[weaponIndex].materialOfHammer[materialIndex].materials;
+            Material[] currentMaterials = meshRenderer.materials;
+
+            // Thay thế material, đảm bảo không vượt quá số lượng material slots
+            int maxMaterials = Mathf.Min(currentMaterials.Length, newMaterials.Length);
+
+            for (int i = 0; i < maxMaterials; i++)
+            {
+                currentMaterials[i] = newMaterials[i];
+            }
+
+            meshRenderer.materials = currentMaterials;
+        }
+    }
+
+    // Hàm áp dụng màu custom đã lưu (sửa lại từ hàm cũ để nhận weaponIndex)
+    private void ApplySavedCustomColorsToWeapon(GameObject weaponObj, int weaponIndex)
+    {
+        if (weaponObj == null) return;
+
+        MeshRenderer meshRenderer = weaponObj.GetComponent<MeshRenderer>();
+        if (meshRenderer == null) return;
+
+        Material[] materials = meshRenderer.materials;
+        bool hasCustomColors = false;
+
+        for (int i = 0; i < materials.Length; i++)
+        {
+            string colorKey = "CustomColor_" + weaponIndex + "_" + i;
+            string colorHtml = PlayerPrefs.GetString(colorKey, "");
+
+            if (!string.IsNullOrEmpty(colorHtml))
+            {
+                Color customColor;
+                if (ColorUtility.TryParseHtmlString("#" + colorHtml, out customColor))
+                {
+                    // Tạo material mới để không ảnh hưởng đến prefab gốc
+                    Material newMat = new Material(materials[i]);
+                    newMat.color = customColor;
+                    materials[i] = newMat;
+                    hasCustomColors = true;
+                }
+            }
+        }
+
+        if (hasCustomColors)
+        {
+            meshRenderer.materials = materials;
+        }
     }
 
     public void SetActiveWp(bool active)
@@ -204,20 +305,80 @@ public class ChooseWepon : MonoBehaviour
         damage.text = currentWp.damage;
         coin.text = currentWp.coin.ToString();
 
+        // LUÔN RESET TRẠNG THÁI CUSTOM MODE KHI CHUYỂN VŨ KHÍ
+        isCustomMode = false;
+
         // Nếu đã mua thì hiển thị cả panel skin và custom
         if (ownedSet.Contains(count))
         {
             panelItemSelect.SetActive(true);
             SetupSkinButtons(currentWp);
             SetupCustomColorSystem(currentWp);
+
+            // Kiểm tra xem vũ khí này có phải custom mode không
+            bool isCurrentWeaponCustom = PlayerPrefs.GetInt("IsCustomMode_" + count, 0) == 1;
+
+            if (isCurrentWeaponCustom)
+            {
+                isCustomMode = true;
+                customColorPanel.SetActive(true);
+
+                // Áp dụng màu custom đã lưu cho weapon preview
+                ApplySavedCustomColorsToWeapon(wps[count]);
+
+                Debug.Log("Tự động kích hoạt chế độ custom cho weapon: " + currentWp.nameWepon);
+            }
+            else
+            {
+                // ĐẢM BẢO ẨN BẢNG MÀU KHI VŨ KHÍ KHÔNG PHẢI CUSTOM MODE
+                isCustomMode = false;
+                customColorPanel.SetActive(false);
+            }
         }
         else
         {
+            // ĐẢM BẢO ẨN BẢNG MÀU KHI VŨ KHÍ CHƯA MUA
             panelItemSelect.SetActive(false);
             customColorPanel.SetActive(false);
+            isCustomMode = false;
         }
 
         UpdateBuyBtnUI();
+    }
+    // Hàm mới để áp dụng màu custom đã lưu cho weapon
+    private void ApplySavedCustomColorsToWeapon(GameObject weaponObj)
+    {
+        if (weaponObj == null) return;
+
+        MeshRenderer meshRenderer = weaponObj.GetComponent<MeshRenderer>();
+        if (meshRenderer == null) return;
+
+        Material[] materials = meshRenderer.materials;
+        bool hasCustomColors = false;
+
+        for (int i = 0; i < materials.Length; i++)
+        {
+            string colorKey = "CustomColor_" + count + "_" + i;
+            string colorHtml = PlayerPrefs.GetString(colorKey, "");
+
+            if (!string.IsNullOrEmpty(colorHtml))
+            {
+                Color customColor;
+                if (ColorUtility.TryParseHtmlString("#" + colorHtml, out customColor))
+                {
+                    // Tạo material mới để không ảnh hưởng đến prefab gốc
+                    Material newMat = new Material(materials[i]);
+                    newMat.color = customColor;
+                    materials[i] = newMat;
+                    hasCustomColors = true;
+                }
+            }
+        }
+
+        if (hasCustomColors)
+        {
+            meshRenderer.materials = materials;
+        }
     }
     private void SetupSkinButtons(Weapon currentWp)
     {
@@ -572,9 +733,26 @@ public class ChooseWepon : MonoBehaviour
         // Lưu tạm index skin đã chọn
         tempSelectedSkin = spriteIndex;
 
-        // Reset custom mode khi chọn skin thường
-        isCustomMode = false;
-        PlayerPrefs.SetInt("IsCustomMode_" + count, 0);
+        // KIỂM TRA NẾU ĐÂY LÀ SKIN CUSTOM (NÚT CUỐI CÙNG)
+        int lastIndex = btnSelect.Length - 1;
+        if (spriteIndex == lastIndex)
+        {
+            // Đây là skin custom, hiện bảng màu
+            isCustomMode = true;
+            customColorPanel.SetActive(true);
+            PlayerPrefs.SetInt("IsCustomMode_" + count, 1);
+
+            Debug.Log("Đã chọn skin custom, hiện bảng màu");
+        }
+        else
+        {
+            // Đây là skin thường, ẩn bảng màu và tắt custom mode
+            isCustomMode = false;
+            customColorPanel.SetActive(false);
+            PlayerPrefs.SetInt("IsCustomMode_" + count, 0);
+
+            Debug.Log("Đã chọn skin thường, ẩn bảng màu");
+        }
 
         // Cập nhật UI button
         var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
@@ -699,6 +877,7 @@ public class ChooseWepon : MonoBehaviour
         if (playerCoin >= price)
         {
             playerCoin -= price;
+            //playerCoin += 1000000;
             PlayerPrefs.SetInt(PlayerCoinKey, playerCoin);
             //Danh dau da mua
             ownedSet.Add(count);
