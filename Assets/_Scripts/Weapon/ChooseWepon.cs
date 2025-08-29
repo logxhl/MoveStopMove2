@@ -133,29 +133,6 @@ public class ChooseWepon : MonoBehaviour
         }
     }
 
-//    public void SetMaterial()
-//    {
-//        Weapon wp = weaponData.GetWeapon(count);
-//        if (ownedSet.Contains(count))
-//        {
-//            int indMaterial = PlayerPrefs.GetInt("MaterialOfWp" + count);
-//            MeshRenderer meshRenderer = currentWeapon.GetComponent<MeshRenderer>();
-//            Material[] mats = meshRenderer.materials;
-//            int max = Mathf.Min(
-//mats.Length,
-//weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length
-//);
-
-//            for (int i = 0; i < max; i++)
-//            {
-//                mats[i] = weaponData.listMaterials[count].materialOfHammer[indMaterial].materials[i];
-//            }
-
-//            meshRenderer.materials = mats;
-
-//        }
-//    }
-
     /// <summary>
     /// Reset toàn bộ nút skin rồi set nút equip
     /// </summary>
@@ -220,56 +197,6 @@ public class ChooseWepon : MonoBehaviour
 
     public void UpdateWeapon(int count)
     {
-        //Weapon currentWp = weaponData.GetWeapon(count);
-
-        //nameWeapon.text = currentWp.nameWepon;
-        //unLock.text = currentWp.unlock;
-        //damage.text = currentWp.damage;
-        ////imgWeapon.sprite = currentWp.spite[0]; // sprite mặc định
-        //coin.text = currentWp.coin.ToString();
-
-        //if (ownedSet.Contains(count))
-        //{
-        //    panelItemSelect.SetActive(true);
-
-        //    // Lấy skin hiện tại đang được trang bị
-        //    int currentEquippedSkin = PlayerPrefs.GetInt("MaterialOfWp" + count, 0);
-
-        //    for (int i = 0; i < btnSelect.Length; i++)
-        //    {
-        //        if (i < currentWp.spite.Length)
-        //        {
-        //            btnSelect[i].gameObject.SetActive(true);
-        //            Image childImg = btnSelect[i].transform.Find("Image").GetComponent<Image>();
-        //            childImg.sprite = currentWp.spite[i];
-
-        //            // Setup listener cho từng button
-        //            int index = i;
-        //            btnSelect[i].GetComponent<Button>().onClick.RemoveAllListeners();
-        //            btnSelect[i].GetComponent<Button>().onClick.AddListener(() =>
-        //            {
-        //                OnSelectSkin(index, currentWp);
-        //            });
-        //        }
-        //        else
-        //        {
-        //            btnSelect[i].gameObject.SetActive(false);
-        //        }
-        //    }
-
-        //    // Cập nhật trạng thái button ban đầu
-        //    SetButtonMaterial(currentEquippedSkin);
-
-        //    // Apply material hiện tại cho weapon display
-        //    tempSelectedSkin = currentEquippedSkin;
-        //    OnSelectSkin(currentEquippedSkin, currentWp);
-        //}
-        //else
-        //{
-        //    panelItemSelect.SetActive(false);
-        //}
-
-        //UpdateBuyBtnUI();
         Weapon currentWp = weaponData.GetWeapon(count);
 
         nameWeapon.text = currentWp.nameWepon;
@@ -294,15 +221,16 @@ public class ChooseWepon : MonoBehaviour
     }
     private void SetupSkinButtons(Weapon currentWp)
     {
-        // Thêm button "(Custom)" vào đầu
+        int lastIndex = btnSelect.Length - 1; // vị trí cuối cùng trong mảng
+
         for (int i = 0; i < btnSelect.Length; i++)
         {
-            if (i == 0)
+            if (i == lastIndex)
             {
-                // Button đầu tiên là Custom
+                // Button cuối cùng là Custom
                 btnSelect[i].gameObject.SetActive(true);
                 var childImg = btnSelect[i].transform.Find("Image").GetComponent<Image>();
-                childImg.sprite = currentWp.spite[0]; // Dùng sprite đầu tiên làm base
+                childImg.sprite = currentWp.spite[0]; // dùng sprite đầu tiên làm base
 
                 // Set text "(Custom)"
                 var customText = btnSelect[i].GetComponentInChildren<TextMeshProUGUI>();
@@ -315,14 +243,14 @@ public class ChooseWepon : MonoBehaviour
                     OnSelectCustomMode();
                 });
             }
-            else if (i - 1 < currentWp.spite.Length)
+            else if (i < currentWp.spite.Length)
             {
-                // Các button skin bình thường (offset -1 vì button 0 là custom)
+                // Các button skin bình thường
                 btnSelect[i].gameObject.SetActive(true);
                 Image childImg = btnSelect[i].transform.Find("Image").GetComponent<Image>();
-                childImg.sprite = currentWp.spite[i - 1];
+                childImg.sprite = currentWp.spite[i];
 
-                int skinIndex = i - 1;
+                int skinIndex = i;
                 btnSelect[i].GetComponent<Button>().onClick.RemoveAllListeners();
                 btnSelect[i].GetComponent<Button>().onClick.AddListener(() =>
                 {
@@ -337,6 +265,7 @@ public class ChooseWepon : MonoBehaviour
             }
         }
     }
+
 
     private void SetupCustomColorSystem(Weapon weapon)
     {
@@ -424,18 +353,32 @@ public class ChooseWepon : MonoBehaviour
         isCustomMode = true;
         customColorPanel.SetActive(true);
 
-        // Reset về skin gốc khi vào custom mode
-        OnSelectSkin(0, weaponData.GetWeapon(count));
+        // Reset về skin gốc khi vào custom mode, NHƯNG KHÔNG GỌI OnSelectSkin
+        // vì OnSelectSkin sẽ set isCustomMode = false
+        tempSelectedSkin = 0;
+
+        // Apply skin gốc cho weapon hiển thị
+        GameObject currentDisplayWeapon = wps[count];
+        ApplySkinToWeapon(currentDisplayWeapon, 0);
+
+        // Nếu weapon đang được trang bị, apply cho currentWeapon luôn
+        if (PlayerPrefs.GetInt(LoadWeaponKey, -1) == count && currentWeapon != null)
+        {
+            ApplySkinToWeapon(currentWeapon, 0);
+        }
 
         // Update button text
         var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
         if (txt != null)
             txt.text = "    SELECT";
+
+        Debug.Log("Đã vào custom mode cho weapon: " + weaponData.GetWeapon(count).nameWepon);
     }
 
     private void OnSelectMaterialIndex(int matIndex)
     {
         selectedMaterialIndex = matIndex;
+        Debug.Log("Đã chọn material index: " + matIndex);
         UpdateMaterialButtonSelection();
 
         // Preview màu đã chọn lên material này
@@ -445,6 +388,7 @@ public class ChooseWepon : MonoBehaviour
     private void OnSelectColor(Color color)
     {
         selectedCustomColor = color;
+        Debug.Log("Đã chọn màu: " + color);
         PreviewCustomColor();
     }
 
@@ -452,17 +396,28 @@ public class ChooseWepon : MonoBehaviour
     {
         if (!isCustomMode) return;
 
+        // CHỈ ÁP DỤNG CHO WEAPON HIỂN THỊ Ở GIỮA (PREVIEW)
         GameObject weaponObj = wps[count];
+        ApplyCustomColorToWeapon(weaponObj, selectedMaterialIndex, selectedCustomColor);
+
+        Debug.Log($"Preview custom color: Material {selectedMaterialIndex}, Color {selectedCustomColor} (chỉ hiển thị)");
+    }
+
+    // Hàm helper để áp dụng custom color cho một weapon cụ thể
+    private void ApplyCustomColorToWeapon(GameObject weaponObj, int materialIndex, Color color)
+    {
+        if (weaponObj == null) return;
+
         MeshRenderer meshRenderer = weaponObj.GetComponent<MeshRenderer>();
         if (meshRenderer == null) return;
 
         Material[] materials = meshRenderer.materials;
-        if (selectedMaterialIndex < materials.Length)
+        if (materialIndex < materials.Length)
         {
             // Tạo instance mới của material để không ảnh hưởng đến prefab gốc
-            Material newMat = new Material(materials[selectedMaterialIndex]);
-            newMat.color = selectedCustomColor;
-            materials[selectedMaterialIndex] = newMat;
+            Material newMat = new Material(materials[materialIndex]);
+            newMat.color = color;
+            materials[materialIndex] = newMat;
             meshRenderer.materials = materials;
         }
     }
@@ -471,24 +426,40 @@ public class ChooseWepon : MonoBehaviour
     {
         if (!isCustomMode) return;
 
-        // Lưu custom color data
-        string customColorKey = "CustomColor_" + count + "_" + selectedMaterialIndex;
-        PlayerPrefs.SetString(customColorKey, ColorUtility.ToHtmlStringRGBA(selectedCustomColor));
+        // Lưu TẤT CẢ custom colors từ weapon hiển thị
+        GameObject weaponObj = wps[count];
+        MeshRenderer displayRenderer = weaponObj.GetComponent<MeshRenderer>();
+        if (displayRenderer != null)
+        {
+            Material[] displayMaterials = displayRenderer.materials;
+            for (int i = 0; i < displayMaterials.Length; i++)
+            {
+                // Lưu màu của từng material
+                if (displayMaterials[i].HasProperty("_Color"))
+                {
+                    string customColorKey = "CustomColor_" + count + "_" + i;
+                    PlayerPrefs.SetString(customColorKey, ColorUtility.ToHtmlStringRGBA(displayMaterials[i].color));
+                }
+            }
+        }
 
-        // Lưu flag custom mode
+        // Lưu flag custom mode cho weapon này
         PlayerPrefs.SetInt("IsCustomMode_" + count, 1);
+
+        // Lưu weapon hiện tại là weapon được trang bị
         PlayerPrefs.SetInt(LoadWeaponKey, count);
         PlayerPrefs.Save();
 
-        // Apply lên weapon trong tay
+        // BÂY GIỜ MỚI ÁP DỤNG CHO CURRENT WEAPON
         EquipWeapon(count);
         ApplyCustomColorToEquippedWeapon();
 
-        // Ẩn panel custom
+        // Ẩn panel custom và reset mode
         customColorPanel.SetActive(false);
+        isCustomMode = false;
 
         UpdateBuyBtnUI();
-        Debug.Log("Đã apply custom color!");
+        Debug.Log("Đã apply custom color cho currentWeapon: " + weaponData.GetWeapon(count).nameWepon);
     }
 
     private void ApplyCustomColorToEquippedWeapon()
@@ -498,8 +469,10 @@ public class ChooseWepon : MonoBehaviour
         MeshRenderer meshRenderer = currentWeapon.GetComponent<MeshRenderer>();
         if (meshRenderer == null) return;
 
-        // Load và apply custom colors đã lưu
+        // Load và apply tất cả custom colors đã lưu cho weapon này
         Material[] materials = meshRenderer.materials;
+        bool hasCustomColors = false;
+
         for (int i = 0; i < materials.Length; i++)
         {
             string colorKey = "CustomColor_" + count + "_" + i;
@@ -513,11 +486,15 @@ public class ChooseWepon : MonoBehaviour
                     Material newMat = new Material(materials[i]);
                     newMat.color = customColor;
                     materials[i] = newMat;
+                    hasCustomColors = true;
                 }
             }
         }
 
-        meshRenderer.materials = materials;
+        if (hasCustomColors)
+        {
+            meshRenderer.materials = materials;
+        }
     }
 
     private void UpdateMaterialButtonSelection()
@@ -547,18 +524,24 @@ public class ChooseWepon : MonoBehaviour
             }
             else
             {
-                // Code cũ cho skin materials
+                // Code cũ cho skin materials - ÁP DỤNG CHO CURRENT WEAPON
                 int indMaterial = PlayerPrefs.GetInt("MaterialOfWp" + count);
-                MeshRenderer meshRenderer = currentWeapon.GetComponent<MeshRenderer>();
-                Material[] mats = meshRenderer.materials;
-                int max = Mathf.Min(mats.Length,
-                    weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length);
-
-                for (int i = 0; i < max; i++)
+                if (currentWeapon != null)
                 {
-                    mats[i] = weaponData.listMaterials[count].materialOfHammer[indMaterial].materials[i];
+                    MeshRenderer meshRenderer = currentWeapon.GetComponent<MeshRenderer>();
+                    if (meshRenderer != null)
+                    {
+                        Material[] mats = meshRenderer.materials;
+                        int max = Mathf.Min(mats.Length,
+                            weaponData.listMaterials[count].materialOfHammer[indMaterial].materials.Length);
+
+                        for (int i = 0; i < max; i++)
+                        {
+                            mats[i] = weaponData.listMaterials[count].materialOfHammer[indMaterial].materials[i];
+                        }
+                        meshRenderer.materials = mats;
+                    }
                 }
-                meshRenderer.materials = mats;
             }
         }
     }
@@ -574,43 +557,24 @@ public class ChooseWepon : MonoBehaviour
         // Kiểm tra nếu đã mua weapon này
         if (ownedSet.Contains(count))
         {
-            // Lấy MeshRenderer của weapon đang hiển thị
-            MeshRenderer meshRenderer = currentDisplayWeapon.GetComponent<MeshRenderer>();
-            if (meshRenderer == null)
+            // ÁP DỤNG CHO CẢ WEAPON HIỂN THỊ VÀ CURRENT WEAPON
+            ApplySkinToWeapon(currentDisplayWeapon, spriteIndex);
+
+            // Nếu weapon hiện tại đang được trang bị, apply skin cho nó luôn
+            if (PlayerPrefs.GetInt(LoadWeaponKey, -1) == count && currentWeapon != null)
             {
-                Debug.LogError("Không tìm thấy MeshRenderer trên weapon: " + currentDisplayWeapon.name);
-                return;
+                ApplySkinToWeapon(currentWeapon, spriteIndex);
             }
-
-            // Kiểm tra xem có đủ material cho skin này không
-            if (spriteIndex >= weaponData.listMaterials[count].materialOfHammer.Length)
-            {
-                Debug.LogError("Skin index vượt quá số lượng material có sẵn!");
-                return;
-            }
-
-            // Lấy material array tương ứng với skin được chọn
-            Material[] newMaterials = weaponData.listMaterials[count].materialOfHammer[spriteIndex].materials;
-
-            // Tạo copy của materials hiện tại
-            Material[] currentMaterials = meshRenderer.materials;
-
-            // Thay thế material, đảm bảo không vượt quá số lượng material slots
-            int maxMaterials = Mathf.Min(currentMaterials.Length, newMaterials.Length);
-
-            for (int i = 0; i < maxMaterials; i++)
-            {
-                currentMaterials[i] = newMaterials[i];
-            }
-
-            // Apply materials mới
-            meshRenderer.materials = currentMaterials;
 
             Debug.Log($"Đã thay đổi material skin {spriteIndex} cho weapon {weapon.nameWepon}");
         }
 
         // Lưu tạm index skin đã chọn
         tempSelectedSkin = spriteIndex;
+
+        // Reset custom mode khi chọn skin thường
+        isCustomMode = false;
+        PlayerPrefs.SetInt("IsCustomMode_" + count, 0);
 
         // Cập nhật UI button
         var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
@@ -621,6 +585,42 @@ public class ChooseWepon : MonoBehaviour
         SetButtonMaterial(spriteIndex);
     }
 
+    // Hàm helper để áp dụng skin cho một weapon cụ thể
+    private void ApplySkinToWeapon(GameObject weaponObj, int skinIndex)
+    {
+        if (weaponObj == null) return;
+
+        MeshRenderer meshRenderer = weaponObj.GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+        {
+            Debug.LogError("Không tìm thấy MeshRenderer trên weapon: " + weaponObj.name);
+            return;
+        }
+
+        // Kiểm tra xem có đủ material cho skin này không
+        if (skinIndex >= weaponData.listMaterials[count].materialOfHammer.Length)
+        {
+            Debug.LogError("Skin index vượt quá số lượng material có sẵn!");
+            return;
+        }
+
+        // Lấy material array tương ứng với skin được chọn
+        Material[] newMaterials = weaponData.listMaterials[count].materialOfHammer[skinIndex].materials;
+
+        // Tạo copy của materials hiện tại
+        Material[] currentMaterials = meshRenderer.materials;
+
+        // Thay thế material, đảm bảo không vượt quá số lượng material slots
+        int maxMaterials = Mathf.Min(currentMaterials.Length, newMaterials.Length);
+
+        for (int i = 0; i < maxMaterials; i++)
+        {
+            currentMaterials[i] = newMaterials[i];
+        }
+
+        // Apply materials mới
+        meshRenderer.materials = currentMaterials;
+    }
 
     private void EquipWeapon(int index)
     {
@@ -664,14 +664,32 @@ public class ChooseWepon : MonoBehaviour
         if (ownedSet.Contains(count)) // đã mua
         {
             PlayerPrefs.SetInt(LoadWeaponKey, count);
-            PlayerPrefs.SetInt("MaterialOfWp" + count, tempSelectedSkin); // lưu skin đã chọn khi equip
+
+            if (isCustomMode)
+            {
+                // Nếu đang ở custom mode, không lưu MaterialOfWp
+                PlayerPrefs.SetInt("IsCustomMode_" + count, 1);
+            }
+            else
+            {
+                // Nếu chọn skin bình thường, lưu skin index và tắt custom mode
+                PlayerPrefs.SetInt("MaterialOfWp" + count, tempSelectedSkin);
+                PlayerPrefs.SetInt("IsCustomMode_" + count, 0);
+            }
+
             PlayerPrefs.Save();
 
+            // ĐỔI WEAPON PREFAB VÀ ÁP DỤNG MATERIAL
             EquipWeapon(count);    // đổi weapon prefab
-            SetMaterial();         // áp dụng material thật
-            SetButtonMaterial(tempSelectedSkin); // đổi nút sang trạng thái equip
+            SetMaterial();         // áp dụng material thật cho currentWeapon
+
+            if (!isCustomMode)
+            {
+                SetButtonMaterial(tempSelectedSkin); // đổi nút sang trạng thái equip
+            }
 
             UpdateBuyBtnUI();
+            Debug.Log("Đã trang bị weapon: " + weaponData.GetWeapon(count).nameWepon);
             return;
         }
 
@@ -681,7 +699,6 @@ public class ChooseWepon : MonoBehaviour
         if (playerCoin >= price)
         {
             playerCoin -= price;
-            //playerCoin += 1000000;
             PlayerPrefs.SetInt(PlayerCoinKey, playerCoin);
             //Danh dau da mua
             ownedSet.Add(count);
@@ -689,12 +706,27 @@ public class ChooseWepon : MonoBehaviour
 
             //Trang bi luon
             PlayerPrefs.SetInt(LoadWeaponKey, count);
-            PlayerPrefs.SetInt("MaterialOfWp" + count, tempSelectedSkin);
+
+            if (isCustomMode)
+            {
+                PlayerPrefs.SetInt("IsCustomMode_" + count, 1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("MaterialOfWp" + count, tempSelectedSkin);
+                PlayerPrefs.SetInt("IsCustomMode_" + count, 0);
+            }
+
             PlayerPrefs.Save();
 
             EquipWeapon(count);
             SetMaterial();
-            SetButtonMaterial(tempSelectedSkin);
+
+            if (!isCustomMode)
+            {
+                SetButtonMaterial(tempSelectedSkin);
+            }
+
             UpdateBuyBtnUI();
             Debug.Log("Mua thanh cong, coin con lai: " + playerCoin);
         }
