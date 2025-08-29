@@ -760,7 +760,7 @@ public class ChooseWepon : MonoBehaviour
             txt.text = "    SELECT";
 
         // Cập nhật trạng thái các button skin
-        SetButtonMaterial(spriteIndex);
+        //SetButtonMaterial(spriteIndex);
     }
 
     // Hàm helper để áp dụng skin cho một weapon cụ thể
@@ -863,7 +863,7 @@ public class ChooseWepon : MonoBehaviour
 
             if (!isCustomMode)
             {
-                SetButtonMaterial(tempSelectedSkin); // đổi nút sang trạng thái equip
+                //SetButtonMaterial(tempSelectedSkin); // đổi nút sang trạng thái equip
             }
 
             UpdateBuyBtnUI();
@@ -903,7 +903,7 @@ public class ChooseWepon : MonoBehaviour
 
             if (!isCustomMode)
             {
-                SetButtonMaterial(tempSelectedSkin);
+                //SetButtonMaterial(tempSelectedSkin);
             }
 
             UpdateBuyBtnUI();
