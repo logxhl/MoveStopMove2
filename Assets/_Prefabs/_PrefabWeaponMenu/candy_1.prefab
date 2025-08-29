@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 71.333
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3b61f81acf571cf4ab3b4379b330c72d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f9072086260ac6e43b125048cd2201ee, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 3b61f81acf571cf4ab3b4379b330c72d, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 50f1a61cf9c0a5d4ebaa5b6d20845371, type: 2}
     - target: {fileID: 919132149155446097, guid: 3b61f81acf571cf4ab3b4379b330c72d, type: 3}
       propertyPath: m_Name
       value: candy_1
