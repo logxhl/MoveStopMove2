@@ -19,7 +19,7 @@ public class ControllerSceneZombie : MonoBehaviour
 
     private void Awake()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
     // Start is called before the first frame update
     void Start()
