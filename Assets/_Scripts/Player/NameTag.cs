@@ -13,7 +13,7 @@ public class NameTag : MonoBehaviour
     {
         cam = Camera.main;
     }
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         transform.rotation = Quaternion.LookRotation(transform.position - cam.transform.position, cam.transform.up);
     }

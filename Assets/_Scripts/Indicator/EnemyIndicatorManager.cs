@@ -23,6 +23,8 @@ public class EnemyIndicatorManager : MonoBehaviour
     public Image indica;
     public Image oval;
 
+    public GameObject player;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -33,6 +35,17 @@ public class EnemyIndicatorManager : MonoBehaviour
         instance = this;
     }
 
+    public void ClearAllIndicators()
+    {
+        foreach (var kvp in enemyIndi)
+        {
+            if (kvp.Value.indicatorUI != null)
+            {
+                Destroy(kvp.Value.indicatorUI.gameObject);
+            }
+        }
+        enemyIndi.Clear();
+    }
     public void RegisterEnemy(EnemyAI enemy)
     {
         if (enemyIndi.ContainsKey(enemy.transform)) return;
@@ -90,6 +103,12 @@ public class EnemyIndicatorManager : MonoBehaviour
 
     private void Update()
     {
+        //Check PlayerDie
+        if (player == null)
+        {
+            ClearAllIndicators();
+            return;
+        }
         // Cập nhật text coin từ enemy
         if (enemy != null && textCoinEnemy != null)
         {

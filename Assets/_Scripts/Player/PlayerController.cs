@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
     public Material transparentMat;
     private Dictionary<GameObject, Material> originalMats = new Dictionary<GameObject, Material>();
 
-
+    public bool isDeadPlayer = false;
     private void Awake()
     {
 
@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
     {
         if (other.CompareTag("Hammer"))
         {
+            isDeadPlayer = true;
             projectile.transform.localScale = new Vector3(20, 20, 20);
             EnemyAI.instance.weaponProjectile.transform.localScale = new Vector3(20, 20, 20);
 
