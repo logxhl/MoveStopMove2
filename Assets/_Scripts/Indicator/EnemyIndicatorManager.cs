@@ -103,8 +103,15 @@ public class EnemyIndicatorManager : MonoBehaviour
 
     private void Update()
     {
-        //Check PlayerDie
+        // Nếu player bị Destroy khi die
         if (player == null)
+        {
+            ClearAllIndicators();
+            return;
+        }
+
+        // Nếu player chỉ bị SetActive(false) khi die
+        if (!player.activeSelf)
         {
             ClearAllIndicators();
             return;

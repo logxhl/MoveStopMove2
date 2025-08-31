@@ -16,6 +16,7 @@ public class ControllerSceneZombie : MonoBehaviour
 
     public GameObject setting;
     [SerializeField] private AnimationController anim;
+    public GameObject panelLoad;
 
     private void Awake()
     {
@@ -56,6 +57,12 @@ public class ControllerSceneZombie : MonoBehaviour
     public void LoadSceneMenu()
     {
         Time.timeScale = 1f;
+        panelLoad.SetActive(true);
+        StartCoroutine(DelayLoadScene());
+    }
+    private IEnumerator DelayLoadScene()
+    {
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(0);
     }
     public void LoadSceneZombieCity()
