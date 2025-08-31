@@ -83,6 +83,10 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 0f;
     }
+    public void UnPause()
+    {
+        Time.timeScale = 1f;
+    }
 
 
     public void SetPlayerAlive(bool alive)
