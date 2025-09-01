@@ -18,6 +18,10 @@ public class ShopPantManagerPlayerPrefs : MonoBehaviour
         //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         //PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
         previewInd = -1;
+        if (pantBtns.Count > 0)
+        {
+            PreviewPant(0);
+        }
     }
     private void OnDisable()
     {

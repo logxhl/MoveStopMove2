@@ -18,6 +18,10 @@ public class ShopSetFullManager : MonoBehaviour
         PlayerVisualManagerPlayerPrefs.instance.HideAllSingleItems();
         //PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
         previewInd = -1;
+        if (setFullBtns.Count > 0)
+        {
+            PreviewSetFull(0);
+        }
     }
 
     //private void OnDisable()

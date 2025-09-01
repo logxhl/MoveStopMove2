@@ -17,6 +17,10 @@ public class ShopHairManagerPlayerPrefs : MonoBehaviour
         //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         //PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
         previewIndex = -1;
+        if (hairBtns.Count > 0)
+        {
+            PreviewHair(0);
+        }
     }
     private void OnDisable()
     {

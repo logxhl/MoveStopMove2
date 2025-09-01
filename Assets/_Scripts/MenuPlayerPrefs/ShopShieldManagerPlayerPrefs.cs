@@ -18,6 +18,10 @@ public class ShopShieldManagerPlayerPrefs : MonoBehaviour
         //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         //PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
         previewIndex = -1;
+        if (shieldBtns.Count > 0)
+        {
+            PreviewShield(0);
+        }
     }
     private void OnDisable()
     {
