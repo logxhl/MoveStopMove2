@@ -47,6 +47,7 @@ public class SpawnZombie : MonoBehaviour
     private int zombiesAlive;
     private bool playerAlive = true;
     private int diedCount = 0;
+    private bool hasSpawned = false;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -68,6 +69,7 @@ public class SpawnZombie : MonoBehaviour
 
     private IEnumerator SpawnZombies()
     {
+        hasSpawned = true;
         // Spawn cố định
         for (int i = 0; i < fixedSpawnCount; i++)
         {
@@ -262,4 +264,23 @@ public class SpawnZombie : MonoBehaviour
     {
         return zombiesAlive <= 0;
     }
+    public bool HasSpawned()
+    {
+        return hasSpawned;
+    }
+    public void ResetState()
+    {
+        zombiesKilled = 0;
+        bossLv1Spawned = 0;
+        bossLv2Spawned = false;
+        diedCount = 0;
+        zombiesAlive = 0;
+        totalZombiesToSpawn = 0;
+        hasSpawned = false;
+
+        spawnZombies.Clear();
+        UpDateAliveUI();
+    }
+
+
 }

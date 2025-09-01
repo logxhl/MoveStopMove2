@@ -1311,7 +1311,7 @@ MonoBehaviour:
   shieldBtns:
   - {fileID: 1571645757}
   - {fileID: 782977724}
-  prices: 0c0000000d000000
+  prices: 0400000004000000
   textBuy: {fileID: 346652465}
   btnSelect: {fileID: 1014166983}
   btnBuy: {fileID: 1082408393}
@@ -3317,7 +3317,7 @@ MonoBehaviour:
   - {fileID: 836556010}
   - {fileID: 2137840483}
   - {fileID: 1230932172}
-  prices: 040000000500000006000000
+  prices: 030000000300000003000000
   textBuy: {fileID: 1155915063}
   btnSelect: {fileID: 291093447}
   btnBuy: {fileID: 698913019}
@@ -5311,7 +5311,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5
+  m_text: 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7777,7 +7777,7 @@ MonoBehaviour:
   - {fileID: 1466974967}
   - {fileID: 597690340}
   - {fileID: 1704887168}
-  prices: 050000000200000006000000
+  prices: 020000000200000002000000
   textBuy: {fileID: 998847436}
   btnSelect: {fileID: 1766342416}
   btnBuy: {fileID: 666840147}
@@ -7905,7 +7905,7 @@ MonoBehaviour:
   shopButtons:
   - {fileID: 414237094}
   - {fileID: 855583751}
-  prices: 1e00000014000000
+  prices: 0f0000000f000000
   textBuy: {fileID: 1603657545}
   btnSelect: {fileID: 305884762}
   btnBuy: {fileID: 1177662958}
@@ -8211,7 +8211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &521213405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8304,6 +8304,7 @@ MonoBehaviour:
   - {fileID: 2683340856486700566}
   - {fileID: 6547171475133571957}
   buyButton: {fileID: 305884764}
+  selectButton: {fileID: 1177662960}
 --- !u!1 &523089370
 GameObject:
   m_ObjectHideFlags: 0
@@ -18904,7 +18905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -19575,7 +19576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1177867742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25323,7 +25324,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: 15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

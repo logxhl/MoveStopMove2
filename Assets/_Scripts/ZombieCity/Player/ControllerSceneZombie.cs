@@ -27,7 +27,12 @@ public class ControllerSceneZombie : MonoBehaviour
     {
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
         instance = this;
-        //textCoin.text = coin.ToString();
+        winScene.SetActive(false);
+
+        if (SpawnZombie.instance != null)
+        {
+            SpawnZombie.instance.ResetState();
+        }
     }
 
     // Update is called once per frame
@@ -40,7 +45,7 @@ public class ControllerSceneZombie : MonoBehaviour
         }
         if (IsPlayerAlive && winScene != null)
         {
-            if (SpawnZombie.instance.GetRemainingCount() == 0)
+            if (SpawnZombie.instance.HasSpawned() && SpawnZombie.instance.GetRemainingCount() == 0)
             {
                 CameraFollow.instance.WinCam();
                 anim.SetDanceWinAnimation();
@@ -67,6 +72,11 @@ public class ControllerSceneZombie : MonoBehaviour
     }
     public void LoadSceneZombieCity()
     {
+        if (SpawnZombie.instance != null)
+        {
+            SpawnZombie.instance.ResetState();
+        }
+        winScene.SetActive(false);
         Time.timeScale = 1f;
         SceneManager.LoadScene(2);
     }
