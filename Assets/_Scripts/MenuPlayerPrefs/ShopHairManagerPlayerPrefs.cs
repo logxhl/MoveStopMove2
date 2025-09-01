@@ -39,9 +39,15 @@ public class ShopHairManagerPlayerPrefs : MonoBehaviour
 
     private void PreviewHair(int ind)
     {
+        //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
+        //previewIndex = ind;
+        //ShowHair(ind);
+        //Debug.Log("Preview hair: " + ind);
         PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewIndex = ind;
         ShowHair(ind);
+
+        HighlightHair(ind); // <-- bật/tắt viền vàng đúng button
         Debug.Log("Preview hair: " + ind);
     }
 
@@ -73,6 +79,24 @@ public class ShopHairManagerPlayerPrefs : MonoBehaviour
         for (int i = 0; i < hairs.Count; i++)
         {
             hairs[i].SetActive(i == ind);
+        }
+    }
+    private void HighlightHair(int ind)
+    {
+        for (int i = 0; i < hairBtns.Count; i++)
+        {
+            Outline outline = hairBtns[i].GetComponent<Outline>();
+
+            if (outline == null)
+            {
+                // nếu button chưa có Outline thì tự thêm
+                outline = hairBtns[i].gameObject.AddComponent<Outline>();
+                outline.effectColor = Color.yellow; // màu vàng
+                outline.effectDistance = new Vector2(5f, 5f); // độ dày
+            }
+
+            // chỉ bật Outline cho item đang chọn
+            outline.enabled = (i == ind);
         }
     }
 }

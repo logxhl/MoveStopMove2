@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,9 +53,15 @@ public class ShopPantManagerPlayerPrefs : MonoBehaviour
 
     private void PreviewPant(int ind)
     {
+        //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
+        //previewInd = ind;
+        //ShowPant(ind);
         PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewInd = ind;
         ShowPant(ind);
+
+        HighlightPant(ind); // <-- bật/tắt viền vàng đúng button
+        Debug.Log("Preview pant: " + ind);
     }
 
     private void ShowPant(int ind)
@@ -63,6 +69,24 @@ public class ShopPantManagerPlayerPrefs : MonoBehaviour
         if(pantRenderer != null && ind >= 0 && ind < pantMaterials.Count)
         {
             pantRenderer.material = pantMaterials[ind];
+        }
+    }
+    private void HighlightPant(int ind)
+    {
+        for (int i = 0; i < pantBtns.Count; i++)
+        {
+            Outline outline = pantBtns[i].GetComponent<Outline>();
+
+            if (outline == null)
+            {
+                // nếu button chưa có Outline thì tự thêm
+                outline = pantBtns[i].gameObject.AddComponent<Outline>();
+                outline.effectColor = Color.yellow; // màu vàng
+                outline.effectDistance = new Vector2(5f, 5f); // độ dày
+            }
+
+            // chỉ bật Outline cho item đang chọn
+            outline.enabled = (i == ind);
         }
     }
 }

@@ -40,10 +40,34 @@ public class ShopShieldManagerPlayerPrefs : MonoBehaviour
 
     private void PreviewShield(int ind)
     {
+        //PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
+        //previewIndex = ind;
+        //ShowShield(ind); // chỉ preview
+        //Debug.Log("Preview shield: " + ind);
         PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewIndex = ind;
-        ShowShield(ind); // chỉ preview
+        ShowShield(ind);
+
+        HighlightShield(ind); // <-- bật/tắt viền vàng đúng button
         Debug.Log("Preview shield: " + ind);
+    }
+    private void HighlightShield(int ind)
+    {
+        for (int i = 0; i < shieldBtns.Count; i++)
+        {
+            Outline outline = shieldBtns[i].GetComponent<Outline>();
+
+            if (outline == null)
+            {
+                // nếu button chưa có Outline thì tự thêm
+                outline = shieldBtns[i].gameObject.AddComponent<Outline>();
+                outline.effectColor = Color.yellow; // màu vàng
+                outline.effectDistance = new Vector2(5f, 5f); // độ dày
+            }
+
+            // chỉ bật Outline cho item đang chọn
+            outline.enabled = (i == ind);
+        }
     }
 
     private void BuyShield()

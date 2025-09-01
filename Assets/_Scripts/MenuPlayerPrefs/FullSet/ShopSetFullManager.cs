@@ -11,6 +11,7 @@ public class ShopSetFullManager : MonoBehaviour
     [SerializeField] private Renderer[] setFullRenderer;
     [SerializeField] private Button buyButton;
     private int previewInd = -1;
+    [SerializeField] private Button selectButton;
     //private int equippedPreviewSetFull = -1;
     private void OnEnable()
     {
@@ -24,10 +25,6 @@ public class ShopSetFullManager : MonoBehaviour
         }
     }
 
-    //private void OnDisable()
-    //{
-    //    PlayerVisualManagerPlayerPrefs.instance.RestoreSavedState();
-    //}
     private void Start()
     {
         for (int i = 0; i < setFullBtns.Count; i++)
@@ -37,6 +34,7 @@ public class ShopSetFullManager : MonoBehaviour
         }
         buyButton.onClick.AddListener(BuySetFull);
     }
+
 
     private void BuySetFull()
     {
@@ -61,17 +59,36 @@ public class ShopSetFullManager : MonoBehaviour
         PlayerVisualManagerPlayerPrefs.instance.ApplyEquippedItems();
     }
 
-
-
-
-
     private void PreviewSetFull(int ind)
     {
+        //previewInd = ind;
+        //ShowSetFull(ind);
+        //Debug.Log("Preview setfull: " + previewInd);
+        PlayerVisualManagerPlayerPrefs.instance.ShowFullSet(-1);
         previewInd = ind;
         ShowSetFull(ind);
-        Debug.Log("Preview setfull: " + previewInd);
-    }
 
+        HighlightSetFull(ind); // <-- bật/tắt viền vàng đúng button
+        Debug.Log("Preview setfull: " + ind);
+    }
+    private void HighlightSetFull(int ind)
+    {
+        for (int i = 0; i < setFullBtns.Count; i++)
+        {
+            Outline outline = setFullBtns[i].GetComponent<Outline>();
+
+            if (outline == null)
+            {
+                // nếu button chưa có Outline thì tự thêm
+                outline = setFullBtns[i].gameObject.AddComponent<Outline>();
+                outline.effectColor = Color.yellow; // màu vàng
+                outline.effectDistance = new Vector2(5f, 5f); // độ dày
+            }
+
+            // chỉ bật Outline cho item đang chọn
+            outline.enabled = (i == ind);
+        }
+    }
     private void ShowSetFull(int ind)
     {
         // Ẩn toàn bộ đồ lẻ khi preview
