@@ -168,7 +168,6 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
             }
         }
     }
-
     private void ChangeWeapon()
     {
         int indexWp = PlayerPrefs.GetInt("LoadWeapon", 0);
@@ -201,16 +200,28 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
                 currentWeapon.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
                 projectile.GetComponent<MeshFilter>().mesh = listWeapon.weaponList[i].meshWepon;
 
-                // Lấy số lượng material hợp lệ
-                Material[] srcMats = weaponData.listMaterials[indexWp].materialOfHammer[indMaterial].materials;
+                // KIỂM TRA XEM VŨ KHÍ CÓ PHẢI CUSTOM MODE KHÔNG
+                bool isCustomMode = PlayerPrefs.GetInt("IsCustomMode_" + indexWp, 0) == 1;
 
-                // Số lượng material hợp lệ nhỏ nhất
-                int matCount = Mathf.Min(mats.Length, matsOfBullet.Length, srcMats.Length);
-
-                for (int j = 0; j < matCount; j++)
+                if (isCustomMode)
                 {
-                    mats[j] = srcMats[j];
-                    matsOfBullet[j] = srcMats[j];
+                    // ÁP DỤNG CUSTOM COLOR CHO PLAYER WEAPON
+                    ApplyCustomColorToPlayerWeapon(indexWp, mats, matsOfBullet);
+                }
+                else
+                {
+                    // ÁP DỤNG SKIN THƯỜNG
+                    // Lấy số lượng material hợp lệ
+                    Material[] srcMats = weaponData.listMaterials[indexWp].materialOfHammer[indMaterial].materials;
+
+                    // Số lượng material hợp lệ nhỏ nhất
+                    int matCount = Mathf.Min(mats.Length, matsOfBullet.Length, srcMats.Length);
+
+                    for (int j = 0; j < matCount; j++)
+                    {
+                        mats[j] = srcMats[j];
+                        matsOfBullet[j] = srcMats[j];
+                    }
                 }
 
                 meshRenderer.materials = mats;
@@ -232,6 +243,85 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
         }
     }
 
+    // THÊM HÀM MỚI ĐỂ ÁP DỤNG CUSTOM COLOR CHO PLAYER WEAPON
+    private void ApplyCustomColorToPlayerWeapon(int weaponIndex, Material[] weaponMats, Material[] projectileMats)
+    {
+        // KIỂM TRA NULL TRƯỚC KHI XỬ LÝ
+        if (weaponMats == null || projectileMats == null)
+        {
+            Debug.LogError("❌ Material arrays bị null!");
+            return;
+        }
+
+        // LẤY MATERIAL MẶC ĐỊNH TRƯỚC ĐỂ FALLBACK
+        Material[] defaultMats = null;
+        if (weaponIndex < weaponData.listMaterials.Length &&
+            weaponData.listMaterials[weaponIndex].materialOfHammer.Length > 0)
+        {
+            defaultMats = weaponData.listMaterials[weaponIndex].materialOfHammer[0].materials;
+        }
+
+        if (defaultMats == null)
+        {
+            Debug.LogError("❌ Không tìm thấy default materials cho weapon " + weaponIndex);
+            return;
+        }
+
+        // ÁP DỤNG DEFAULT MATERIALS TRƯỚC
+        int matCount = Mathf.Min(weaponMats.Length, projectileMats.Length, defaultMats.Length);
+        for (int j = 0; j < matCount; j++)
+        {
+            if (defaultMats[j] != null)
+            {
+                weaponMats[j] = defaultMats[j];
+                projectileMats[j] = defaultMats[j];
+            }
+        }
+
+        bool hasCustomColors = false;
+
+        // SAU ĐÓ ÁP DỤNG CUSTOM COLOR
+        for (int i = 0; i < weaponMats.Length; i++)
+        {
+            string colorKey = "CustomColor_" + weaponIndex + "_" + i;
+            string colorHtml = PlayerPrefs.GetString(colorKey, "");
+
+            if (!string.IsNullOrEmpty(colorHtml))
+            {
+                Color customColor;
+                if (ColorUtility.TryParseHtmlString("#" + colorHtml, out customColor))
+                {
+                    // KIỂM TRA NULL TRƯỚC KHI TẠO MATERIAL MỚI
+                    if (weaponMats[i] != null)
+                    {
+                        Material newWeaponMat = new Material(weaponMats[i]);
+                        newWeaponMat.color = customColor;
+                        weaponMats[i] = newWeaponMat;
+                        hasCustomColors = true;
+
+                        Debug.Log($"🎨 Applied custom color for weapon material {i}: {customColor}");
+                    }
+
+                    // Tạo material mới cho projectile (nếu có đủ material slots)
+                    if (i < projectileMats.Length && projectileMats[i] != null)
+                    {
+                        Material newProjectileMat = new Material(projectileMats[i]);
+                        newProjectileMat.color = customColor;
+                        projectileMats[i] = newProjectileMat;
+                    }
+                }
+            }
+        }
+
+        if (hasCustomColors)
+        {
+            Debug.Log("✅ Custom colors applied successfully for weapon " + weaponIndex);
+        }
+        else
+        {
+            Debug.Log("ℹ️ No custom colors found, using default materials for weapon " + weaponIndex);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hammer"))
