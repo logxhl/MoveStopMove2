@@ -322,6 +322,62 @@ public class PlayerController : MonoBehaviour, IGiftReceiver
             Debug.Log("ℹ️ No custom colors found, using default materials for weapon " + weaponIndex);
         }
     }
+
+    // THÊM HÀM DEBUG ĐỂ KIỂM TRA MATERIAL INFO
+    private void DebugMaterialInfo(int weaponIndex)
+    {
+        Debug.Log("=== MATERIAL DEBUG INFO ===");
+
+        // Kiểm tra current weapon
+        if (currentWeapon != null)
+        {
+            MeshRenderer weaponRenderer = currentWeapon.GetComponent<MeshRenderer>();
+            if (weaponRenderer != null)
+            {
+                Debug.Log($"Current Weapon Materials: {weaponRenderer.materials.Length}");
+                for (int i = 0; i < weaponRenderer.materials.Length; i++)
+                {
+                    var mat = weaponRenderer.materials[i];
+                    Debug.Log($"  Slot {i}: {(mat != null ? mat.name : "NULL")}");
+                }
+            }
+        }
+
+        // Kiểm tra projectile
+        if (projectile != null)
+        {
+            MeshRenderer projRenderer = projectile.GetComponent<MeshRenderer>();
+            if (projRenderer != null)
+            {
+                Debug.Log($"Projectile Materials: {projRenderer.materials.Length}");
+                for (int i = 0; i < projRenderer.materials.Length; i++)
+                {
+                    var mat = projRenderer.materials[i];
+                    Debug.Log($"  Slot {i}: {(mat != null ? mat.name : "NULL")}");
+                }
+            }
+        }
+
+        // Kiểm tra weapon data
+        if (weaponIndex < weaponData.listMaterials.Length)
+        {
+            var materialData = weaponData.listMaterials[weaponIndex];
+            Debug.Log($"WeaponData Materials Count: {materialData.materialOfHammer.Length}");
+
+            if (materialData.materialOfHammer.Length > 0)
+            {
+                var firstSkin = materialData.materialOfHammer[0];
+                Debug.Log($"First Skin Materials: {firstSkin.materials.Length}");
+                for (int i = 0; i < firstSkin.materials.Length; i++)
+                {
+                    var mat = firstSkin.materials[i];
+                    Debug.Log($"  Material {i}: {(mat != null ? mat.name : "NULL")}");
+                }
+            }
+        }
+
+        Debug.Log("=== END DEBUG INFO ===");
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hammer"))

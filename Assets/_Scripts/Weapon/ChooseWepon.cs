@@ -887,6 +887,7 @@ public class ChooseWepon : MonoBehaviour
         if (playerCoin >= price)
         {
             playerCoin -= price;
+            //playerCoin += 1000000;
             PlayerPrefs.SetInt(PlayerCoinKey, playerCoin);
             ownedSet.Add(count);
             SaveOwnedWeapons();

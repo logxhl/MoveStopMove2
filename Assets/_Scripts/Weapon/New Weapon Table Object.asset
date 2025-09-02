@@ -68,7 +68,7 @@ MonoBehaviour:
     - materials:
       - {fileID: 2100000, guid: ad02d84787adba6489d3055f7e75ee53, type: 2}
       - {fileID: 2100000, guid: 6ca865b1d5bdaad419bfb5690c85dbe8, type: 2}
-      - {fileID: 2100000, guid: 6ca865b1d5bdaad419bfb5690c85dbe8, type: 2}
+      - {fileID: 2100000, guid: 7c9b0413fcfd48744a7da158af9fd4e3, type: 2}
   - materialOfHammer:
     - materials:
       - {fileID: 2100000, guid: f9072086260ac6e43b125048cd2201ee, type: 2}
