@@ -1113,6 +1113,7 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 1}
   materialSelectionContainer: {fileID: 1277313388}
   materialSelectionButtonPrefab: {fileID: 3545520917011406755, guid: e7b93de44dc3a4e43acff2f8e0f8d498, type: 3}
+  btnWeapon: {fileID: 1716293552}
 --- !u!4 &92689450
 Transform:
   m_ObjectHideFlags: 0

@@ -71,6 +71,9 @@ public class ChooseWepon : MonoBehaviour
     private Color selectedCustomColor = Color.white;
     private bool isCustomMode = false;
 
+    [Header("UI References")]
+    public Button btnWeapon;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -120,7 +123,11 @@ public class ChooseWepon : MonoBehaviour
         }
         EquipWeapon(count);
         SetMaterial();
-
+        if (btnWeapon != null)
+        {
+            btnWeapon.onClick.RemoveAllListeners();
+            btnWeapon.onClick.AddListener(OnWeaponButtonClicked);
+        }
         // Gán listener cho các nút chọn skin
         for (int i = 0; i < btnSelect.Length; i++)
         {
@@ -146,7 +153,27 @@ public class ChooseWepon : MonoBehaviour
             customColorPanel.SetActive(false);
         }
     }
+    private void OnWeaponButtonClicked()
+    {
+        bool isCurrentWeaponCustom = PlayerPrefs.GetInt("IsCustomMode_" + count, 0) == 1;
 
+        if (isCurrentWeaponCustom)
+        {
+            // Nếu là skin custom: hiện bảng màu và nút btnSelectCustom
+            customColorPanel.SetActive(true);
+            btnSelectCustom.gameObject.SetActive(true);
+            btnBuyCoin.gameObject.SetActive(false);
+        }
+        else
+        {
+            // Nếu là skin bình thường: hiện nút btnBuyCoin
+            customColorPanel.SetActive(false);
+            btnSelectCustom.gameObject.SetActive(false);
+            btnBuyCoin.gameObject.SetActive(true);
+
+            UpdateBuyBtnUI();
+        }
+    }
     /// <summary>
     /// Reset toàn bộ nút skin rồi set nút equip
     /// </summary>
@@ -344,6 +371,8 @@ public class ChooseWepon : MonoBehaviour
         }
 
         UpdateBuyBtnUI();
+        OnWeaponButtonClicked();
+
     }
     // Hàm mới để áp dụng màu custom đã lưu cho weapon
     private void ApplySavedCustomColorsToWeapon(GameObject weaponObj)
@@ -706,64 +735,45 @@ public class ChooseWepon : MonoBehaviour
             }
         }
     }
-
     private void OnSelectSkin(int spriteIndex, Weapon weapon)
     {
-        // Đảm bảo lấy đúng weapon hiện tại
         weapon = weaponData.GetWeapon(count);
-
-        // Lấy GameObject weapon đang hiển thị ở giữa (trong wps array)
         GameObject currentDisplayWeapon = wps[count];
 
-        // Kiểm tra nếu đã mua weapon này
         if (ownedSet.Contains(count))
         {
-            // ÁP DỤNG CHO CẢ WEAPON HIỂN THỊ VÀ CURRENT WEAPON
             ApplySkinToWeapon(currentDisplayWeapon, spriteIndex);
 
-            // Nếu weapon hiện tại đang được trang bị, apply skin cho nó luôn
             if (PlayerPrefs.GetInt(LoadWeaponKey, -1) == count && currentWeapon != null)
             {
                 ApplySkinToWeapon(currentWeapon, spriteIndex);
             }
-
-            Debug.Log($"Đã thay đổi material skin {spriteIndex} cho weapon {weapon.nameWepon}");
         }
 
-        // Lưu tạm index skin đã chọn
         tempSelectedSkin = spriteIndex;
 
-        // KIỂM TRA NẾU ĐÂY LÀ SKIN CUSTOM (NÚT CUỐI CÙNG)
         int lastIndex = btnSelect.Length - 1;
         if (spriteIndex == lastIndex)
         {
-            // Đây là skin custom, hiện bảng màu
+            // Đây là skin custom, hiện bảng màu VÀ nút btnSelectCustom
             isCustomMode = true;
             customColorPanel.SetActive(true);
+            btnSelectCustom.gameObject.SetActive(true); // THÊM DÒNG NÀY
             PlayerPrefs.SetInt("IsCustomMode_" + count, 1);
-
-            Debug.Log("Đã chọn skin custom, hiện bảng màu");
         }
         else
         {
             // Đây là skin thường, ẩn bảng màu và tắt custom mode
             isCustomMode = false;
             customColorPanel.SetActive(false);
+            btnSelectCustom.gameObject.SetActive(false); // THÊM DÒNG NÀY
             PlayerPrefs.SetInt("IsCustomMode_" + count, 0);
-
-            Debug.Log("Đã chọn skin thường, ẩn bảng màu");
         }
 
-        // Cập nhật UI button
         var txt = btnBuyCoin.GetComponentInChildren<TextMeshProUGUI>();
         if (txt != null)
             txt.text = "    SELECT";
-
-        // Cập nhật trạng thái các button skin
-        //SetButtonMaterial(spriteIndex);
     }
-
-    // Hàm helper để áp dụng skin cho một weapon cụ thể
     private void ApplySkinToWeapon(GameObject weaponObj, int skinIndex)
     {
         if (weaponObj == null) return;
