@@ -887,13 +887,10 @@ public class ChooseWepon : MonoBehaviour
         if (playerCoin >= price)
         {
             playerCoin -= price;
-            //playerCoin += 1000000;
             PlayerPrefs.SetInt(PlayerCoinKey, playerCoin);
-            //Danh dau da mua
             ownedSet.Add(count);
             SaveOwnedWeapons();
 
-            //Trang bi luon
             PlayerPrefs.SetInt(LoadWeaponKey, count);
 
             if (isCustomMode)
@@ -911,9 +908,24 @@ public class ChooseWepon : MonoBehaviour
             EquipWeapon(count);
             SetMaterial();
 
-            if (!isCustomMode)
+            // THÊM CODE Ở ĐÂY: HIỆN ITEM SKIN SAU KHI MUA THÀNH CÔNG
+            panelItemSelect.SetActive(true); // Hiện panel skin
+            Weapon currentWp = weaponData.GetWeapon(count);
+            SetupSkinButtons(currentWp); // Thiết lập các nút skin
+            SetupCustomColorSystem(currentWp); // Thiết lập hệ thống màu custom
+
+            // Kiểm tra và hiển thị đúng UI dựa trên loại skin
+            if (isCustomMode)
             {
-                //SetButtonMaterial(tempSelectedSkin);
+                customColorPanel.SetActive(true);
+                btnSelectCustom.gameObject.SetActive(true);
+                btnBuyCoin.gameObject.SetActive(false);
+            }
+            else
+            {
+                customColorPanel.SetActive(false);
+                btnSelectCustom.gameObject.SetActive(false);
+                btnBuyCoin.gameObject.SetActive(true);
             }
 
             UpdateBuyBtnUI();
